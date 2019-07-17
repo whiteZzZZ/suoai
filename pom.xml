@@ -49,17 +49,13 @@
 		<!--<version>5.1.2</version>-->
 		<!--</dependency>-->
 		<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
+
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
 			<version>1.2.12</version>
 		</dependency>
-		<!--wxPay-->
-		<dependency>
-			<groupId>com.github.wxpay</groupId>
-			<artifactId>wxpay-sdk</artifactId>
-			<version>0.0.3</version>
-		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
@@ -75,6 +71,7 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
+		<!--二维码生成-->
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
@@ -82,6 +79,7 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
+		<!--对象序列化为xml以及将xml生成对象的库-->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
@@ -111,16 +109,19 @@
 			<artifactId>wxpay-sdk</artifactId>
 			<version>0.0.3</version>
 		</dependency>
+		<!--跨域-->
 		<dependency>
 			<groupId>com.thetransactioncompany</groupId>
 			<artifactId>java-property-utils</artifactId>
 			<version>1.9.1</version>
 		</dependency>
+		<!--gson将json转换成javaBean-->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.6.2</version>
 		</dependency>
+		<!--跨域-->
 		<dependency>
 			<groupId>com.thetransactioncompany</groupId>
 			<artifactId>cors-filter</artifactId>
@@ -162,7 +163,7 @@
 
 
 		<!-- https://mvnrepository.com/artifact/org.jdom/jdom2 -->
-
+		<!--json-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -288,21 +289,32 @@
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.31</version>
 		</dependency>
-		<dependency>
-			<groupId>com.aliyun.oss</groupId>
-			<artifactId>aliyun-sdk-oss</artifactId>
-			<version>2.7.0</version>
-		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>2.9.8</version>
 		</dependency>
+
+		<!--导入自定义jar包-->
+		<!--工具类-->
+		<dependency>
+			<groupId>com.ybopenapi</groupId>
+			<artifactId>ybopenapi</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/lib/YBOpenApi.jar</systemPath>
+		</dependency>
+
+
+
+
 
 	</dependencies>
 
@@ -319,6 +331,19 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!--引用外部jar-->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+					<compilerArguments>
+						<extdirs>${project.basedir}/src/main/resources/lib</extdirs>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

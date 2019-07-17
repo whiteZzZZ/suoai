@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yiban.suoai.mapper.CyinforMapper">
+  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.Cyinfor">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="school_id" jdbcType="INTEGER" property="school_id" />
+    <result column="academy_id" jdbcType="INTEGER" property="academy_id" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="like_time" jdbcType="INTEGER" property="like_time" />
+    <result column="review_time" jdbcType="INTEGER" property="review_time" />
+    <result column="privacy" jdbcType="BIT" property="privacy" />
+    <result column="hide" jdbcType="BIT" property="hide" />
+    <result column="who" jdbcType="INTEGER" property="who" />
+    <result column="paper_id" jdbcType="INTEGER" property="paper_id" />
+    <result column="has_image" jdbcType="INTEGER" property="has_image" />
+    <result column="is_delete" jdbcType="BIT" property="is_delete" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.yiban.suoai.pojo.Cyinfor">
+    <result column="text" jdbcType="LONGVARCHAR" property="text" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, school_id, academy_id, time, like_time, review_time, privacy, hide, 
+    who, paper_id, has_image, is_delete
+  </sql>
+  <sql id="Blob_Column_List">
+    text
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.yiban.suoai.pojo.CyinforExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cyinfor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.yiban.suoai.pojo.CyinforExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cyinfor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cyinfor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cyinfor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Cyinfor" useGeneratedKeys="true">
+    insert into cyinfor (user_id, school_id, academy_id, 
+      time, like_time, review_time, 
+      privacy, hide, who, paper_id, 
+      has_image, is_delete, text
+      )
+    values (#{user_id,jdbcType=INTEGER}, #{school_id,jdbcType=INTEGER}, #{academy_id,jdbcType=INTEGER}, 
+      #{time,jdbcType=TIMESTAMP}, #{like_time,jdbcType=INTEGER}, #{review_time,jdbcType=INTEGER}, 
+      #{privacy,jdbcType=BIT}, #{hide,jdbcType=BIT}, #{who,jdbcType=INTEGER}, #{paper_id,jdbcType=INTEGER}, 
+      #{has_image,jdbcType=INTEGER}, #{is_delete,jdbcType=BIT}, #{text,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Cyinfor" useGeneratedKeys="true">
+    insert into cyinfor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="school_id != null">
+        school_id,
+      </if>
+      <if test="academy_id != null">
+        academy_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="like_time != null">
+        like_time,
+      </if>
+      <if test="review_time != null">
+        review_time,
+      </if>
+      <if test="privacy != null">
+        privacy,
+      </if>
+      <if test="hide != null">
+        hide,
+      </if>
+      <if test="who != null">
+        who,
+      </if>
+      <if test="paper_id != null">
+        paper_id,
+      </if>
+      <if test="has_image != null">
+        has_image,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="school_id != null">
+        #{school_id,jdbcType=INTEGER},
+      </if>
+      <if test="academy_id != null">
+        #{academy_id,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="like_time != null">
+        #{like_time,jdbcType=INTEGER},
+      </if>
+      <if test="review_time != null">
+        #{review_time,jdbcType=INTEGER},
+      </if>
+      <if test="privacy != null">
+        #{privacy,jdbcType=BIT},
+      </if>
+      <if test="hide != null">
+        #{hide,jdbcType=BIT},
+      </if>
+      <if test="who != null">
+        #{who,jdbcType=INTEGER},
+      </if>
+      <if test="paper_id != null">
+        #{paper_id,jdbcType=INTEGER},
+      </if>
+      <if test="has_image != null">
+        #{has_image,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.Cyinfor">
+    update cyinfor
+    <set>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="school_id != null">
+        school_id = #{school_id,jdbcType=INTEGER},
+      </if>
+      <if test="academy_id != null">
+        academy_id = #{academy_id,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="like_time != null">
+        like_time = #{like_time,jdbcType=INTEGER},
+      </if>
+      <if test="review_time != null">
+        review_time = #{review_time,jdbcType=INTEGER},
+      </if>
+      <if test="privacy != null">
+        privacy = #{privacy,jdbcType=BIT},
+      </if>
+      <if test="hide != null">
+        hide = #{hide,jdbcType=BIT},
+      </if>
+      <if test="who != null">
+        who = #{who,jdbcType=INTEGER},
+      </if>
+      <if test="paper_id != null">
+        paper_id = #{paper_id,jdbcType=INTEGER},
+      </if>
+      <if test="has_image != null">
+        has_image = #{has_image,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="text != null">
+        text = #{text,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yiban.suoai.pojo.Cyinfor">
+    update cyinfor
+    set user_id = #{user_id,jdbcType=INTEGER},
+      school_id = #{school_id,jdbcType=INTEGER},
+      academy_id = #{academy_id,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      like_time = #{like_time,jdbcType=INTEGER},
+      review_time = #{review_time,jdbcType=INTEGER},
+      privacy = #{privacy,jdbcType=BIT},
+      hide = #{hide,jdbcType=BIT},
+      who = #{who,jdbcType=INTEGER},
+      paper_id = #{paper_id,jdbcType=INTEGER},
+      has_image = #{has_image,jdbcType=INTEGER},
+      is_delete = #{is_delete,jdbcType=BIT},
+      text = #{text,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Cyinfor">
+    update cyinfor
+    set user_id = #{user_id,jdbcType=INTEGER},
+      school_id = #{school_id,jdbcType=INTEGER},
+      academy_id = #{academy_id,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      like_time = #{like_time,jdbcType=INTEGER},
+      review_time = #{review_time,jdbcType=INTEGER},
+      privacy = #{privacy,jdbcType=BIT},
+      hide = #{hide,jdbcType=BIT},
+      who = #{who,jdbcType=INTEGER},
+      paper_id = #{paper_id,jdbcType=INTEGER},
+      has_image = #{has_image,jdbcType=INTEGER},
+      is_delete = #{is_delete,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
