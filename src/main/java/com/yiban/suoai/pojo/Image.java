@@ -7,6 +7,11 @@ public class Image {
 
     private Integer cy_id;
 
+    public Image(String url, Integer cy_id) {
+        this.url = url;
+        this.cy_id = cy_id;
+    }
+
     public Integer getId() {
         return id;
     }
