@@ -15,6 +15,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import  net.sf.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +32,7 @@ public class YibanController {
     @Autowired
     RedisService redisService;
 
-    @RequestMapping("/init")
+    @RequestMapping(value = "/init",method = RequestMethod.GET)
     @ResponseBody
     public void init(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
@@ -78,7 +79,8 @@ public class YibanController {
 
         redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
 
-
+        map.put("userId",yibanId);
+        map.put("token","AppContext.ACCESS_TOKEN");
         return  MapHelper.success();
        /* User user = new User(AppContext.ACCESS_TOKEN);
         HttpSession session = req.getSession();
