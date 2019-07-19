@@ -12,6 +12,7 @@
 	<artifactId>suoai</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>suoai</name>
+	<packaging>war</packaging>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -233,6 +234,7 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.3.2</version>
 		</dependency>
+		<!--外置tomcat-->
 		<!-- <dependency>
              <groupId>org.springframework.boot</groupId>
              <artifactId>spring-boot-starter-tomcat</artifactId>
