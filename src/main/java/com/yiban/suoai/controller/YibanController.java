@@ -4,8 +4,12 @@ import cn.yiban.open.Authorize;
 import cn.yiban.open.common.User;
 
 import com.alibaba.fastjson.JSON;
+import com.yiban.suoai.pojo.Image;
+import com.yiban.suoai.service.ImageService;
 import com.yiban.suoai.service.RedisService;
+import com.yiban.suoai.util.FileHelper;
 import com.yiban.suoai.util.MapHelper;
+import com.yiban.suoai.util.UUIDUtil;
 import com.yiban.suoai.yiban.AppContext;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import  net.sf.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +48,7 @@ public class YibanController {
      */
     @RequestMapping("/back")
     @ResponseBody
-    public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp){
+    public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String,Object>  map=null;
         String code = req.getParameter(AppContext.KEY_CODE);
         if (code == null || code.equals("")) {
@@ -63,10 +68,14 @@ public class YibanController {
         JSONObject userInfo = JSONObject.fromObject(yibanUser.me()).getJSONObject("info");
 
         int yibanId = userInfo.getInt("yb_userid");//获取用户id
-        //String name = userInfo.getString("yb_usernick");//获取用户名字
-       // String sex = userInfo.getString("yb_sex");//获取用户性别*/
-       //  System.out.println(yibanUser.me());
-       // System.out.println(yibanId);
+        String name = userInfo.getString("yb_usernick");//获取用户名字
+        String sex = userInfo.getString("yb_sex");//获取用户性别
+        String school = userInfo.getString("yb_schoolname");
+
+//        byte file = (byte) userInfo.get("yb_userhead");//获取头像
+//        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
+//        String path= FileHelper.FileSave(file,uuid,FileHelper.headImg);//头像路径
+
         redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
 
 
