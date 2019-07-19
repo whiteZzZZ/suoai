@@ -5,7 +5,7 @@ import com.yiban.suoai.forepojo.Page;
 
 public class PageUtil {
 
-	final static  int pageSize=10;
+	public final static  int pageSize=10;
 
 
 	public static Page getPage(int total, int size, int start){

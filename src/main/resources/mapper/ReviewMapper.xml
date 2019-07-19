@@ -9,6 +9,7 @@
     <result column="reply_id" jdbcType="INTEGER" property="reply_id" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
     <result column="is_delete" jdbcType="BIT" property="is_delete" />
+    <result column="review_time" jdbcType="INTEGER" property="review_time" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.yiban.suoai.pojo.Review">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
@@ -43,7 +44,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cy_id, user_id, like_time, reply_id, time, is_delete
+    id, cy_id, user_id, like_time, reply_id, time, is_delete, review_time
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -95,10 +96,10 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Review" useGeneratedKeys="true">
     insert into review (cy_id, user_id, like_time, 
       reply_id, time, is_delete, 
-      content)
+      review_time, content)
     values (#{cy_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{like_time,jdbcType=INTEGER}, 
       #{reply_id,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{review_time,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Review" useGeneratedKeys="true">
     insert into review
@@ -120,6 +121,9 @@
       </if>
       <if test="is_delete != null">
         is_delete,
+      </if>
+      <if test="review_time != null">
+        review_time,
       </if>
       <if test="content != null">
         content,
@@ -143,6 +147,9 @@
       </if>
       <if test="is_delete != null">
         #{is_delete,jdbcType=BIT},
+      </if>
+      <if test="review_time != null">
+        #{review_time,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
@@ -170,6 +177,9 @@
       <if test="is_delete != null">
         is_delete = #{is_delete,jdbcType=BIT},
       </if>
+      <if test="review_time != null">
+        review_time = #{review_time,jdbcType=INTEGER},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -184,6 +194,7 @@
       reply_id = #{reply_id,jdbcType=INTEGER},
       time = #{time,jdbcType=TIMESTAMP},
       is_delete = #{is_delete,jdbcType=BIT},
+      review_time = #{review_time,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -194,7 +205,8 @@
       like_time = #{like_time,jdbcType=INTEGER},
       reply_id = #{reply_id,jdbcType=INTEGER},
       time = #{time,jdbcType=TIMESTAMP},
-      is_delete = #{is_delete,jdbcType=BIT}
+      is_delete = #{is_delete,jdbcType=BIT},
+      review_time = #{review_time,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

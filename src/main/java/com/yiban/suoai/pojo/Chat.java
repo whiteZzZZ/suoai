@@ -1,5 +1,7 @@
 package com.yiban.suoai.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Chat {
@@ -9,6 +11,7 @@ public class Chat {
 
     private String content;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间
     private Date time;
 
     private Integer cu_id;

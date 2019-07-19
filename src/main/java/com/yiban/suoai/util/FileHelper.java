@@ -10,6 +10,7 @@ public class FileHelper {
     public final static String cyinfor="/cyinfor";//cyinfor路径
     public final static String dailySentence="/dailySentence";//每日一句的路径
     public final static String weekWord="/weekWord";//每日一句的路径
+    public final static String headImg="/headImg";//头像路径
 
     // final String imagePath="";
 

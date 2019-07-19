@@ -1,5 +1,6 @@
 package com.yiban.suoai.service;
 
+import com.yiban.suoai.forepojo.ForeCyinfor;
 import com.yiban.suoai.pojo.Cyinfor;
 
 import java.util.List;
@@ -25,5 +26,7 @@ public interface CyinforService {
     Cyinfor full(int userid,Boolean privacy,Boolean hide,int who,int hasImage,String text);
 
     List<Cyinfor> getAll();
+
+    List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors);
 
 }

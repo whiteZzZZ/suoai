@@ -1,14 +1,18 @@
 package com.yiban.suoai.service.impl;
 
+import com.yiban.suoai.forepojo.ForeCyinfor;
 import com.yiban.suoai.mapper.CyinforMapper;
 import com.yiban.suoai.pojo.Cyinfor;
 import com.yiban.suoai.pojo.CyinforExample;
+import com.yiban.suoai.pojo.Image;
 import com.yiban.suoai.pojo.User;
 import com.yiban.suoai.service.CyinforService;
+import com.yiban.suoai.service.ImageService;
 import com.yiban.suoai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +24,8 @@ public class CyinforServiceImpl  implements CyinforService {
     CyinforMapper cyinforMapper;
     @Autowired
     UserService userService;
+    @Autowired
+    ImageService imageService;
 
     @Override
     public Cyinfor get(int id) {
@@ -61,7 +67,34 @@ public class CyinforServiceImpl  implements CyinforService {
         CyinforExample example=new CyinforExample();
         example.createCriteria();
         example.setOrderByClause("id desc");
-        List<Cyinfor > list =cyinforMapper.selectByExample(example);
+        List<Cyinfor > list =cyinforMapper.selectByExampleWithBLOBs(example);
+        return list;
+    }
+
+    @Override
+    public List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors) {
+        List<ForeCyinfor> list=new ArrayList<>();
+        for(Cyinfor cyinfor:cyinfors){
+            ForeCyinfor foreCyinfor = new ForeCyinfor();
+            User user=userService.get(cyinfor.getUser_id());
+            foreCyinfor.setHead_img(user.getHead_img());
+            foreCyinfor.setName(user.getName());
+            foreCyinfor.setTime(cyinfor.getTime());
+            foreCyinfor.setText(cyinfor.getText());
+            foreCyinfor.setId(cyinfor.getId());
+            foreCyinfor.setUserId(user.getId());
+            List<Image>  images=imageService.getByCyid(cyinfor.getId());
+            if(null!=images){
+                if(1>=images.size()){
+                    foreCyinfor.setImage1(images.get(0).getUrl());
+                    if(2==images.size()){
+                        foreCyinfor.setImage2(images.get(1).getUrl());
+                    }
+                }
+            }
+
+            list.add(foreCyinfor);
+        }
         return list;
     }
 }
