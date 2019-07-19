@@ -1,6 +1,10 @@
 package com.yiban.suoai.service;
 
+import com.yiban.suoai.forepojo.ForeCyinfor;
+import com.yiban.suoai.forepojo.ForeReview;
 import com.yiban.suoai.pojo.Review;
+
+import java.util.List;
 
 public interface ReviewService {
 
@@ -11,4 +15,21 @@ public interface ReviewService {
     void delete(int id);
 
     void update(Review review);
+
+    Review full(int cyid,int userId,String text,int replyId);
+
+    /**
+     * 获取表白的所有评论，但不获取评论的评论
+     * @param cyid
+     * @return
+     */
+    List<Review> getAllButReply(int cyid);
+
+    /**
+     * 填充给前端的数据
+     * @param list
+     * @return
+     */
+    List<ForeReview> foreFull(List<Review> list);
+
 }

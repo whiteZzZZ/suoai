@@ -3,11 +3,15 @@ package com.yiban.suoai.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yiban.suoai.exception.SAException;
+import com.yiban.suoai.forepojo.ForeCyinfor;
+import com.yiban.suoai.forepojo.ForeReview;
 import com.yiban.suoai.pojo.Cyinfor;
 import com.yiban.suoai.pojo.Image;
+import com.yiban.suoai.pojo.Review;
 import com.yiban.suoai.service.CyinforService;
 import com.yiban.suoai.service.ImageService;
 import com.yiban.suoai.service.RedisService;
+import com.yiban.suoai.service.ReviewService;
 import com.yiban.suoai.service.impl.ImageServiceImpl;
 import com.yiban.suoai.util.FileHelper;
 import com.yiban.suoai.util.MapHelper;
@@ -42,6 +46,9 @@ public class SquareController {
     CyinforService cyinforService;
     @Autowired
     ImageService imageService;
+    @Autowired
+    ReviewService reviewService;
+
 
     @ApiOperation(value = "添加表白", notes = "添加表白")
     @RequestMapping(value ="expression" , method = RequestMethod.PUT)
@@ -56,11 +63,11 @@ public class SquareController {
     ) throws IOException, SAException {
             Map map = new HashMap();
             int userid= redisService.getUserId(token);
-            int hasImage=uploadFiles.length;
+            int hasImage=uploadFiles.length;//图片的数量
             Cyinfor cyinfor= cyinforService.full(userid,privacy,hide,who,hasImage,text);
             int cyid=cyinforService.add(cyinfor);
             for(MultipartFile file : uploadFiles){
-                String uuid=UUIDUtil.getUUID();
+                String uuid=UUIDUtil.getUUID();//使用uuid作为图片的名称
                String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
                 //保存路径
                 Image image=new Image(path,cyid);
@@ -78,8 +85,9 @@ public class SquareController {
                                           @RequestParam(value = "schoolId",defaultValue = "0")  @ApiParam(value = "学校筛选  没有筛选不传") int schoolId ,
                                           @RequestParam(value = "academyId",defaultValue = "0")  @ApiParam(value = "学院筛选  没有筛选不传") int academyId ,
                                           @RequestParam("startPage") @ApiParam(value = "起始页") Integer start){
-        PageHelper.offsetPage(start * 10, 10);
-        List list = cyinforService.getAll();
+        PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
+        List<Cyinfor> cyinfors = cyinforService.getAll();
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors);
         int total = (int) new PageInfo<>(list).getTotal();
         Map<String, Object> map = MapHelper.success();
         map.put("data", list);
@@ -89,11 +97,52 @@ public class SquareController {
 
 
 
-
-   /* @ApiOperation(value = "添加表白的评论", notes = "添加表白的评论")
+    @ApiOperation(value = "添加表白的评论", notes = "添加表白的评论")
     @RequestMapping(value ="comment" , method = RequestMethod.PUT)
     @ResponseBody
     public Map<String, Object> comment( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-                                        @RequestParam(value = "privacy")  @ApiParam(value = "privacy 1 为私密表白  0为公开表白") Boolean privacy,
-*/
+                                        @RequestParam(value = "cyid")  @ApiParam(value = "表白的id") int cyid,
+                                        @RequestParam(value = "text")  @ApiParam(value = "评论内容") String text,
+                                        @RequestParam(value = "replyId",defaultValue = "0")  @ApiParam(value = "评论的id  如果不是评论的评论就不用传") int replyId) throws SAException {
+        Map map = new HashMap();
+        int userId= redisService.getUserId(token);
+        Review review= reviewService.full(cyid,userId,text,replyId);
+        reviewService.add(review);
+        map=MapHelper.success();
+        return map;
+    }
+
+    @ApiOperation(value = "获取表白的评论", notes = "获取表白的评论")
+    @RequestMapping(value ="comment" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> comment( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                        @RequestParam(value = "cyid")  @ApiParam(value = "表白的id") int cyid){
+            Map map=MapHelper.success();
+            List<Review> reviews=reviewService.getAllButReply(cyid);
+            List<ForeReview> list=reviewService.foreFull(reviews);
+            map.put("date",list);
+            return map;
+    }
+
+   /* @ApiOperation(value = "获取表白的评论的", notes = "获取表白的评论")
+    @RequestMapping(value ="comment" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> comment( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                        @RequestParam(value = "cyid")  @ApiParam(value = "表白的id") int cyid){
+        Map map=MapHelper.success();
+        List<Review> reviews=reviewService.getAllButReply(cyid);
+        List<ForeReview> list=reviewService.foreFull(reviews);
+        map.put("date",list);
+        return map;
+    }*/
+
+   /* @ApiOperation(value = "获取表白评论的评论", notes = "获取表白评论的评论")
+    @RequestMapping(value ="comment" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> commentofcomment( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                                 @RequestParam(value = "reviewId")  @ApiParam(value = "评论的id") int reviewId){
+
+    }*/
+
+
 }

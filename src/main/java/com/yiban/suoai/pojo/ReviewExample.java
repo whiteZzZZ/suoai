@@ -524,6 +524,66 @@ public class ReviewExample {
             addCriterion("is_delete not between", value1, value2, "is_delete");
             return (Criteria) this;
         }
+
+        public Criteria andReview_timeIsNull() {
+            addCriterion("review_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeIsNotNull() {
+            addCriterion("review_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeEqualTo(Integer value) {
+            addCriterion("review_time =", value, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeNotEqualTo(Integer value) {
+            addCriterion("review_time <>", value, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeGreaterThan(Integer value) {
+            addCriterion("review_time >", value, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("review_time >=", value, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeLessThan(Integer value) {
+            addCriterion("review_time <", value, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeLessThanOrEqualTo(Integer value) {
+            addCriterion("review_time <=", value, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeIn(List<Integer> values) {
+            addCriterion("review_time in", values, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeNotIn(List<Integer> values) {
+            addCriterion("review_time not in", values, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeBetween(Integer value1, Integer value2) {
+            addCriterion("review_time between", value1, value2, "review_time");
+            return (Criteria) this;
+        }
+
+        public Criteria andReview_timeNotBetween(Integer value1, Integer value2) {
+            addCriterion("review_time not between", value1, value2, "review_time");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

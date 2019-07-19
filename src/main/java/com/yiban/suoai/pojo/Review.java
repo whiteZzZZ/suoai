@@ -17,6 +17,8 @@ public class Review {
 
     private Boolean is_delete;
 
+    private Integer review_time;
+
     private String content;
 
     public Integer getId() {
@@ -73,6 +75,14 @@ public class Review {
 
     public void setIs_delete(Boolean is_delete) {
         this.is_delete = is_delete;
+    }
+
+    public Integer getReview_time() {
+        return review_time;
+    }
+
+    public void setReview_time(Integer review_time) {
+        this.review_time = review_time;
     }
 
     public String getContent() {
