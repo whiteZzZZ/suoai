@@ -323,8 +323,16 @@
 
         <!-- Json依赖架包下载 -->
 
-
-
+		<!--websocket依赖包-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<!--redis连接池-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
 
 
 	</dependencies>

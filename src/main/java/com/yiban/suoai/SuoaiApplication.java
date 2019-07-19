@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-@MapperScan("com.yiban.suoai.mapper")//扫描
+@MapperScan("{com.yiban.suoai}")//扫描
 public class SuoaiApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
