@@ -33,6 +33,7 @@ public class LikeInfoServiceImpl implements LikeInfoService {
     @Override
     public LikeInfo getByCyidAndUserIdAndType(int cyid, int userId, int type) {
         LikeInfoExample example=new LikeInfoExample();
+        example.createCriteria().andCy_idEqualTo(cyid).andUser_idEqualTo(userId).andTypeEqualTo((byte)type);
         List<LikeInfo> likeInfos= likeInfoMapper.selectByExample(example);
         if(likeInfos.isEmpty()){
             return null;

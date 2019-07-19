@@ -87,8 +87,8 @@ public class SquareController {
                                           @RequestParam("startPage") @ApiParam(value = "起始页") Integer start){
         PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
         List<Cyinfor> cyinfors = cyinforService.getAll();
+        int total = (int) new PageInfo<>(cyinfors).getTotal();
         List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors);
-        int total = (int) new PageInfo<>(list).getTotal();
         Map<String, Object> map = MapHelper.success();
         map.put("data", list);
         map.put("page", PageUtil.getPage(total, list.size(), start));
@@ -148,20 +148,27 @@ public class SquareController {
         Map map=MapHelper.success();
         int type;
         LikeInfo likeInfo=null;
+        int id=0;
         if(0!=cyid){
             type=0;
-            likeInfo= likeInfoService.getByCyidAndUserIdAndType(cyid,userId,type);
+           // likeInfo= likeInfoService.getByCyidAndUserIdAndType(cyid,userId,type);
+            id=cyid;
         }else if(0!=reviewId){
             type=1;
             likeInfo= likeInfoService.getByCyidAndUserIdAndType(reviewId,userId,type);
+            id=reviewId;
         }else {
             type=2;
             likeInfo= likeInfoService.getByCyidAndUserIdAndType(wordReviewId,userId,type);
+            id=wordReviewId;
         }
         //如果已经点赞了，就删掉
        if(null!=likeInfo){
-           likeInfoService.delete(likeInfo.getId());
+          // likeInfoService.delete(likeInfo.getId());
        }
+       //没有就加入
+      likeInfoService.add(new LikeInfo(id,userId,(byte)type));
+
         return map;
     }
 
