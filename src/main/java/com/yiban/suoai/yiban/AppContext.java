@@ -5,9 +5,9 @@ public class AppContext {
 
     public static final String APP_SEC = "2a67f0e84334706dbf21c16c584d6e88";
 
-    public static final String WEB_SITE = "http://127.0.0.1:8080";
+    public static final String WEB_SITE = "http://47.107.74.195:8080/suoai";
 
-    public static final String BACK_URL = "http://127.0.0.1:8080/back";
+    public static final String BACK_URL = "http://47.107.74.195:8080/suoai/back";//回调地址
 
     public static final String KEY_CODE = "code";
 
