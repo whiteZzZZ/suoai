@@ -5,10 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.forepojo.ForeCyinfor;
 import com.yiban.suoai.forepojo.ForeReview;
-import com.yiban.suoai.pojo.Cyinfor;
-import com.yiban.suoai.pojo.Image;
-import com.yiban.suoai.pojo.LikeInfo;
-import com.yiban.suoai.pojo.Review;
+import com.yiban.suoai.pojo.*;
 import com.yiban.suoai.service.*;
 import com.yiban.suoai.service.impl.ImageServiceImpl;
 import com.yiban.suoai.util.FileHelper;
@@ -46,7 +43,8 @@ public class SquareController {
     ReviewService reviewService;
     @Autowired
     LikeInfoService likeInfoService;
-
+    @Autowired
+    WordReviewService wordReviewService;
 
     @ApiOperation(value = "添加表白", notes = "添加表白")
     @RequestMapping(value ="expression" , method = RequestMethod.PUT)
@@ -191,7 +189,7 @@ public class SquareController {
         int id=0;
         if(0!=cyid){
             type=0;
-           // likeInfo= likeInfoService.getByCyidAndUserIdAndType(cyid,userId,type);
+            likeInfo= likeInfoService.getByCyidAndUserIdAndType(cyid,userId,type);
             id=cyid;
         }else if(0!=reviewId){
             type=1;
@@ -212,15 +210,37 @@ public class SquareController {
                 cyinfor.setLike_time(likeCount);
                 cyinforService.update(cyinfor);
            }else if(type==1){
-
+                Review review=reviewService.get(reviewId);
+                int likeCount=review.getLike_time()-1;
+                review.setLike_time(likeCount);
+                reviewService.update(review);
+           }else {
+               WordReview wordReview=wordReviewService.get(wordReviewId);
+               int likeCount=wordReview.getLike_time()-1;
+               wordReview.setLike_time(likeCount);
+               wordReviewService.update(wordReview);
+           }
+       }else {
+           //没有就加入
+           likeInfoService.add(new LikeInfo(id,userId,(byte)type));
+           //点赞数量加一
+           if(type==0){
+               Cyinfor cyinfor=cyinforService.get(cyid);
+               int likeCount=cyinfor.getLike_time()+1;
+               cyinfor.setLike_time(likeCount);
+               cyinforService.update(cyinfor);
+           }else if(type==1){
+               Review review=reviewService.get(reviewId);
+               int likeCount=review.getLike_time()+1;
+               review.setLike_time(likeCount);
+               reviewService.update(review);
+           }else {
+               WordReview wordReview=wordReviewService.get(wordReviewId);
+               int likeCount=wordReview.getLike_time()+1;
+               wordReview.setLike_time(likeCount);
+               wordReviewService.update(wordReview);
            }
        }
-       //没有就加入
-      likeInfoService.add(new LikeInfo(id,userId,(byte)type));
-        //点赞数量加一
-
-
-
         return map;
     }
 
