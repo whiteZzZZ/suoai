@@ -4,9 +4,11 @@ package com.yiban.suoai.service.impl;
 import com.yiban.suoai.forepojo.ForeCyinfor;
 import com.yiban.suoai.forepojo.ForeReview;
 import com.yiban.suoai.mapper.ReviewMapper;
+import com.yiban.suoai.pojo.LikeInfo;
 import com.yiban.suoai.pojo.Review;
 import com.yiban.suoai.pojo.ReviewExample;
 import com.yiban.suoai.pojo.User;
+import com.yiban.suoai.service.LikeInfoService;
 import com.yiban.suoai.service.ReviewService;
 import com.yiban.suoai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class ReviewServiceImpl  implements ReviewService {
     ReviewMapper reviewMapper;
     @Autowired
     UserService userService;
+    @Autowired
+    LikeInfoService likeInfoService;
 
     @Override
     public void add(Review review) {
@@ -72,7 +76,7 @@ public class ReviewServiceImpl  implements ReviewService {
     }
 
     @Override
-    public List<ForeReview> foreFull(List<Review> list) {
+    public List<ForeReview> foreFull(List<Review> list,int userId) {
         List<ForeReview> foreCyinfors=new ArrayList<>();
         for(Review review:list){
             ForeReview foreReview = new ForeReview();
@@ -86,6 +90,11 @@ public class ReviewServiceImpl  implements ReviewService {
             User user = userService.get(review.getUserId());
             foreReview.setHead_img(user.getHeadImg());
             foreReview.setName(user.getName());
+
+            LikeInfo likeInfo=likeInfoService.getByCyidAndUserIdAndType(review.getId(),userId,1);
+            if(null!=likeInfo){
+                foreReview.setIfLike(true);
+            }
 
             if(0!=review.getReplyId()){
                 //如果该评论是评论的评论  则还要显示回复的内容和回复人的name
@@ -116,7 +125,7 @@ public class ReviewServiceImpl  implements ReviewService {
     }
 
     @Override
-    public List<ForeReview> foreFullSecondaryComments(List<Review> list) {
+    public List<ForeReview> foreFullSecondaryComments(List<Review> list,int userId) {
         List<ForeReview> foreCyinfors=new ArrayList<>();
         for(Review review:list){
             ForeReview foreReview = new ForeReview();
@@ -131,7 +140,10 @@ public class ReviewServiceImpl  implements ReviewService {
             foreReview.setHead_img(user.getHeadImg());
             foreReview.setName(user.getName());
             foreReview.setReply_id(review.getReplyId());
-
+            LikeInfo likeInfo=likeInfoService.getByCyidAndUserIdAndType(review.getId(),userId,1);
+            if(null!=likeInfo){
+                foreReview.setIfLike(true);
+            }
             foreCyinfors.add(foreReview);
         }
         return foreCyinfors;

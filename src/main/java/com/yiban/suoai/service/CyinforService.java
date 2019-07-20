@@ -29,6 +29,6 @@ public interface CyinforService {
 
     List<Cyinfor> getAll();
 
-    List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors);
+    List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors,int userId);
 
 }

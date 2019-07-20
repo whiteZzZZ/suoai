@@ -30,7 +30,7 @@ public interface ReviewService {
      * @param list
      * @return
      */
-    List<ForeReview> foreFull(List<Review> list);
+    List<ForeReview> foreFull(List<Review> list,int userId);
 
     List<Review> getAllByReplyId(int reviewId);
 
@@ -39,6 +39,6 @@ public interface ReviewService {
      * @param list
      * @return
      */
-    List<ForeReview> foreFullSecondaryComments(List<Review> list);
+    List<ForeReview> foreFullSecondaryComments(List<Review> list,int userId);
 
 }

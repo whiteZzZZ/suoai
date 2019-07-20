@@ -34,7 +34,15 @@ public class ForeReview {
 
     private String reply_name=null;
 
+    private Boolean ifLike=false;
 
+    public Boolean getIfLike() {
+        return ifLike;
+    }
+
+    public void setIfLike(Boolean ifLike) {
+        this.ifLike = ifLike;
+    }
 
     public Integer getReply_user_id() {
         return reply_user_id;

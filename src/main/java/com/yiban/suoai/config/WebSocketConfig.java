@@ -1,3 +1,4 @@
+/*
 package com.yiban.suoai.config;
 
 import org.springframework.context.annotation.Bean;
@@ -11,3 +12,4 @@ public class WebSocketConfig {
         return new ServerEndpointExporter();
     }
 }
+*/
