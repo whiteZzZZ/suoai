@@ -234,63 +234,63 @@ public class ImageExample {
             return (Criteria) this;
         }
 
-        public Criteria andCy_idIsNull() {
+        public Criteria andCyIdIsNull() {
             addCriterion("cy_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idIsNotNull() {
+        public Criteria andCyIdIsNotNull() {
             addCriterion("cy_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idEqualTo(Integer value) {
-            addCriterion("cy_id =", value, "cy_id");
+        public Criteria andCyIdEqualTo(Integer value) {
+            addCriterion("cy_id =", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idNotEqualTo(Integer value) {
-            addCriterion("cy_id <>", value, "cy_id");
+        public Criteria andCyIdNotEqualTo(Integer value) {
+            addCriterion("cy_id <>", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idGreaterThan(Integer value) {
-            addCriterion("cy_id >", value, "cy_id");
+        public Criteria andCyIdGreaterThan(Integer value) {
+            addCriterion("cy_id >", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idGreaterThanOrEqualTo(Integer value) {
-            addCriterion("cy_id >=", value, "cy_id");
+        public Criteria andCyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cy_id >=", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idLessThan(Integer value) {
-            addCriterion("cy_id <", value, "cy_id");
+        public Criteria andCyIdLessThan(Integer value) {
+            addCriterion("cy_id <", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idLessThanOrEqualTo(Integer value) {
-            addCriterion("cy_id <=", value, "cy_id");
+        public Criteria andCyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cy_id <=", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idIn(List<Integer> values) {
-            addCriterion("cy_id in", values, "cy_id");
+        public Criteria andCyIdIn(List<Integer> values) {
+            addCriterion("cy_id in", values, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idNotIn(List<Integer> values) {
-            addCriterion("cy_id not in", values, "cy_id");
+        public Criteria andCyIdNotIn(List<Integer> values) {
+            addCriterion("cy_id not in", values, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idBetween(Integer value1, Integer value2) {
-            addCriterion("cy_id between", value1, value2, "cy_id");
+        public Criteria andCyIdBetween(Integer value1, Integer value2) {
+            addCriterion("cy_id between", value1, value2, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idNotBetween(Integer value1, Integer value2) {
-            addCriterion("cy_id not between", value1, value2, "cy_id");
+        public Criteria andCyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cy_id not between", value1, value2, "cyId");
             return (Criteria) this;
         }
     }

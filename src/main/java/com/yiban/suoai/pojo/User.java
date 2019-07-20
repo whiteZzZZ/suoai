@@ -5,11 +5,13 @@ import java.util.Date;
 public class User {
     private Integer id;
 
+    private String turename;
+
     private String name;
 
-    private String head_img;
+    private String headImg;
 
-    private String bg_img;
+    private String bgImg;
 
     private String phone;
 
@@ -25,27 +27,27 @@ public class User {
 
     private String area;
 
-    private Integer school_id;
+    private Integer schoolId;
 
-    private Integer academy_id;
+    private Integer academyId;
 
-    private String stu_num;
+    private String stuNum;
 
     private String signature;
 
-    private Boolean is_particular;
+    private Boolean isParticular;
 
-    private Boolean is_match;
+    private Boolean isMatch;
 
-    private Boolean is_rank;
+    private Boolean isRank;
 
     private Boolean violator;
 
-    private Integer express_time;
+    private Integer expressTime;
 
     private Integer experience;
 
-    private Integer title_id;
+    private Integer titleId;
 
     private Integer paper;
 
@@ -59,6 +61,14 @@ public class User {
         this.id = id;
     }
 
+    public String getTurename() {
+        return turename;
+    }
+
+    public void setTurename(String turename) {
+        this.turename = turename == null ? null : turename.trim();
+    }
+
     public String getName() {
         return name;
     }
@@ -67,20 +77,20 @@ public class User {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getHead_img() {
-        return head_img;
+    public String getHeadImg() {
+        return headImg;
     }
 
-    public void setHead_img(String head_img) {
-        this.head_img = head_img == null ? null : head_img.trim();
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg == null ? null : headImg.trim();
     }
 
-    public String getBg_img() {
-        return bg_img;
+    public String getBgImg() {
+        return bgImg;
     }
 
-    public void setBg_img(String bg_img) {
-        this.bg_img = bg_img == null ? null : bg_img.trim();
+    public void setBgImg(String bgImg) {
+        this.bgImg = bgImg == null ? null : bgImg.trim();
     }
 
     public String getPhone() {
@@ -139,28 +149,28 @@ public class User {
         this.area = area == null ? null : area.trim();
     }
 
-    public Integer getSchool_id() {
-        return school_id;
+    public Integer getSchoolId() {
+        return schoolId;
     }
 
-    public void setSchool_id(Integer school_id) {
-        this.school_id = school_id;
+    public void setSchoolId(Integer schoolId) {
+        this.schoolId = schoolId;
     }
 
-    public Integer getAcademy_id() {
-        return academy_id;
+    public Integer getAcademyId() {
+        return academyId;
     }
 
-    public void setAcademy_id(Integer academy_id) {
-        this.academy_id = academy_id;
+    public void setAcademyId(Integer academyId) {
+        this.academyId = academyId;
     }
 
-    public String getStu_num() {
-        return stu_num;
+    public String getStuNum() {
+        return stuNum;
     }
 
-    public void setStu_num(String stu_num) {
-        this.stu_num = stu_num == null ? null : stu_num.trim();
+    public void setStuNum(String stuNum) {
+        this.stuNum = stuNum == null ? null : stuNum.trim();
     }
 
     public String getSignature() {
@@ -171,28 +181,28 @@ public class User {
         this.signature = signature == null ? null : signature.trim();
     }
 
-    public Boolean getIs_particular() {
-        return is_particular;
+    public Boolean getIsParticular() {
+        return isParticular;
     }
 
-    public void setIs_particular(Boolean is_particular) {
-        this.is_particular = is_particular;
+    public void setIsParticular(Boolean isParticular) {
+        this.isParticular = isParticular;
     }
 
-    public Boolean getIs_match() {
-        return is_match;
+    public Boolean getIsMatch() {
+        return isMatch;
     }
 
-    public void setIs_match(Boolean is_match) {
-        this.is_match = is_match;
+    public void setIsMatch(Boolean isMatch) {
+        this.isMatch = isMatch;
     }
 
-    public Boolean getIs_rank() {
-        return is_rank;
+    public Boolean getIsRank() {
+        return isRank;
     }
 
-    public void setIs_rank(Boolean is_rank) {
-        this.is_rank = is_rank;
+    public void setIsRank(Boolean isRank) {
+        this.isRank = isRank;
     }
 
     public Boolean getViolator() {
@@ -203,12 +213,12 @@ public class User {
         this.violator = violator;
     }
 
-    public Integer getExpress_time() {
-        return express_time;
+    public Integer getExpressTime() {
+        return expressTime;
     }
 
-    public void setExpress_time(Integer express_time) {
-        this.express_time = express_time;
+    public void setExpressTime(Integer expressTime) {
+        this.expressTime = expressTime;
     }
 
     public Integer getExperience() {
@@ -219,12 +229,12 @@ public class User {
         this.experience = experience;
     }
 
-    public Integer getTitle_id() {
-        return title_id;
+    public Integer getTitleId() {
+        return titleId;
     }
 
-    public void setTitle_id(Integer title_id) {
-        this.title_id = title_id;
+    public void setTitleId(Integer titleId) {
+        this.titleId = titleId;
     }
 
     public Integer getPaper() {

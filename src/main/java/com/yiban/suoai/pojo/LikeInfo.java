@@ -3,9 +3,9 @@ package com.yiban.suoai.pojo;
 public class LikeInfo {
     private Integer id;
 
-    private Integer cy_id;
+    private Integer cyId;
 
-    private Integer user_id;
+    private Integer userId;
 
     private Byte type;
 
@@ -17,20 +17,20 @@ public class LikeInfo {
         this.id = id;
     }
 
-    public Integer getCy_id() {
-        return cy_id;
+    public Integer getCyId() {
+        return cyId;
     }
 
-    public void setCy_id(Integer cy_id) {
-        this.cy_id = cy_id;
+    public void setCyId(Integer cyId) {
+        this.cyId = cyId;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Byte getType() {

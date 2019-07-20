@@ -1,33 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yiban.suoai.mapper.MessageMapper">
-  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.Message">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="cy_id" jdbcType="INTEGER" property="cy_id" />
-    <result column="sponsor_id" jdbcType="INTEGER" property="sponsor_id" />
-    <result column="user_id" jdbcType="INTEGER" property="user_id" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.suoai.mapper.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.Message" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="cy_id" property="cyId" jdbcType="INTEGER" />
+    <result column="sponsor_id" property="sponsorId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -38,104 +38,183 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
     id, type, cy_id, sponsor_id, user_id, time
   </sql>
-  <select id="selectByExample" parameterType="com.yiban.suoai.pojo.MessageExample" resultMap="BaseResultMap">
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yiban.suoai.pojo.MessageExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
-    'false' as QUERYID,
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from message
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from message
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from message
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Message" useGeneratedKeys="true">
+  <delete id="deleteByExample" parameterType="com.yiban.suoai.pojo.MessageExample" >
+    delete from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yiban.suoai.pojo.Message" useGeneratedKeys="true" keyProperty="id" >
     insert into message (type, cy_id, sponsor_id, 
       user_id, time)
-    values (#{type,jdbcType=INTEGER}, #{cy_id,jdbcType=INTEGER}, #{sponsor_id,jdbcType=INTEGER}, 
-      #{user_id,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP})
+    values (#{type,jdbcType=INTEGER}, #{cyId,jdbcType=INTEGER}, #{sponsorId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Message" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.yiban.suoai.pojo.Message" useGeneratedKeys="true" keyProperty="id" >
     insert into message
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="type != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="type != null" >
         type,
       </if>
-      <if test="cy_id != null">
+      <if test="cyId != null" >
         cy_id,
       </if>
-      <if test="sponsor_id != null">
+      <if test="sponsorId != null" >
         sponsor_id,
       </if>
-      <if test="user_id != null">
+      <if test="userId != null" >
         user_id,
       </if>
-      <if test="time != null">
+      <if test="time != null" >
         time,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="type != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="cy_id != null">
-        #{cy_id,jdbcType=INTEGER},
+      <if test="cyId != null" >
+        #{cyId,jdbcType=INTEGER},
       </if>
-      <if test="sponsor_id != null">
-        #{sponsor_id,jdbcType=INTEGER},
+      <if test="sponsorId != null" >
+        #{sponsorId,jdbcType=INTEGER},
       </if>
-      <if test="user_id != null">
-        #{user_id,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="time != null">
+      <if test="time != null" >
         #{time,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.Message">
+  <select id="countByExample" parameterType="com.yiban.suoai.pojo.MessageExample" resultType="java.lang.Integer" >
+    select count(*) from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
     update message
-    <set>
-      <if test="type != null">
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.cyId != null" >
+        cy_id = #{record.cyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sponsorId != null" >
+        sponsor_id = #{record.sponsorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update message
+    set id = #{record.id,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      cy_id = #{record.cyId,jdbcType=INTEGER},
+      sponsor_id = #{record.sponsorId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.Message" >
+    update message
+    <set >
+      <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="cy_id != null">
-        cy_id = #{cy_id,jdbcType=INTEGER},
+      <if test="cyId != null" >
+        cy_id = #{cyId,jdbcType=INTEGER},
       </if>
-      <if test="sponsor_id != null">
-        sponsor_id = #{sponsor_id,jdbcType=INTEGER},
+      <if test="sponsorId != null" >
+        sponsor_id = #{sponsorId,jdbcType=INTEGER},
       </if>
-      <if test="user_id != null">
-        user_id = #{user_id,jdbcType=INTEGER},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="time != null">
+      <if test="time != null" >
         time = #{time,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Message">
+  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Message" >
     update message
     set type = #{type,jdbcType=INTEGER},
-      cy_id = #{cy_id,jdbcType=INTEGER},
-      sponsor_id = #{sponsor_id,jdbcType=INTEGER},
-      user_id = #{user_id,jdbcType=INTEGER},
+      cy_id = #{cyId,jdbcType=INTEGER},
+      sponsor_id = #{sponsorId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
       time = #{time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -1,30 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yiban.suoai.mapper.ImageMapper">
-  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.Image">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="cy_id" jdbcType="INTEGER" property="cy_id" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.suoai.mapper.ImageMapper" >
+  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.Image" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="cy_id" property="cyId" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -35,73 +35,140 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
     id, url, cy_id
   </sql>
-  <select id="selectByExample" parameterType="com.yiban.suoai.pojo.ImageExample" resultMap="BaseResultMap">
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yiban.suoai.pojo.ImageExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
-    'false' as QUERYID,
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from image
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from image
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from image
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Image" useGeneratedKeys="true">
+  <delete id="deleteByExample" parameterType="com.yiban.suoai.pojo.ImageExample" >
+    delete from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yiban.suoai.pojo.Image" useGeneratedKeys="true" keyProperty="id" >
     insert into image (url, cy_id)
-    values (#{url,jdbcType=VARCHAR}, #{cy_id,jdbcType=INTEGER})
+    values (#{url,jdbcType=VARCHAR}, #{cyId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Image" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.yiban.suoai.pojo.Image" useGeneratedKeys="true" keyProperty="id" >
     insert into image
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="url != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="url != null" >
         url,
       </if>
-      <if test="cy_id != null">
+      <if test="cyId != null" >
         cy_id,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="url != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="url != null" >
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="cy_id != null">
-        #{cy_id,jdbcType=INTEGER},
+      <if test="cyId != null" >
+        #{cyId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.Image">
+  <select id="countByExample" parameterType="com.yiban.suoai.pojo.ImageExample" resultType="java.lang.Integer" >
+    select count(*) from image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
     update image
-    <set>
-      <if test="url != null">
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cyId != null" >
+        cy_id = #{record.cyId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update image
+    set id = #{record.id,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
+      cy_id = #{record.cyId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.Image" >
+    update image
+    <set >
+      <if test="url != null" >
         url = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="cy_id != null">
-        cy_id = #{cy_id,jdbcType=INTEGER},
+      <if test="cyId != null" >
+        cy_id = #{cyId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Image">
+  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Image" >
     update image
     set url = #{url,jdbcType=VARCHAR},
-      cy_id = #{cy_id,jdbcType=INTEGER}
+      cy_id = #{cyId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

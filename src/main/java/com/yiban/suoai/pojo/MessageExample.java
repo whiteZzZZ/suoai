@@ -225,183 +225,183 @@ public class MessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andCy_idIsNull() {
+        public Criteria andCyIdIsNull() {
             addCriterion("cy_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idIsNotNull() {
+        public Criteria andCyIdIsNotNull() {
             addCriterion("cy_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idEqualTo(Integer value) {
-            addCriterion("cy_id =", value, "cy_id");
+        public Criteria andCyIdEqualTo(Integer value) {
+            addCriterion("cy_id =", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idNotEqualTo(Integer value) {
-            addCriterion("cy_id <>", value, "cy_id");
+        public Criteria andCyIdNotEqualTo(Integer value) {
+            addCriterion("cy_id <>", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idGreaterThan(Integer value) {
-            addCriterion("cy_id >", value, "cy_id");
+        public Criteria andCyIdGreaterThan(Integer value) {
+            addCriterion("cy_id >", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idGreaterThanOrEqualTo(Integer value) {
-            addCriterion("cy_id >=", value, "cy_id");
+        public Criteria andCyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cy_id >=", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idLessThan(Integer value) {
-            addCriterion("cy_id <", value, "cy_id");
+        public Criteria andCyIdLessThan(Integer value) {
+            addCriterion("cy_id <", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idLessThanOrEqualTo(Integer value) {
-            addCriterion("cy_id <=", value, "cy_id");
+        public Criteria andCyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cy_id <=", value, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idIn(List<Integer> values) {
-            addCriterion("cy_id in", values, "cy_id");
+        public Criteria andCyIdIn(List<Integer> values) {
+            addCriterion("cy_id in", values, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idNotIn(List<Integer> values) {
-            addCriterion("cy_id not in", values, "cy_id");
+        public Criteria andCyIdNotIn(List<Integer> values) {
+            addCriterion("cy_id not in", values, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idBetween(Integer value1, Integer value2) {
-            addCriterion("cy_id between", value1, value2, "cy_id");
+        public Criteria andCyIdBetween(Integer value1, Integer value2) {
+            addCriterion("cy_id between", value1, value2, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andCy_idNotBetween(Integer value1, Integer value2) {
-            addCriterion("cy_id not between", value1, value2, "cy_id");
+        public Criteria andCyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cy_id not between", value1, value2, "cyId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idIsNull() {
+        public Criteria andSponsorIdIsNull() {
             addCriterion("sponsor_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idIsNotNull() {
+        public Criteria andSponsorIdIsNotNull() {
             addCriterion("sponsor_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idEqualTo(Integer value) {
-            addCriterion("sponsor_id =", value, "sponsor_id");
+        public Criteria andSponsorIdEqualTo(Integer value) {
+            addCriterion("sponsor_id =", value, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idNotEqualTo(Integer value) {
-            addCriterion("sponsor_id <>", value, "sponsor_id");
+        public Criteria andSponsorIdNotEqualTo(Integer value) {
+            addCriterion("sponsor_id <>", value, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idGreaterThan(Integer value) {
-            addCriterion("sponsor_id >", value, "sponsor_id");
+        public Criteria andSponsorIdGreaterThan(Integer value) {
+            addCriterion("sponsor_id >", value, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sponsor_id >=", value, "sponsor_id");
+        public Criteria andSponsorIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sponsor_id >=", value, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idLessThan(Integer value) {
-            addCriterion("sponsor_id <", value, "sponsor_id");
+        public Criteria andSponsorIdLessThan(Integer value) {
+            addCriterion("sponsor_id <", value, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idLessThanOrEqualTo(Integer value) {
-            addCriterion("sponsor_id <=", value, "sponsor_id");
+        public Criteria andSponsorIdLessThanOrEqualTo(Integer value) {
+            addCriterion("sponsor_id <=", value, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idIn(List<Integer> values) {
-            addCriterion("sponsor_id in", values, "sponsor_id");
+        public Criteria andSponsorIdIn(List<Integer> values) {
+            addCriterion("sponsor_id in", values, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idNotIn(List<Integer> values) {
-            addCriterion("sponsor_id not in", values, "sponsor_id");
+        public Criteria andSponsorIdNotIn(List<Integer> values) {
+            addCriterion("sponsor_id not in", values, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idBetween(Integer value1, Integer value2) {
-            addCriterion("sponsor_id between", value1, value2, "sponsor_id");
+        public Criteria andSponsorIdBetween(Integer value1, Integer value2) {
+            addCriterion("sponsor_id between", value1, value2, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andSponsor_idNotBetween(Integer value1, Integer value2) {
-            addCriterion("sponsor_id not between", value1, value2, "sponsor_id");
+        public Criteria andSponsorIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("sponsor_id not between", value1, value2, "sponsorId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idIsNull() {
+        public Criteria andUserIdIsNull() {
             addCriterion("user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idIsNotNull() {
+        public Criteria andUserIdIsNotNull() {
             addCriterion("user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idEqualTo(Integer value) {
-            addCriterion("user_id =", value, "user_id");
+        public Criteria andUserIdEqualTo(Integer value) {
+            addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idNotEqualTo(Integer value) {
-            addCriterion("user_id <>", value, "user_id");
+        public Criteria andUserIdNotEqualTo(Integer value) {
+            addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idGreaterThan(Integer value) {
-            addCriterion("user_id >", value, "user_id");
+        public Criteria andUserIdGreaterThan(Integer value) {
+            addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idGreaterThanOrEqualTo(Integer value) {
-            addCriterion("user_id >=", value, "user_id");
+        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idLessThan(Integer value) {
-            addCriterion("user_id <", value, "user_id");
+        public Criteria andUserIdLessThan(Integer value) {
+            addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idLessThanOrEqualTo(Integer value) {
-            addCriterion("user_id <=", value, "user_id");
+        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idIn(List<Integer> values) {
-            addCriterion("user_id in", values, "user_id");
+        public Criteria andUserIdIn(List<Integer> values) {
+            addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idNotIn(List<Integer> values) {
-            addCriterion("user_id not in", values, "user_id");
+        public Criteria andUserIdNotIn(List<Integer> values) {
+            addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idBetween(Integer value1, Integer value2) {
-            addCriterion("user_id between", value1, value2, "user_id");
+        public Criteria andUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idNotBetween(Integer value1, Integer value2) {
-            addCriterion("user_id not between", value1, value2, "user_id");
+        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
 

@@ -1,7 +1,5 @@
 package com.yiban.suoai.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 public class Letter {
@@ -9,7 +7,6 @@ public class Letter {
 
     private String headline;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间
     private Date time;
 
     private Boolean myself;
@@ -18,11 +15,11 @@ public class Letter {
 
     private Boolean publish;
 
-    private Integer user_id;
+    private Integer userId;
 
-    private Boolean is_delete;
+    private Boolean isDelete;
 
-    private Boolean is_read;
+    private Boolean isRead;
 
     private String content;
 
@@ -74,28 +71,28 @@ public class Letter {
         this.publish = publish;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Boolean getIs_delete() {
-        return is_delete;
+    public Boolean getIsDelete() {
+        return isDelete;
     }
 
-    public void setIs_delete(Boolean is_delete) {
-        this.is_delete = is_delete;
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 
-    public Boolean getIs_read() {
-        return is_read;
+    public Boolean getIsRead() {
+        return isRead;
     }
 
-    public void setIs_read(Boolean is_read) {
-        this.is_read = is_read;
+    public void setIsRead(Boolean isRead) {
+        this.isRead = isRead;
     }
 
     public String getContent() {

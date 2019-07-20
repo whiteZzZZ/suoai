@@ -5,7 +5,7 @@ public class Inform {
 
     private Integer num;
 
-    private Integer user_id;
+    private Integer userId;
 
     private Integer type;
 
@@ -29,12 +29,12 @@ public class Inform {
         this.num = num;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getType() {

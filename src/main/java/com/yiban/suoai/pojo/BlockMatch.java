@@ -3,9 +3,9 @@ package com.yiban.suoai.pojo;
 public class BlockMatch {
     private Integer id;
 
-    private Integer user_id1;
+    private Integer userId1;
 
-    private Integer user_id2;
+    private Integer userId2;
 
     public Integer getId() {
         return id;
@@ -15,19 +15,19 @@ public class BlockMatch {
         this.id = id;
     }
 
-    public Integer getUser_id1() {
-        return user_id1;
+    public Integer getUserId1() {
+        return userId1;
     }
 
-    public void setUser_id1(Integer user_id1) {
-        this.user_id1 = user_id1;
+    public void setUserId1(Integer userId1) {
+        this.userId1 = userId1;
     }
 
-    public Integer getUser_id2() {
-        return user_id2;
+    public Integer getUserId2() {
+        return userId2;
     }
 
-    public void setUser_id2(Integer user_id2) {
-        this.user_id2 = user_id2;
+    public void setUserId2(Integer userId2) {
+        this.userId2 = userId2;
     }
 }

@@ -3,11 +3,11 @@ package com.yiban.suoai.pojo;
 public class Wall {
     private Integer id;
 
-    private Integer cy_id;
+    private Integer cyId;
 
     private Integer rank;
 
-    private Boolean is_delete;
+    private Boolean isDelete;
 
     public Integer getId() {
         return id;
@@ -17,12 +17,12 @@ public class Wall {
         this.id = id;
     }
 
-    public Integer getCy_id() {
-        return cy_id;
+    public Integer getCyId() {
+        return cyId;
     }
 
-    public void setCy_id(Integer cy_id) {
-        this.cy_id = cy_id;
+    public void setCyId(Integer cyId) {
+        this.cyId = cyId;
     }
 
     public Integer getRank() {
@@ -33,11 +33,11 @@ public class Wall {
         this.rank = rank;
     }
 
-    public Boolean getIs_delete() {
-        return is_delete;
+    public Boolean getIsDelete() {
+        return isDelete;
     }
 
-    public void setIs_delete(Boolean is_delete) {
-        this.is_delete = is_delete;
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 }

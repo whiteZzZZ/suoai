@@ -3,8 +3,13 @@ package com.yiban.suoai.mapper;
 import com.yiban.suoai.pojo.ChatList;
 import com.yiban.suoai.pojo.ChatListExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface ChatListMapper {
+    int countByExample(ChatListExample example);
+
+    int deleteByExample(ChatListExample example);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(ChatList record);
@@ -14,6 +19,10 @@ public interface ChatListMapper {
     List<ChatList> selectByExample(ChatListExample example);
 
     ChatList selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") ChatList record, @Param("example") ChatListExample example);
+
+    int updateByExample(@Param("record") ChatList record, @Param("example") ChatListExample example);
 
     int updateByPrimaryKeySelective(ChatList record);
 
