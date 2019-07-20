@@ -1,6 +1,6 @@
 package com.yiban.suoai;
 
-import com.yiban.suoai.util.RedisAPI;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 

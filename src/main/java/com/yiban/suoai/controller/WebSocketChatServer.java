@@ -6,6 +6,8 @@ import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.pojo.Chat;
 import com.yiban.suoai.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.OnMessage;
@@ -22,6 +24,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketChatServer {
     @Autowired
     RedisService redisService;
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    RedisTemplate redisTemplate;
+
     //所有会话的保存
     private static Map<Integer, Session> onlineSessions = new ConcurrentHashMap<>();
 
@@ -56,11 +63,28 @@ public class WebSocketChatServer {
 
     @OnMessage
     public void onMessage(Session session,String json){
-        JSONObject js = JSONObject.parseObject(json);
+        Chat chat= JSONObject.parseObject(json,Chat.class);
+        if(chat.getType() == chatType){
+            sendMessage(session,json,chat);
+        }else if(chat.getType() == heartBeatType){
+            checkHeartBeat(session,json);
+        }else if(chat.getType() == msgType){
 
+        }
 
     }
-    public void checkHeartBeat(){
+    private void checkHeartBeat(Session session,String json){
 
     }
+
+    private void sendMessage(Session session,String json,Chat chat){
+        Session rec = onlineSessions.get(chat.getUserId());
+        rec.getAsyncRemote().sendText(JSONObject.toJSONString(chat));
+    }
+
+    private void checkMsg(Session session,String json){
+
+    }
+
+
 }

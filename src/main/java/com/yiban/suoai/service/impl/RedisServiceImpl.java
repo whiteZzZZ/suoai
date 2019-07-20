@@ -2,7 +2,8 @@ package com.yiban.suoai.service.impl;
 
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.service.RedisService;
-import com.yiban.suoai.util.RedisAPI;
+
+import com.yiban.suoai.util.RedisUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,12 +29,13 @@ public class RedisServiceImpl implements RedisService {
     RedisTemplate redisTemplate;
     @Autowired
     StringRedisTemplate stringRedisTemplate;
-
+    @Autowired
+    RedisUtil redisUtil;
 
     @Override
     public void addTokenToRedis(int userId, String token) {
 
-        redisTemplate.opsForValue().set(token,userId,saveState);
+        redisUtil.set(token, String.valueOf(userId),saveState);
 
        /* Jedis redis =Pool.getResource();
 
@@ -47,9 +49,9 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public int getUserId(String token) throws SAException {
 
-        int userId=(int)redisTemplate.opsForValue().get(token);
+        int userId=Integer.parseInt(redisUtil.get(token));
 
-        redisTemplate.expire(token, saveState, TimeUnit.MILLISECONDS  );
+        redisUtil.expire(token,saveState);
 
        return userId;
 

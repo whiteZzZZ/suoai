@@ -4,6 +4,8 @@ package com.yiban.suoai.service;
 import com.yiban.suoai.pojo.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 public interface UserService {
 
@@ -13,5 +15,5 @@ public interface UserService {
 
     User get(int id);
 
-
+    User selectByNameNum(String name , String num);
 }

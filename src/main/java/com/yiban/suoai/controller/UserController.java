@@ -1,8 +1,14 @@
 package com.yiban.suoai.controller;
 
 
+import com.yiban.suoai.exception.SAException;
+import com.yiban.suoai.forepojo.ForeUser;
+import com.yiban.suoai.pojo.Academy;
+import com.yiban.suoai.pojo.School;
 import com.yiban.suoai.pojo.User;
+import com.yiban.suoai.service.AcademyService;
 import com.yiban.suoai.service.RedisService;
+import com.yiban.suoai.service.SchoolService;
 import com.yiban.suoai.service.UserService;
 import com.yiban.suoai.util.MapHelper;
 import io.swagger.annotations.Api;
@@ -27,6 +33,10 @@ public class UserController {
    UserService userService;
    @Autowired
    RedisService redisService;
+   @Autowired
+    SchoolService schoolService;
+   @Autowired
+    AcademyService academyService;
 
     @ApiOperation(value = "更改匹配功能状态", notes = "更改匹配功能状态")
     @RequestMapping(value ="updateMatching" , method = RequestMethod.POST)
@@ -34,7 +44,7 @@ public class UserController {
     public Map<String, Object> updateMatching(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
             @RequestParam("userid")  @ApiParam(value = "用户ID") Integer userid,
-            @RequestParam("key")    @ApiParam(value = "功能状态") byte key ){
+            @RequestParam("key")    @ApiParam(value = "功能状态（1开启，0不开启）") byte key ){
         User user = userService.get(userid);
         if(key == 1) {
             user.setIsMatch(true);
@@ -53,7 +63,7 @@ public class UserController {
     public Map<String, Object> updatePaticular(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
             @RequestParam("userid")  @ApiParam(value = "用户ID") Integer userid,
-            @RequestParam("key")    @ApiParam(value = "功能状态") byte key ){
+            @RequestParam("key")    @ApiParam(value = "功能状态（1开启，0不开启）") byte key ){
         User user = userService.get(userid);
         if(key == 1) {
             user.setIsParticular(true);
@@ -70,7 +80,7 @@ public class UserController {
     public Map<String, Object> updateRanking(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
             @RequestParam("userid")  @ApiParam(value = "用户ID") Integer userid,
-            @RequestParam("key")    @ApiParam(value = "功能状态") byte key ){
+            @RequestParam("key")    @ApiParam(value = "功能状态（1开启，0不开启）") byte key ){
         User user = userService.get(userid);
         if(key == 1) {
             user.setIsRank(true);
@@ -87,20 +97,49 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> findUser(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("userName")  @ApiParam(value = "用户姓名") String userid,
-            @RequestParam("num")    @ApiParam(value = "学号") Integer key ){
-
-        return MapHelper.success();
+            @RequestParam("userName")  @ApiParam(value = "用户姓名") String userName,
+            @RequestParam("num")    @ApiParam(value = "学号") String num ){
+        User user = userService.selectByNameNum(userName, num);
+        Map map = MapHelper.success();
+        map.put("userId",user.getId());
+        return map;
     }
 
     @ApiOperation(value = "获取用户信息卡",notes = "获取用户信息卡")
     @RequestMapping(value = "show",method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> show(
-            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("userId")  @ApiParam(value = "用户Id") Integer userid){
-
-        return MapHelper.success();
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException {
+        int userid = redisService.getUserId(token);
+        User user = userService.get(userid);
+        ForeUser foreUser = new ForeUser();
+        foreUser.setUserId(userid);
+        foreUser.setName(user.getName());
+        foreUser.setHeadImg(user.getHeadImg());
+        foreUser.setBackGround(user.getBgImg());
+        foreUser.setTitleId(user.getTitleId());
+        foreUser.setArea(user.getArea());
+        foreUser.setSignature(user.getSignature());
+        foreUser.setRank(user.getLevel());
+        foreUser.setBirthday(user.getBirthday());
+        foreUser.setStu_Num(user.getStuNum());
+        foreUser.setPaperId(user.getPaper());
+        if(user.getSex()==true){
+            foreUser.setSex("男");
+        }else {
+            foreUser.setSex("女");
+        }
+        if(user.getSchoolId()!=null) {
+            School school = schoolService.get(user.getSchoolId());
+            foreUser.setSchool(school.getName());
+        }
+        if(user.getAcademyId()!=null) {
+            Academy academy = academyService.get(user.getAcademyId());
+            foreUser.setAcademy(academy.getName());
+        }
+        Map map = MapHelper.success();
+        map.put("user",foreUser);
+        return map;
     }
 
     @ApiOperation(value = "更改用户资料",notes = "更改用户资料")
@@ -108,7 +147,12 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> updateUserData(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("userId")  @ApiParam(value = "用户Id") Integer userid) {
+            @RequestParam("name") @ApiParam(value = "名字") String name,
+            @RequestParam("sex") @ApiParam(value = "性别") byte sex,
+            @RequestParam(value = "introduction", required = false) @ApiParam(value = "介绍")String introduction,
+            @RequestParam(value = "email", required = false) @ApiParam(value = "email") String email,
+            @RequestParam(value = "hasFile", required = false, defaultValue = "0") @ApiParam(value = "头像文件") byte hasFile) throws SAException{
+        User user = userService.get(redisService.getUserId(token));
 
         return MapHelper.success();
     }
