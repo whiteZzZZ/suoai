@@ -24,6 +24,7 @@ public class RedisServiceImpl implements RedisService {
    // private final JedisPool Pool = RedisAPI.getPool();//
 
     private static final String PhoneNumberCode="phoneNum";//手机号码前缀
+    private static final String WallCode="phoneNum";//表白墙前缀
 
     @Autowired
     RedisTemplate redisTemplate;
@@ -49,7 +50,11 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public int getUserId(String token) throws SAException {
 
-        int userId=Integer.parseInt(redisUtil.get(token));
+
+
+        String s=redisUtil.get(token);
+
+        int userId=Integer.parseInt(s);
 
         redisUtil.expire(token,saveState);
 

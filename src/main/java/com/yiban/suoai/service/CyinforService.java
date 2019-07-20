@@ -31,4 +31,10 @@ public interface CyinforService {
 
     List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors,int userId);
 
+    /**
+     * 返回表白墙点赞前十名  点赞数相同按照 评论数排
+     * @return
+     */
+    List<Cyinfor> topTen();
+
 }

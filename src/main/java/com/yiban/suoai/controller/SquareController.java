@@ -252,7 +252,12 @@ public class SquareController {
     }
 
 
-
+    @ApiOperation(value = "获取表白墙", notes = "获取表白墙")
+    @RequestMapping(value ="getWall" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getWall( @RequestHeader("token") @ApiParam(value = "权限校验") String token){
+            return null;
+    }
 
 
 

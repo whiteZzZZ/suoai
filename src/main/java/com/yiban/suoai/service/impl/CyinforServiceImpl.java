@@ -7,8 +7,10 @@ import com.yiban.suoai.service.CyinforService;
 import com.yiban.suoai.service.ImageService;
 import com.yiban.suoai.service.LikeInfoService;
 import com.yiban.suoai.service.UserService;
+import com.yiban.suoai.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,5 +107,21 @@ public class CyinforServiceImpl  implements CyinforService {
             list.add(foreCyinfor);
         }
         return list;
+    }
+
+    @Override
+    public List<Cyinfor> topTen() {
+        CyinforExample example=new CyinforExample();
+        example.createCriteria().andTimeBetween(DateUtils.getBeginDayOfYesterday(),DateUtils.getEndDayOfYesterDay());//昨天的表白
+        example.setOrderByClause("like_time desc,review_time desc");
+        List<Cyinfor> list = null;
+        list= cyinforMapper.selectByExample(example);
+        if(list.isEmpty()){
+            return null;
+        }else if(list.size()<=10){
+            return list;
+        }else {
+            return list.subList(0,9);
+        }
     }
 }
