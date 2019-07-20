@@ -198,7 +198,15 @@ public class RedisUtil {
         redisTemplate.opsForValue().set(key,list);
     }
 
-    public  List getObjectList(String key){
+    public List getObjectList(String key){
         return (List)redisTemplate.opsForValue().get(key);
+    }
+
+    public boolean hasKey(String key){
+        return stringRedisTemplate.hasKey(key);
+    }
+
+    public boolean hasObjectKey(String key){
+        return redisTemplate.hasKey(key);
     }
 }

@@ -1,6 +1,7 @@
 package com.yiban.suoai;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.yiban.suoai.pojo.Chat;
 import com.yiban.suoai.util.RedisUtil;
 import org.junit.Test;
@@ -31,14 +32,7 @@ public class YfTest {
     @Test
     public void testRedis(){
         //stringRedisTemplate.opsForValue().set("test1","112");
-        Chat chat = new Chat();
-        chat.setId(11);
-        chat.setCuId(12);
-        chat.setType(3);
-        chat.setContent("hello world");
-        redisTemplate.opsForValue().set("ff:fff4",chat);
-        Chat cc =(Chat)redisTemplate.opsForValue().get("ff:fff4");
-        System.out.println(cc.getContent());
+        System.out.println(redisUtil.get("d4d605fa7bde590c31ae7f005b3d2b513163f4e3"));
     }
 
     @Test
@@ -50,14 +44,7 @@ public class YfTest {
 
     @Test
     public void testRedisUtil(){
-        Chat chat;
-        List<Chat> list = new ArrayList<>();
-        for(int i = 0;i<10;i++){
-            chat=new Chat();
-            chat.setContent("con"+i);
-            list.add(chat);
-        }
-
+        System.out.println(redisUtil.hasKey("fdsf"));
     }
 
 
