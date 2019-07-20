@@ -7,6 +7,12 @@ public class Image {
 
     private Integer cyId;
 
+    public Image() {
+    }
+
+    public Image(String path, int cyid) {
+    }
+
     public Integer getId() {
         return id;
     }

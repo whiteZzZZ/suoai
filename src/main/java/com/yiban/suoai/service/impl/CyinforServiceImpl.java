@@ -52,17 +52,17 @@ public class CyinforServiceImpl  implements CyinforService {
     public Cyinfor full(int userid, Boolean privacy, Boolean hide, int who, int hasImage,String text) {
         User user =userService.get(userid);
         Cyinfor cyinfor = new Cyinfor();
-        cyinfor.setUser_id(userid);
-        cyinfor.setSchool_id(user.getSchool_id());
-        cyinfor.setAcademy_id(user.getAcademy_id());
+        cyinfor.setUserId(userid);
+        cyinfor.setSchoolId(user.getSchoolId());
+        cyinfor.setAcademyId(user.getAcademyId());
         cyinfor.setTime(new Date());
-        cyinfor.setLike_time(0);
-        cyinfor.setReview_time(0);
+        cyinfor.setLikeTime(0);
+        cyinfor.setReviewTime(0);
         cyinfor.setPrivacy(privacy);
-        cyinfor.setHas_image(hasImage);
+        cyinfor.setHasImage(hasImage);
         cyinfor.setHide(hide);
         cyinfor.setWho(who);
-        cyinfor.setPaper_id(user.getPaper());
+        cyinfor.setPaperId(user.getPaper());
         cyinfor.setText(text);
         return cyinfor;
     }
@@ -81,8 +81,8 @@ public class CyinforServiceImpl  implements CyinforService {
         List<ForeCyinfor> list=new ArrayList<>();
         for(Cyinfor cyinfor:cyinfors){
             ForeCyinfor foreCyinfor = new ForeCyinfor();
-            User user=userService.get(cyinfor.getUser_id());
-            foreCyinfor.setHead_img(user.getHead_img());
+            User user=userService.get(cyinfor.getUserId());
+            foreCyinfor.setHead_img(user.getHeadImg());
             foreCyinfor.setName(user.getName());
             foreCyinfor.setTime(cyinfor.getTime());
             foreCyinfor.setText(cyinfor.getText());

@@ -13,8 +13,8 @@ public class LikeInfo {
     }
 
     public LikeInfo(Integer cy_id, Integer user_id, Byte type) {
-        this.cy_id = cy_id;
-        this.user_id = user_id;
+        this.cyId = cy_id;
+        this.userId = user_id;
         this.type = type;
     }
 

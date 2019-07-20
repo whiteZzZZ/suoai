@@ -147,7 +147,7 @@ public class SquareController {
         //for(Review review:reviews){
         int size=reviews.size();
         for(int i=0;i<size;i++){
-            int replyId=reviews.get(i).getReply_id();
+            int replyId=reviews.get(i).getReplyId();
              if(0!=replyId){
                 List<Review> reviews2=reviewService.getAllByReplyId(reviews.get(i).getId());
                 if(null!=reviews2){
@@ -206,18 +206,18 @@ public class SquareController {
            //点赞数量减一
            if(type==0){
                 Cyinfor cyinfor=cyinforService.get(cyid);
-                int likeCount=cyinfor.getLike_time()-1;
-                cyinfor.setLike_time(likeCount);
+                int likeCount=cyinfor.getLikeTime()-1;
+                cyinfor.setLikeTime(likeCount);
                 cyinforService.update(cyinfor);
            }else if(type==1){
                 Review review=reviewService.get(reviewId);
-                int likeCount=review.getLike_time()-1;
-                review.setLike_time(likeCount);
+                int likeCount=review.getLikeTime()-1;
+                review.setLikeTime(likeCount);
                 reviewService.update(review);
            }else {
                WordReview wordReview=wordReviewService.get(wordReviewId);
-               int likeCount=wordReview.getLike_time()-1;
-               wordReview.setLike_time(likeCount);
+               int likeCount=wordReview.getLikeTime()-1;
+               wordReview.setLikeTime(likeCount);
                wordReviewService.update(wordReview);
            }
        }else {
@@ -226,31 +226,25 @@ public class SquareController {
            //点赞数量加一
            if(type==0){
                Cyinfor cyinfor=cyinforService.get(cyid);
-               int likeCount=cyinfor.getLike_time()+1;
-               cyinfor.setLike_time(likeCount);
+               int likeCount=cyinfor.getLikeTime()+1;
+               cyinfor.setLikeTime(likeCount);
                cyinforService.update(cyinfor);
            }else if(type==1){
                Review review=reviewService.get(reviewId);
-               int likeCount=review.getLike_time()+1;
-               review.setLike_time(likeCount);
+               int likeCount=review.getLikeTime()+1;
+               review.setLikeTime(likeCount);
                reviewService.update(review);
            }else {
                WordReview wordReview=wordReviewService.get(wordReviewId);
-               int likeCount=wordReview.getLike_time()+1;
-               wordReview.setLike_time(likeCount);
+               int likeCount=wordReview.getLikeTime()+1;
+               wordReview.setLikeTime(likeCount);
                wordReviewService.update(wordReview);
            }
        }
         return map;
     }
 
-   /* @ApiOperation(value = "获取表白评论的评论", notes = "获取表白评论的评论")
-    @RequestMapping(value ="comment" , method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> commentofcomment( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-                                                 @RequestParam(value = "reviewId")  @ApiParam(value = "评论的id") int reviewId){
 
-    }*/
 
 
 }

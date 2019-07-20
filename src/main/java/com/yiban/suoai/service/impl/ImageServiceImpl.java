@@ -34,7 +34,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<Image> getByCyid(int cyid) {
         ImageExample example=new ImageExample();
-        example.createCriteria().andCy_idEqualTo(cyid);
+        example.createCriteria().andCyIdEqualTo(cyid);
         List<Image> list=imageMapper.selectByExample(example);
         if(list.isEmpty()){
             return null;

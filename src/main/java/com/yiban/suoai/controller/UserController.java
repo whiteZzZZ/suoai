@@ -37,9 +37,9 @@ public class UserController {
             @RequestParam("key")    @ApiParam(value = "功能状态") byte key ){
         User user = userService.get(userid);
         if(key == 1) {
-            user.setIs_match(true);
+            user.setIsMatch(true);
         }else {
-            user.setIs_match(false);
+            user.setIsMatch(false);
         }
         userService.update(user);
         return MapHelper.success();
@@ -56,9 +56,9 @@ public class UserController {
             @RequestParam("key")    @ApiParam(value = "功能状态") byte key ){
         User user = userService.get(userid);
         if(key == 1) {
-            user.setIs_particular(true);
+            user.setIsParticular(true);
         }else {
-            user.setIs_particular(false);
+            user.setIsParticular(false);
         }
         userService.update(user);
         return MapHelper.success();
@@ -73,9 +73,9 @@ public class UserController {
             @RequestParam("key")    @ApiParam(value = "功能状态") byte key ){
         User user = userService.get(userid);
         if(key == 1) {
-            user.setIs_rank(true);
+            user.setIsRank(true);
         }else {
-            user.setIs_rank(false);
+            user.setIsRank(false);
         }
         userService.update(user);
         return MapHelper.success();
