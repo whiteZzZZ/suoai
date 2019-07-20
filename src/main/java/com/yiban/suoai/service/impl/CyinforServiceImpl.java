@@ -2,12 +2,10 @@ package com.yiban.suoai.service.impl;
 
 import com.yiban.suoai.forepojo.ForeCyinfor;
 import com.yiban.suoai.mapper.CyinforMapper;
-import com.yiban.suoai.pojo.Cyinfor;
-import com.yiban.suoai.pojo.CyinforExample;
-import com.yiban.suoai.pojo.Image;
-import com.yiban.suoai.pojo.User;
+import com.yiban.suoai.pojo.*;
 import com.yiban.suoai.service.CyinforService;
 import com.yiban.suoai.service.ImageService;
+import com.yiban.suoai.service.LikeInfoService;
 import com.yiban.suoai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,8 @@ public class CyinforServiceImpl  implements CyinforService {
     UserService userService;
     @Autowired
     ImageService imageService;
+    @Autowired
+    LikeInfoService likeInfoService;
 
     @Override
     public Cyinfor get(int id) {
@@ -77,7 +77,7 @@ public class CyinforServiceImpl  implements CyinforService {
     }
 
     @Override
-    public List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors) {
+    public List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors,int userId) {
         List<ForeCyinfor> list=new ArrayList<>();
         for(Cyinfor cyinfor:cyinfors){
             ForeCyinfor foreCyinfor = new ForeCyinfor();
@@ -97,7 +97,11 @@ public class CyinforServiceImpl  implements CyinforService {
                     }
                 }
             }
-
+            //判断当前登录的用户是否给这篇点过赞
+            LikeInfo likeInfo=likeInfoService.getByCyidAndUserIdAndType(foreCyinfor.getId(),userId,0);
+            if(null!=likeInfo){
+                foreCyinfor.setIfLike(true);
+            }
             list.add(foreCyinfor);
         }
         return list;

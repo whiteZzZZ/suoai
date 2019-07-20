@@ -1,24 +1,29 @@
+/*
 package com.yiban.suoai.util;
 
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-/**   
+*/
+/**
  * Redis操作接口
  * 
  * @version 1.0 2013-6-14 上午08:54:14   
- */
+ *//*
+
 public class RedisAPI {
     private static JedisPool pool = null;
     
-    /**
+    */
+/**
      * 构建redis连接池
      * 
      * @param ip
      * @param port
      * @return JedisPool
-     */
+     *//*
+
     public static JedisPool getPool() {
         if (pool == null) {
             JedisPoolConfig config = new JedisPoolConfig();
@@ -47,4 +52,4 @@ public class RedisAPI {
         return pool;
     }
     
-}
+}*/

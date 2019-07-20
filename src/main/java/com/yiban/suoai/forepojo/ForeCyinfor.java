@@ -25,6 +25,16 @@ public class ForeCyinfor {
 
     private String image2;
 
+    private Boolean ifLike=false;
+
+    public Boolean getIfLike() {
+        return ifLike;
+    }
+
+    public void setIfLike(Boolean ifLike) {
+        this.ifLike = ifLike;
+    }
+
     public Integer getUserId() {
         return userId;
     }
