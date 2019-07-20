@@ -32,4 +32,13 @@ public interface ReviewService {
      */
     List<ForeReview> foreFull(List<Review> list);
 
+    List<Review> getAllByReplyId(int reviewId);
+
+    /**
+     * 二级评论 不需要显示对方的用户的名称
+     * @param list
+     * @return
+     */
+    List<ForeReview> foreFullSecondaryComments(List<Review> list);
+
 }

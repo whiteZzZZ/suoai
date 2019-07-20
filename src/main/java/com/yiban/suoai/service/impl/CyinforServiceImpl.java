@@ -44,6 +44,11 @@ public class CyinforServiceImpl  implements CyinforService {
     }
 
     @Override
+    public void update(Cyinfor cyinfor) {
+        cyinforMapper.updateByPrimaryKeySelective(cyinfor);
+    }
+
+    @Override
     public Cyinfor full(int userid, Boolean privacy, Boolean hide, int who, int hasImage,String text) {
         User user =userService.get(userid);
         Cyinfor cyinfor = new Cyinfor();

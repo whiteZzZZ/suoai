@@ -26,9 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("square")
@@ -91,7 +89,7 @@ public class SquareController {
         List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors);
         Map<String, Object> map = MapHelper.success();
         map.put("data", list);
-        map.put("page", PageUtil.getPage(total, list.size(), start));
+        map.put("page", PageUtil.getPage(total, cyinfors.size(), start));
         return map;
     }
 
@@ -116,26 +114,68 @@ public class SquareController {
     @RequestMapping(value ="comment" , method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> commentGet( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-                                        @RequestParam(value = "cyid")  @ApiParam(value = "表白的id") int cyid){
+                                        @RequestParam(value = "cyid")  @ApiParam(value = "表白的id") int cyid,
+                                           @RequestParam("startPage") @ApiParam(value = "起始页") Integer start
+    ){
             Map map=MapHelper.success();
+            PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
             List<Review> reviews=reviewService.getAllButReply(cyid);
+            int total = (int) new PageInfo<>(reviews).getTotal();
             List<ForeReview> list=reviewService.foreFull(reviews);
             map.put("date",list);
+            map.put("page", PageUtil.getPage(total, reviews.size(), start));
             return map;
     }
 
-   /* @ApiOperation(value = "获取表白的评论的评论", notes = "获取表白的评论的评论")
+    @ApiOperation(value = "获取表白的评论的评论", notes = "获取表白的评论的评论")
     @RequestMapping(value ="commentofcomment" , method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> commentofcommentGet( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
                                         @RequestParam(value = "cyid")  @ApiParam(value = "表白的id") int cyid,
-                                        @RequestParam(value = "reviewId")  @ApiParam(value = "评论的id") int reviewId) {
+                                        @RequestParam(value = "reviewId")  @ApiParam(value = "评论的id") int reviewId,
+                                                    @RequestParam("startPage") @ApiParam(value = "起始页") Integer start) {
         Map map=MapHelper.success();
-        List<Review> reviews=reviewService.getAllButReply(cyid);
-        List<ForeReview> list=reviewService.foreFull(reviews);
+        //先查找所有评论中的回复评论的id是  这条的评论id
+        List<ForeReview> foreReviews=new ArrayList<>();
+        List<Review> reviews=reviewService.getAllByReplyId(reviewId);//二、三级评论
+        if(null==reviews){
+            //没有三级评论
+            return map;
+        }
+        int threeIndex=reviews.size();//三级评论的起始位置
+        List<ForeReview> subForeReview1=reviewService.foreFullSecondaryComments(reviews);//二级评论 转前端需要的格式
+        //通过二级评论获得三级评论
+        List<Review>  threeReview=new ArrayList<>();//三级评论
+        //for(Review review:reviews){
+        int size=reviews.size();
+        for(int i=0;i<size;i++){
+            int replyId=reviews.get(i).getReply_id();
+             if(0!=replyId){
+                List<Review> reviews2=reviewService.getAllByReplyId(reviews.get(i).getId());
+                if(null!=reviews2){
+                    reviews.addAll(reviews2);
+                    size+=reviews2.size();
+                }
+            }
+        }
+
+        //对三级评论进行转成前端需要的格式，记得三级评论要显示回复方的昵称
+        List<Review> reviews3=reviews.subList(threeIndex,size);//三级评论
+        List<ForeReview> foreReviews3=reviewService.foreFull(reviews3);//对三级评论 进行格式化
+
+
+        List<ForeReview> list=new ArrayList<>();//把格式化好的二三级评论加进去
+        list.addAll(subForeReview1);
+        list.addAll(foreReviews3);
+        Collections.sort(list, new Comparator<ForeReview>() {
+            @Override
+            public int compare(ForeReview o1, ForeReview o2) {
+                return o2.getReviewId().compareTo(o1.getReviewId());
+            }
+        });
         map.put("date",list);
         return map;
-    }*/
+    }
 
     @ApiOperation(value = "给表白或者评论点赞", notes = "给表白或者评论点赞")
     @RequestMapping(value ="givelike" , method = RequestMethod.PUT)
@@ -164,10 +204,22 @@ public class SquareController {
         }
         //如果已经点赞了，就删掉
        if(null!=likeInfo){
-          // likeInfoService.delete(likeInfo.getId());
+           likeInfoService.delete(likeInfo.getId());
+           //点赞数量减一
+           if(type==0){
+                Cyinfor cyinfor=cyinforService.get(cyid);
+                int likeCount=cyinfor.getLike_time()-1;
+                cyinfor.setLike_time(likeCount);
+                cyinforService.update(cyinfor);
+           }else if(type==1){
+
+           }
        }
        //没有就加入
       likeInfoService.add(new LikeInfo(id,userId,(byte)type));
+        //点赞数量加一
+
+
 
         return map;
     }

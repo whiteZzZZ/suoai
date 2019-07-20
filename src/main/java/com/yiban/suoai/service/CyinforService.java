@@ -13,6 +13,8 @@ public interface CyinforService {
 
     void delete(int id);
 
+    void update(Cyinfor cyinfor);
+
     /**
      * 填充
      * @param userid

@@ -52,9 +52,10 @@ public class ReviewServiceImpl  implements ReviewService {
         review.setCy_id(cyid);
         review.setUser_id(userId);
         review.setLike_time(0);
-        review.setReply_id(0);
+        review.setReply_id(replyId);
         review.setTime(new Date());
         review.setContent(text);
+        review.setReview_time(0);
         review.setIs_delete(false);
         return review;
     }
@@ -86,7 +87,6 @@ public class ReviewServiceImpl  implements ReviewService {
             foreReview.setHead_img(user.getHead_img());
             foreReview.setName(user.getName());
 
-
             if(0!=review.getReply_id()){
                 //如果该评论是评论的评论  则还要显示回复的内容和回复人的name
                 foreReview.setReply_id(review.getReply_id());
@@ -97,6 +97,41 @@ public class ReviewServiceImpl  implements ReviewService {
                 foreReview.setReply_content(replyReview.getContent());
                 foreReview.setReply_name(replyUser.getName());
             }
+            foreCyinfors.add(foreReview);
+        }
+        return foreCyinfors;
+    }
+
+    @Override
+    public List<Review> getAllByReplyId(int reviewId) {
+        List<Review> reviews=new ArrayList<>();
+        ReviewExample example=new ReviewExample();
+        example.createCriteria().andReply_idEqualTo(reviewId);
+        example.setOrderByClause("id desc");
+        reviews=reviewMapper.selectByExample(example);
+        if(reviews.isEmpty()){
+            return null;
+        }
+        return reviews;
+    }
+
+    @Override
+    public List<ForeReview> foreFullSecondaryComments(List<Review> list) {
+        List<ForeReview> foreCyinfors=new ArrayList<>();
+        for(Review review:list){
+            ForeReview foreReview = new ForeReview();
+            foreReview.setReviewId(review.getId());
+            foreReview.setCy_id(review.getCy_id());
+            foreReview.setUser_id(review.getUser_id());
+            foreReview.setLike_time(review.getLike_time());
+            foreReview.setReview_time(review.getReview_time());
+            foreReview.setContent(review.getContent());
+            foreReview.setTime(review.getTime());
+            User user = userService.get(review.getUser_id());
+            foreReview.setHead_img(user.getHead_img());
+            foreReview.setName(user.getName());
+            foreReview.setReply_id(review.getReply_id());
+
             foreCyinfors.add(foreReview);
         }
         return foreCyinfors;
