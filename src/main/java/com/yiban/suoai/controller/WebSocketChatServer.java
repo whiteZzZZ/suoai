@@ -56,8 +56,7 @@ public class WebSocketChatServer {
 
     @OnMessage
     public void onMessage(Session session,String json){
-        JSONObject js = JSONObject.parseObject(json);
-
+        Chat chat= JSONObject.parseObject(json,Chat.class);
 
     }
     public void checkHeartBeat(){
