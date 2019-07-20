@@ -98,7 +98,7 @@ public class YibanController {
             if(schools!=null) {
                 for (School o : schools) {
                     if (o.getName().equals(school)) {
-                        user1.setSchool_id(o.getId());
+                        user1.setSchoolId(o.getId());
                         break;
                     }
                 }
@@ -107,7 +107,7 @@ public class YibanController {
                 school1.setId(schoolId);
                 school1.setName(school);
                 schoolService.add(school1);
-                user1.setSchool_id(schoolId);
+                user1.setSchoolId(schoolId);
             }
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
             userService.add(user1);

@@ -13,6 +13,10 @@ public class Image {
     public Image(String path, int cyid) {
     }
 
+    public Image(String str,Integer cid){
+
+    }
+
     public Integer getId() {
         return id;
     }

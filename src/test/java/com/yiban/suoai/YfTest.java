@@ -1,5 +1,7 @@
 package com.yiban.suoai;
 
+import com.alibaba.fastjson.JSONObject;
+import com.yiban.suoai.pojo.Chat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,23 @@ public class YfTest {
     @Test
     public void testRedis(){
         stringRedisTemplate.opsForValue().set("test1","112");
+
         System.out.println(stringRedisTemplate.opsForValue().get("test1"));
+    }
+
+    @Test
+    public void testJSON(){
+        String str = "{'id':1,'content':'hello','userId':33}";
+        Chat chat = JSONObject.parseObject(str,Chat.class);
+        System.out.println(chat.getContent());
+
+    }
+
+    public static void main(String[] args) {
+        String str = "{'id':1,'content':'hello','userId':33}";
+        Chat chat = JSONObject.parseObject(str,Chat.class);
+        System.out.println(chat.getContent());
+        String str2 = JSONObject.toJSONString(chat);
+        System.out.println(str2);
     }
 }

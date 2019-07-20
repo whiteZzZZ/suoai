@@ -21,7 +21,7 @@ public class UserServiceImpl  implements UserService {
     @Override
     public User selectByNameNum(String name, String num) {
         UserExample userExample = new UserExample();
-        userExample.createCriteria().andNameEqualTo(name).andStu_numEqualTo(num);
+        userExample.createCriteria().andNameEqualTo(name).andStuNumEqualTo(num);
         return userMapper.selectByExample(userExample).get(0);
     }
 
