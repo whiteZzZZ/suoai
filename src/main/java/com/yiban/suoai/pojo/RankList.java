@@ -3,11 +3,11 @@ package com.yiban.suoai.pojo;
 public class RankList {
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
     private Integer rank;
 
-    private Boolean is_delete;
+    private Boolean isDelete;
 
     public Integer getId() {
         return id;
@@ -17,12 +17,12 @@ public class RankList {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getRank() {
@@ -33,11 +33,11 @@ public class RankList {
         this.rank = rank;
     }
 
-    public Boolean getIs_delete() {
-        return is_delete;
+    public Boolean getIsDelete() {
+        return isDelete;
     }
 
-    public void setIs_delete(Boolean is_delete) {
-        this.is_delete = is_delete;
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 }

@@ -20,7 +20,7 @@ public class YfTest {
 
     @Test
     public void testRedis(){
-        stringRedisTemplate.opsForValue().set("test1","11");
+        stringRedisTemplate.opsForValue().set("test1","112");
         System.out.println(stringRedisTemplate.opsForValue().get("test1"));
     }
 }

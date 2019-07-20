@@ -3,8 +3,13 @@ package com.yiban.suoai.mapper;
 import com.yiban.suoai.pojo.Message;
 import com.yiban.suoai.pojo.MessageExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface MessageMapper {
+    int countByExample(MessageExample example);
+
+    int deleteByExample(MessageExample example);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Message record);
@@ -14,6 +19,10 @@ public interface MessageMapper {
     List<Message> selectByExample(MessageExample example);
 
     Message selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") Message record, @Param("example") MessageExample example);
+
+    int updateByExample(@Param("record") Message record, @Param("example") MessageExample example);
 
     int updateByPrimaryKeySelective(Message record);
 

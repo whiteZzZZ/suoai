@@ -1,38 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yiban.suoai.mapper.ReviewMapper">
-  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.Review">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="cy_id" jdbcType="INTEGER" property="cy_id" />
-    <result column="user_id" jdbcType="INTEGER" property="user_id" />
-    <result column="like_time" jdbcType="INTEGER" property="like_time" />
-    <result column="reply_id" jdbcType="INTEGER" property="reply_id" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="is_delete" jdbcType="BIT" property="is_delete" />
-    <result column="review_time" jdbcType="INTEGER" property="review_time" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.suoai.mapper.ReviewMapper" >
+  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.Review" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cy_id" property="cyId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="like_time" property="likeTime" jdbcType="INTEGER" />
+    <result column="reply_id" property="replyId" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="BIT" />
+    <result column="review_time" property="reviewTime" jdbcType="INTEGER" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.yiban.suoai.pojo.Review">
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  <resultMap id="ResultMapWithBLOBs" type="com.yiban.suoai.pojo.Review" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -43,45 +43,74 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
     id, cy_id, user_id, like_time, reply_id, time, is_delete, review_time
   </sql>
-  <sql id="Blob_Column_List">
+  <sql id="Blob_Column_List" >
     content
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.yiban.suoai.pojo.ReviewExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yiban.suoai.pojo.ReviewExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
-    'false' as QUERYID,
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from review
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.yiban.suoai.pojo.ReviewExample" resultMap="BaseResultMap">
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yiban.suoai.pojo.ReviewExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
-    'false' as QUERYID,
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from review
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -89,124 +118,200 @@
     from review
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from review
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Review" useGeneratedKeys="true">
+  <delete id="deleteByExample" parameterType="com.yiban.suoai.pojo.ReviewExample" >
+    delete from review
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yiban.suoai.pojo.Review" useGeneratedKeys="true" keyProperty="id" >
     insert into review (cy_id, user_id, like_time, 
       reply_id, time, is_delete, 
       review_time, content)
-    values (#{cy_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{like_time,jdbcType=INTEGER}, 
-      #{reply_id,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{is_delete,jdbcType=BIT}, 
-      #{review_time,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+    values (#{cyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{likeTime,jdbcType=INTEGER}, 
+      #{replyId,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, 
+      #{reviewTime,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Review" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.yiban.suoai.pojo.Review" useGeneratedKeys="true" keyProperty="id" >
     insert into review
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="cy_id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cyId != null" >
         cy_id,
       </if>
-      <if test="user_id != null">
+      <if test="userId != null" >
         user_id,
       </if>
-      <if test="like_time != null">
+      <if test="likeTime != null" >
         like_time,
       </if>
-      <if test="reply_id != null">
+      <if test="replyId != null" >
         reply_id,
       </if>
-      <if test="time != null">
+      <if test="time != null" >
         time,
       </if>
-      <if test="is_delete != null">
+      <if test="isDelete != null" >
         is_delete,
       </if>
-      <if test="review_time != null">
+      <if test="reviewTime != null" >
         review_time,
       </if>
-      <if test="content != null">
+      <if test="content != null" >
         content,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="cy_id != null">
-        #{cy_id,jdbcType=INTEGER},
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cyId != null" >
+        #{cyId,jdbcType=INTEGER},
       </if>
-      <if test="user_id != null">
-        #{user_id,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="like_time != null">
-        #{like_time,jdbcType=INTEGER},
+      <if test="likeTime != null" >
+        #{likeTime,jdbcType=INTEGER},
       </if>
-      <if test="reply_id != null">
-        #{reply_id,jdbcType=INTEGER},
+      <if test="replyId != null" >
+        #{replyId,jdbcType=INTEGER},
       </if>
-      <if test="time != null">
+      <if test="time != null" >
         #{time,jdbcType=TIMESTAMP},
       </if>
-      <if test="is_delete != null">
-        #{is_delete,jdbcType=BIT},
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=BIT},
       </if>
-      <if test="review_time != null">
-        #{review_time,jdbcType=INTEGER},
+      <if test="reviewTime != null" >
+        #{reviewTime,jdbcType=INTEGER},
       </if>
-      <if test="content != null">
+      <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.Review">
+  <select id="countByExample" parameterType="com.yiban.suoai.pojo.ReviewExample" resultType="java.lang.Integer" >
+    select count(*) from review
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
     update review
-    <set>
-      <if test="cy_id != null">
-        cy_id = #{cy_id,jdbcType=INTEGER},
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="user_id != null">
-        user_id = #{user_id,jdbcType=INTEGER},
+      <if test="record.cyId != null" >
+        cy_id = #{record.cyId,jdbcType=INTEGER},
       </if>
-      <if test="like_time != null">
-        like_time = #{like_time,jdbcType=INTEGER},
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="reply_id != null">
-        reply_id = #{reply_id,jdbcType=INTEGER},
+      <if test="record.likeTime != null" >
+        like_time = #{record.likeTime,jdbcType=INTEGER},
       </if>
-      <if test="time != null">
+      <if test="record.replyId != null" >
+        reply_id = #{record.replyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null" >
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.reviewTime != null" >
+        review_time = #{record.reviewTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update review
+    set id = #{record.id,jdbcType=INTEGER},
+      cy_id = #{record.cyId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      like_time = #{record.likeTime,jdbcType=INTEGER},
+      reply_id = #{record.replyId,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      review_time = #{record.reviewTime,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update review
+    set id = #{record.id,jdbcType=INTEGER},
+      cy_id = #{record.cyId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      like_time = #{record.likeTime,jdbcType=INTEGER},
+      reply_id = #{record.replyId,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      review_time = #{record.reviewTime,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.Review" >
+    update review
+    <set >
+      <if test="cyId != null" >
+        cy_id = #{cyId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likeTime != null" >
+        like_time = #{likeTime,jdbcType=INTEGER},
+      </if>
+      <if test="replyId != null" >
+        reply_id = #{replyId,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
         time = #{time,jdbcType=TIMESTAMP},
       </if>
-      <if test="is_delete != null">
-        is_delete = #{is_delete,jdbcType=BIT},
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=BIT},
       </if>
-      <if test="review_time != null">
-        review_time = #{review_time,jdbcType=INTEGER},
+      <if test="reviewTime != null" >
+        review_time = #{reviewTime,jdbcType=INTEGER},
       </if>
-      <if test="content != null">
+      <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yiban.suoai.pojo.Review">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yiban.suoai.pojo.Review" >
     update review
-    set cy_id = #{cy_id,jdbcType=INTEGER},
-      user_id = #{user_id,jdbcType=INTEGER},
-      like_time = #{like_time,jdbcType=INTEGER},
-      reply_id = #{reply_id,jdbcType=INTEGER},
+    set cy_id = #{cyId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      like_time = #{likeTime,jdbcType=INTEGER},
+      reply_id = #{replyId,jdbcType=INTEGER},
       time = #{time,jdbcType=TIMESTAMP},
-      is_delete = #{is_delete,jdbcType=BIT},
-      review_time = #{review_time,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=BIT},
+      review_time = #{reviewTime,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Review">
+  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Review" >
     update review
-    set cy_id = #{cy_id,jdbcType=INTEGER},
-      user_id = #{user_id,jdbcType=INTEGER},
-      like_time = #{like_time,jdbcType=INTEGER},
-      reply_id = #{reply_id,jdbcType=INTEGER},
+    set cy_id = #{cyId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      like_time = #{likeTime,jdbcType=INTEGER},
+      reply_id = #{replyId,jdbcType=INTEGER},
       time = #{time,jdbcType=TIMESTAMP},
-      is_delete = #{is_delete,jdbcType=BIT},
-      review_time = #{review_time,jdbcType=INTEGER}
+      is_delete = #{isDelete,jdbcType=BIT},
+      review_time = #{reviewTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

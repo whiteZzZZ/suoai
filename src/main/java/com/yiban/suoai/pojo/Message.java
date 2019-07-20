@@ -7,11 +7,11 @@ public class Message {
 
     private Integer type;
 
-    private Integer cy_id;
+    private Integer cyId;
 
-    private Integer sponsor_id;
+    private Integer sponsorId;
 
-    private Integer user_id;
+    private Integer userId;
 
     private Date time;
 
@@ -31,28 +31,28 @@ public class Message {
         this.type = type;
     }
 
-    public Integer getCy_id() {
-        return cy_id;
+    public Integer getCyId() {
+        return cyId;
     }
 
-    public void setCy_id(Integer cy_id) {
-        this.cy_id = cy_id;
+    public void setCyId(Integer cyId) {
+        this.cyId = cyId;
     }
 
-    public Integer getSponsor_id() {
-        return sponsor_id;
+    public Integer getSponsorId() {
+        return sponsorId;
     }
 
-    public void setSponsor_id(Integer sponsor_id) {
-        this.sponsor_id = sponsor_id;
+    public void setSponsorId(Integer sponsorId) {
+        this.sponsorId = sponsorId;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getTime() {

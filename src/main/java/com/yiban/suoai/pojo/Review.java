@@ -5,19 +5,19 @@ import java.util.Date;
 public class Review {
     private Integer id;
 
-    private Integer cy_id;
+    private Integer cyId;
 
-    private Integer user_id;
+    private Integer userId;
 
-    private Integer like_time;
+    private Integer likeTime;
 
-    private Integer reply_id;
+    private Integer replyId;
 
     private Date time;
 
-    private Boolean is_delete;
+    private Boolean isDelete;
 
-    private Integer review_time;
+    private Integer reviewTime;
 
     private String content;
 
@@ -29,36 +29,36 @@ public class Review {
         this.id = id;
     }
 
-    public Integer getCy_id() {
-        return cy_id;
+    public Integer getCyId() {
+        return cyId;
     }
 
-    public void setCy_id(Integer cy_id) {
-        this.cy_id = cy_id;
+    public void setCyId(Integer cyId) {
+        this.cyId = cyId;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Integer getLike_time() {
-        return like_time;
+    public Integer getLikeTime() {
+        return likeTime;
     }
 
-    public void setLike_time(Integer like_time) {
-        this.like_time = like_time;
+    public void setLikeTime(Integer likeTime) {
+        this.likeTime = likeTime;
     }
 
-    public Integer getReply_id() {
-        return reply_id;
+    public Integer getReplyId() {
+        return replyId;
     }
 
-    public void setReply_id(Integer reply_id) {
-        this.reply_id = reply_id;
+    public void setReplyId(Integer replyId) {
+        this.replyId = replyId;
     }
 
     public Date getTime() {
@@ -69,20 +69,20 @@ public class Review {
         this.time = time;
     }
 
-    public Boolean getIs_delete() {
-        return is_delete;
+    public Boolean getIsDelete() {
+        return isDelete;
     }
 
-    public void setIs_delete(Boolean is_delete) {
-        this.is_delete = is_delete;
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 
-    public Integer getReview_time() {
-        return review_time;
+    public Integer getReviewTime() {
+        return reviewTime;
     }
 
-    public void setReview_time(Integer review_time) {
-        this.review_time = review_time;
+    public void setReviewTime(Integer reviewTime) {
+        this.reviewTime = reviewTime;
     }
 
     public String getContent() {

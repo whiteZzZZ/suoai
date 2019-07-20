@@ -5,15 +5,7 @@ public class Image {
 
     private String url;
 
-    private Integer cy_id;
-
-    public Image() {
-    }
-
-    public Image(String url, Integer cy_id) {
-        this.url = url;
-        this.cy_id = cy_id;
-    }
+    private Integer cyId;
 
     public Integer getId() {
         return id;
@@ -31,11 +23,11 @@ public class Image {
         this.url = url == null ? null : url.trim();
     }
 
-    public Integer getCy_id() {
-        return cy_id;
+    public Integer getCyId() {
+        return cyId;
     }
 
-    public void setCy_id(Integer cy_id) {
-        this.cy_id = cy_id;
+    public void setCyId(Integer cyId) {
+        this.cyId = cyId;
     }
 }

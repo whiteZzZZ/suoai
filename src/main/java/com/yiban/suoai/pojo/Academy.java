@@ -3,7 +3,7 @@ package com.yiban.suoai.pojo;
 public class Academy {
     private Integer id;
 
-    private Integer school_id;
+    private Integer schoolId;
 
     private String name;
 
@@ -15,12 +15,12 @@ public class Academy {
         this.id = id;
     }
 
-    public Integer getSchool_id() {
-        return school_id;
+    public Integer getSchoolId() {
+        return schoolId;
     }
 
-    public void setSchool_id(Integer school_id) {
-        this.school_id = school_id;
+    public void setSchoolId(Integer schoolId) {
+        this.schoolId = schoolId;
     }
 
     public String getName() {

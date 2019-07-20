@@ -1,26 +1,23 @@
 package com.yiban.suoai.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 public class WordReview {
     private Integer id;
 
-    private Integer word_id;
+    private Integer wordId;
 
-    private Integer user_id;
+    private Integer userId;
 
-    private Integer like_time;
+    private Integer likeTime;
 
-    private Integer review_time;
+    private Integer reviewTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间
     private Date time;
 
     private Integer paper;
 
-    private Boolean is_delete;
+    private Boolean isDelete;
 
     private String content;
 
@@ -32,36 +29,36 @@ public class WordReview {
         this.id = id;
     }
 
-    public Integer getWord_id() {
-        return word_id;
+    public Integer getWordId() {
+        return wordId;
     }
 
-    public void setWord_id(Integer word_id) {
-        this.word_id = word_id;
+    public void setWordId(Integer wordId) {
+        this.wordId = wordId;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Integer getLike_time() {
-        return like_time;
+    public Integer getLikeTime() {
+        return likeTime;
     }
 
-    public void setLike_time(Integer like_time) {
-        this.like_time = like_time;
+    public void setLikeTime(Integer likeTime) {
+        this.likeTime = likeTime;
     }
 
-    public Integer getReview_time() {
-        return review_time;
+    public Integer getReviewTime() {
+        return reviewTime;
     }
 
-    public void setReview_time(Integer review_time) {
-        this.review_time = review_time;
+    public void setReviewTime(Integer reviewTime) {
+        this.reviewTime = reviewTime;
     }
 
     public Date getTime() {
@@ -80,12 +77,12 @@ public class WordReview {
         this.paper = paper;
     }
 
-    public Boolean getIs_delete() {
-        return is_delete;
+    public Boolean getIsDelete() {
+        return isDelete;
     }
 
-    public void setIs_delete(Boolean is_delete) {
-        this.is_delete = is_delete;
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 
     public String getContent() {

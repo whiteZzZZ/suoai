@@ -165,63 +165,63 @@ public class LetterMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idIsNull() {
+        public Criteria andLetterIdIsNull() {
             addCriterion("letter_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idIsNotNull() {
+        public Criteria andLetterIdIsNotNull() {
             addCriterion("letter_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idEqualTo(Integer value) {
-            addCriterion("letter_id =", value, "letter_id");
+        public Criteria andLetterIdEqualTo(Integer value) {
+            addCriterion("letter_id =", value, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idNotEqualTo(Integer value) {
-            addCriterion("letter_id <>", value, "letter_id");
+        public Criteria andLetterIdNotEqualTo(Integer value) {
+            addCriterion("letter_id <>", value, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idGreaterThan(Integer value) {
-            addCriterion("letter_id >", value, "letter_id");
+        public Criteria andLetterIdGreaterThan(Integer value) {
+            addCriterion("letter_id >", value, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idGreaterThanOrEqualTo(Integer value) {
-            addCriterion("letter_id >=", value, "letter_id");
+        public Criteria andLetterIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("letter_id >=", value, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idLessThan(Integer value) {
-            addCriterion("letter_id <", value, "letter_id");
+        public Criteria andLetterIdLessThan(Integer value) {
+            addCriterion("letter_id <", value, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idLessThanOrEqualTo(Integer value) {
-            addCriterion("letter_id <=", value, "letter_id");
+        public Criteria andLetterIdLessThanOrEqualTo(Integer value) {
+            addCriterion("letter_id <=", value, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idIn(List<Integer> values) {
-            addCriterion("letter_id in", values, "letter_id");
+        public Criteria andLetterIdIn(List<Integer> values) {
+            addCriterion("letter_id in", values, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idNotIn(List<Integer> values) {
-            addCriterion("letter_id not in", values, "letter_id");
+        public Criteria andLetterIdNotIn(List<Integer> values) {
+            addCriterion("letter_id not in", values, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idBetween(Integer value1, Integer value2) {
-            addCriterion("letter_id between", value1, value2, "letter_id");
+        public Criteria andLetterIdBetween(Integer value1, Integer value2) {
+            addCriterion("letter_id between", value1, value2, "letterId");
             return (Criteria) this;
         }
 
-        public Criteria andLetter_idNotBetween(Integer value1, Integer value2) {
-            addCriterion("letter_id not between", value1, value2, "letter_id");
+        public Criteria andLetterIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("letter_id not between", value1, value2, "letterId");
             return (Criteria) this;
         }
 
@@ -295,123 +295,123 @@ public class LetterMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andUser_idIsNull() {
+        public Criteria andUserIdIsNull() {
             addCriterion("user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idIsNotNull() {
+        public Criteria andUserIdIsNotNull() {
             addCriterion("user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idEqualTo(Integer value) {
-            addCriterion("user_id =", value, "user_id");
+        public Criteria andUserIdEqualTo(Integer value) {
+            addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idNotEqualTo(Integer value) {
-            addCriterion("user_id <>", value, "user_id");
+        public Criteria andUserIdNotEqualTo(Integer value) {
+            addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idGreaterThan(Integer value) {
-            addCriterion("user_id >", value, "user_id");
+        public Criteria andUserIdGreaterThan(Integer value) {
+            addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idGreaterThanOrEqualTo(Integer value) {
-            addCriterion("user_id >=", value, "user_id");
+        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idLessThan(Integer value) {
-            addCriterion("user_id <", value, "user_id");
+        public Criteria andUserIdLessThan(Integer value) {
+            addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idLessThanOrEqualTo(Integer value) {
-            addCriterion("user_id <=", value, "user_id");
+        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idIn(List<Integer> values) {
-            addCriterion("user_id in", values, "user_id");
+        public Criteria andUserIdIn(List<Integer> values) {
+            addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idNotIn(List<Integer> values) {
-            addCriterion("user_id not in", values, "user_id");
+        public Criteria andUserIdNotIn(List<Integer> values) {
+            addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idBetween(Integer value1, Integer value2) {
-            addCriterion("user_id between", value1, value2, "user_id");
+        public Criteria andUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUser_idNotBetween(Integer value1, Integer value2) {
-            addCriterion("user_id not between", value1, value2, "user_id");
+        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteIsNull() {
+        public Criteria andIsDeleteIsNull() {
             addCriterion("is_delete is null");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteIsNotNull() {
+        public Criteria andIsDeleteIsNotNull() {
             addCriterion("is_delete is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteEqualTo(Boolean value) {
-            addCriterion("is_delete =", value, "is_delete");
+        public Criteria andIsDeleteEqualTo(Boolean value) {
+            addCriterion("is_delete =", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteNotEqualTo(Boolean value) {
-            addCriterion("is_delete <>", value, "is_delete");
+        public Criteria andIsDeleteNotEqualTo(Boolean value) {
+            addCriterion("is_delete <>", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteGreaterThan(Boolean value) {
-            addCriterion("is_delete >", value, "is_delete");
+        public Criteria andIsDeleteGreaterThan(Boolean value) {
+            addCriterion("is_delete >", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_delete >=", value, "is_delete");
+        public Criteria andIsDeleteGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_delete >=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteLessThan(Boolean value) {
-            addCriterion("is_delete <", value, "is_delete");
+        public Criteria andIsDeleteLessThan(Boolean value) {
+            addCriterion("is_delete <", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_delete <=", value, "is_delete");
+        public Criteria andIsDeleteLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_delete <=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteIn(List<Boolean> values) {
-            addCriterion("is_delete in", values, "is_delete");
+        public Criteria andIsDeleteIn(List<Boolean> values) {
+            addCriterion("is_delete in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteNotIn(List<Boolean> values) {
-            addCriterion("is_delete not in", values, "is_delete");
+        public Criteria andIsDeleteNotIn(List<Boolean> values) {
+            addCriterion("is_delete not in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_delete between", value1, value2, "is_delete");
+        public Criteria andIsDeleteBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_delete between", value1, value2, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIs_deleteNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_delete not between", value1, value2, "is_delete");
+        public Criteria andIsDeleteNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_delete not between", value1, value2, "isDelete");
             return (Criteria) this;
         }
 
