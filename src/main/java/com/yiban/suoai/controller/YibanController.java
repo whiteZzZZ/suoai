@@ -69,10 +69,9 @@ public class YibanController {
         JSONObject userInfo = JSONObject.fromObject(yibanUser.me()).getJSONObject("info");
 
         int yibanId = userInfo.getInt("yb_userid");//获取用户id
-        String name = userInfo.getString("yb_usernick");//获取用户名字
+       /* String name = userInfo.getString("yb_usernick");//获取用户名字
         String sex = userInfo.getString("yb_sex");//获取用户性别
-        String school = userInfo.getString("yb_schoolname");
-
+        String school = userInfo.getString("yb_schoolname");*/
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像
 //        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
 //        String path= FileHelper.FileSave(file,uuid,FileHelper.headImg);//头像路径
