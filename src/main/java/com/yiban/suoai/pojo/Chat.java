@@ -1,8 +1,9 @@
 package com.yiban.suoai.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Chat {
+public class Chat implements Serializable {
     private Integer id;
 
     private Integer userId;
