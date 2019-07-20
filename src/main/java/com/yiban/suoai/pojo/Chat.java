@@ -13,6 +13,8 @@ public class Chat {
 
     private Integer cuId;
 
+    private Integer type;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +53,13 @@ public class Chat {
 
     public void setCuId(Integer cuId) {
         this.cuId = cuId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }
