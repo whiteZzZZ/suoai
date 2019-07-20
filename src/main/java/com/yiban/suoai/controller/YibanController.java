@@ -32,6 +32,8 @@ public class YibanController {
 
         Authorize authorize = new Authorize(AppContext.APP_ID, AppContext.APP_SEC);
         String url = authorize.forwardurl(AppContext.BACK_URL, "QUERY", Authorize.DISPLAY_TAG_T.MOBILE);
+        System.out.println("url="+url);
+
         res.sendRedirect(url);
     }
 

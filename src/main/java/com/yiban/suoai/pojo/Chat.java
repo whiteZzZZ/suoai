@@ -16,6 +16,9 @@ public class Chat {
 
     private Integer cu_id;
 
+    //拓展字段，不保存数据库，用于前后端交互
+    private Integer type;
+
     public Integer getId() {
         return id;
     }
@@ -54,5 +57,13 @@ public class Chat {
 
     public void setCu_id(Integer cu_id) {
         this.cu_id = cu_id;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }
