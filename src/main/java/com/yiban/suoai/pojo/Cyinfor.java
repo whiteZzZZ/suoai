@@ -27,7 +27,7 @@ public class Cyinfor {
 
     private Integer hasImage;
 
-    private Boolean isDelete;
+    private Boolean isDelete=false;
 
     private String text;
 

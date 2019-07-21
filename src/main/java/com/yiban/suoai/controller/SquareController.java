@@ -52,7 +52,7 @@ public class SquareController {
     @ResponseBody
     public Map<String, Object> expressionPut(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("image")  @ApiParam(value = "用户ID") MultipartFile[] uploadFiles,
+            //@RequestParam("image")  @ApiParam(value = "用户ID") MultipartFile[] uploadFiles,
             @RequestParam(value = "who",defaultValue = "0")  @ApiParam(value = "who  是否有特定的表白对象，没有传") int who,
             @RequestParam(value = "privacy")  @ApiParam(value = "privacy 1 为私密表白  0为公开表白") Boolean privacy,
             @RequestParam(value = "hide")  @ApiParam(value = "hide 1 为身份隐藏 0 为身份可视") Boolean hide,
@@ -60,17 +60,18 @@ public class SquareController {
     ) throws IOException, SAException {
             Map map = new HashMap();
             int userid= redisService.getUserId(token);
-            int hasImage=uploadFiles.length;//图片的数量
-            Cyinfor cyinfor= cyinforService.full(userid,privacy,hide,who,hasImage,text);
+            //   int hasImage=uploadFiles.length;//图片的数量
+            Cyinfor cyinfor= cyinforService.full(userid,privacy,hide,who,0,text);
             int cyid=cyinforService.add(cyinfor);
-            for(MultipartFile file : uploadFiles){
+            /*for(MultipartFile file : uploadFiles){
                 String uuid=UUIDUtil.getUUID();//使用uuid作为图片的名称
                String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
                 //保存路径
                 Image image=new Image(path,cyid);
                 imageService.add(image);
-            }
+            }*/
             map= MapHelper.success();
+            map.put("cyid",cyid);
         return map;
     }
 
@@ -255,8 +256,15 @@ public class SquareController {
     @ApiOperation(value = "获取表白墙", notes = "获取表白墙")
     @RequestMapping(value ="getWall" , method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getWall( @RequestHeader("token") @ApiParam(value = "权限校验") String token){
-            return null;
+    public Map<String, Object> getWall( @RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException {
+        int userId=redisService.getUserId(token);
+        List<Cyinfor> cyinfors=cyinforService.topTen();
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);
+        //对每个表白判断  当前的这个用户是不是点了赞的
+
+        Map<String, Object> map = MapHelper.success();
+        map.put("data", list);
+        return map;
     }
 
 

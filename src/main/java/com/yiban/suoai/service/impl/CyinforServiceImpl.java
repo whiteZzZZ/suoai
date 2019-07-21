@@ -1,5 +1,6 @@
 package com.yiban.suoai.service.impl;
 
+import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.forepojo.ForeCyinfor;
 import com.yiban.suoai.mapper.CyinforMapper;
 import com.yiban.suoai.pojo.*;
@@ -8,6 +9,7 @@ import com.yiban.suoai.service.ImageService;
 import com.yiban.suoai.service.LikeInfoService;
 import com.yiban.suoai.service.UserService;
 import com.yiban.suoai.util.DateUtils;
+import com.yiban.suoai.util.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,6 +89,7 @@ public class CyinforServiceImpl  implements CyinforService {
             foreCyinfor.setHead_img(user.getHeadImg());
             foreCyinfor.setName(user.getName());
             foreCyinfor.setTime(cyinfor.getTime());
+            foreCyinfor.setLike_time(cyinfor.getLikeTime());
             foreCyinfor.setText(cyinfor.getText());
             foreCyinfor.setId(cyinfor.getId());
             foreCyinfor.setUserId(user.getId());
@@ -110,14 +113,14 @@ public class CyinforServiceImpl  implements CyinforService {
     }
 
     @Override
-    public List<Cyinfor> topTen() {
+    public List<Cyinfor> topTen() throws SAException {
         CyinforExample example=new CyinforExample();
         example.createCriteria().andTimeBetween(DateUtils.getBeginDayOfYesterday(),DateUtils.getEndDayOfYesterDay());//昨天的表白
         example.setOrderByClause("like_time desc,review_time desc");
         List<Cyinfor> list = null;
-        list= cyinforMapper.selectByExample(example);
+        list= cyinforMapper.selectByExampleWithBLOBs(example);
         if(list.isEmpty()){
-            return null;
+            throw new SAException(ErrorCode.VALUE_IS_EMPTY);
         }else if(list.size()<=10){
             return list;
         }else {

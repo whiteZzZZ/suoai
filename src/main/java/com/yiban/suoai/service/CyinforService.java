@@ -1,5 +1,6 @@
 package com.yiban.suoai.service;
 
+import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.forepojo.ForeCyinfor;
 import com.yiban.suoai.pojo.Cyinfor;
 
@@ -35,6 +36,6 @@ public interface CyinforService {
      * 返回表白墙点赞前十名  点赞数相同按照 评论数排
      * @return
      */
-    List<Cyinfor> topTen();
+    List<Cyinfor> topTen() throws SAException;
 
 }

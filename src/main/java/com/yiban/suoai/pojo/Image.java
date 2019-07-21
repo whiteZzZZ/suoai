@@ -10,11 +10,9 @@ public class Image {
     public Image() {
     }
 
-    public Image(String path, int cyid) {
-    }
-
-    public Image(String str,Integer cid){
-
+    public Image(String url, Integer cyId) {
+        this.url = url;
+        this.cyId = cyId;
     }
 
     public Integer getId() {

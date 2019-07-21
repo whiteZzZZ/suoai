@@ -24,7 +24,12 @@ public class RedisServiceImpl implements RedisService {
    // private final JedisPool Pool = RedisAPI.getPool();//
 
     private static final String PhoneNumberCode="phoneNum";//手机号码前缀
-    private static final String WallCode="phoneNum";//表白墙前缀
+
+    private static final String WallCode="Wall";//表白墙前缀
+
+    private static final String Token="token:";//表白墙前缀
+
+
 
     @Autowired
     RedisTemplate redisTemplate;
@@ -36,7 +41,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public void addTokenToRedis(int userId, String token) {
 
-        redisUtil.set(token, String.valueOf(userId),saveState);
+        redisUtil.set(Token+token, String.valueOf(userId),saveState);
 
        /* Jedis redis =Pool.getResource();
 
@@ -50,9 +55,11 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public int getUserId(String token) throws SAException {
 
+        if(!redisUtil.hasKey(token)){
+            throw new SAException("token过期","003");
+        }
 
-
-        String s=redisUtil.get(token);
+        String s=redisUtil.get(Token+token);
 
         int userId=Integer.parseInt(s);
 
