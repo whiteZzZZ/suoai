@@ -20,7 +20,6 @@ public class RedisMessageListener implements MessageListener {
         System.out.println(pattern);
         System.out.println("onPMessage pattern " + pattern + " " + " " + message);
         String channel = new String(message.getChannel());
-        String str = (String) redisTemplate.getValueSerializer().deserialize(message.getBody());
-        System.out.println(str);
+        System.out.println(message.getBody());
     }
 }

@@ -209,4 +209,15 @@ public class RedisUtil {
     public boolean hasObjectKey(String key){
         return redisTemplate.hasKey(key);
     }
+
+    public long lpushObject(String key,Object value){return redisTemplate.opsForList().leftPush(key,value);}
+
+    public long rpushObject(String key,Object value){return redisTemplate.opsForList().rightPush(key,value);}
+
+    public Object lpop(String key,Object value){return redisTemplate.opsForList().leftPop(key);}
+
+    public List getList(String key){
+        long n = redisTemplate.opsForList().size(key);
+        return redisTemplate.opsForList().range(key,0,n);
+    }
 }
