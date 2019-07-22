@@ -14,6 +14,8 @@ import com.yiban.suoai.util.FileHelper;
 import com.yiban.suoai.util.MapHelper;
 import com.yiban.suoai.util.UUIDUtil;
 import com.yiban.suoai.yiban.AppContext;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +43,7 @@ public class YibanController {
     SchoolService schoolService;
 
     @RequestMapping(value = "/init",method = RequestMethod.GET)
+    @ApiOperation(value = "易班登录入口",notes = "易班登录入口")
     @ResponseBody
     public void init(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
@@ -58,6 +61,7 @@ public class YibanController {
      * @return
      */
     @RequestMapping("/back")
+    @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
     @ResponseBody
     public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String,Object>  map=null;
@@ -82,7 +86,6 @@ public class YibanController {
         String name = userInfo.getString("yb_usernick");//获取用户名字
         String sex = userInfo.getString("yb_sex");//获取用户性别
         String school = userInfo.getString("yb_schoolname");
-        int schoolId = userInfo.getInt("yb_schoolid");
         com.yiban.suoai.pojo.User user = userService.get(yibanId);
 
         if(user == null){
@@ -102,12 +105,6 @@ public class YibanController {
                         break;
                     }
                 }
-            }else {
-                School school1 = new School();
-                school1.setId(schoolId);
-                school1.setName(school);
-                schoolService.add(school1);
-                user1.setSchoolId(schoolId);
             }
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
             userService.add(user1);

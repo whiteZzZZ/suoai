@@ -11,7 +11,7 @@ public class Inform {
 
     private Integer check;
 
-    private String content;
+    private String content=null;
 
     public Integer getId() {
         return id;
