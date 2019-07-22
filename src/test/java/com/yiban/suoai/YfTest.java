@@ -14,7 +14,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,5 +49,34 @@ public class YfTest {
         System.out.println(redisUtil.hasKey("fdsf"));
     }
 
+    @Test
+    public void addRoom(){
+        List<Chat> chats = new ArrayList<>();
+        for(int i = 0;i<10;i++){
+            Chat chat = new Chat();
+            chat.setContent("hello"+i);
+            chat.setType(1);
+            chat.setTime(new Date());
+            chat.setUserId(1);
+            chats.add(chat);
+        }
+        for(int i =0;i<10;i++){
+            redisUtil.setObject("room:"+i,chats,7200);
+        }
+    }
 
+    @Test
+    public void testPattern(){
+        Set<String> set =  redisUtil.objectKeys("room:*");
+        set.forEach(System.out::println);
+    }
+
+    @Test
+    public void testIncr(){
+
+       redisUtil.lpushObject("qwer",5);
+        List<Integer> list = redisUtil.getList("qwer");
+       list.forEach(System.out::println);
+
+    }
 }
