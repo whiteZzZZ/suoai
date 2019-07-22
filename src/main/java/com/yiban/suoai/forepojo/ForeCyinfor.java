@@ -15,6 +15,8 @@ public class ForeCyinfor {
 
     private Integer like_time;
 
+    private Integer reviewTime;
+
     private String text;
 
     private String head_img;
@@ -26,6 +28,14 @@ public class ForeCyinfor {
     private String image2;
 
     private Boolean ifLike=false;
+
+    public Integer getReviewTime() {
+        return reviewTime;
+    }
+
+    public void setReviewTime(Integer reviewTime) {
+        this.reviewTime = reviewTime;
+    }
 
     public Boolean getIfLike() {
         return ifLike;

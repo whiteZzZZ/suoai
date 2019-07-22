@@ -23,11 +23,28 @@ public class RedisServiceImpl implements RedisService {
 
    // private final JedisPool Pool = RedisAPI.getPool();//
 
-    private static final String PhoneNumberCode="phoneNum";//手机号码前缀
 
-    private static final String WallCode="Wall";//表白墙前缀
+    //必须用冒号    这样在redis中可以分组
+    private static final String WallCode="Wall:";//表白墙前缀
 
-    private static final String Token="token:";//表白墙前缀
+    private static final String Token="token:";//token前缀
+
+    private static final String Imform="imform:";//所有通知的前缀   包括 收到的表白 喜欢   通知等
+
+    public static final String Expression="expression:";//收到表白的前缀
+
+    public static final String Like="like:";//收到点赞的前缀
+
+    public static final String Comment="comment:";//收到评论的前缀
+
+    public static final String Matching="matching:";//收到匹配的前缀
+
+    public static final String Imform2="imform2:";//收到通知的前缀
+
+
+
+
+
 
 
 
@@ -82,4 +99,41 @@ public class RedisServiceImpl implements RedisService {
         }
 */
     }
+
+    @Override
+    public void addImformToRedis(int userId,String type) {
+        //获取之后  加一
+        int time=0;
+        if(redisUtil.hasKey(Imform+type+userId)){
+             time=Integer.parseInt(redisUtil.get(Imform+type+userId));
+            redisUtil.set(Imform+type+userId, ""+(++time));
+        }else {
+            redisUtil.set(Imform+type+userId,"1");
+        }
+
+    }
+
+    @Override
+    public int getImformFromRedis(int userId,String type) {
+       if(redisUtil.hasKey(Imform+type+userId)){
+            int time=Integer.parseInt(redisUtil.get(Imform+type+userId));
+            //redisUtil.del(Imform+Expression+userId);
+            return time;
+        }else{
+           return 0;
+       }
+    }
+
+    @Override
+    public int deleteImformFromRedis(int userId,String type) {
+        if(redisUtil.hasKey(Imform+type+userId)){
+            redisUtil.del(Imform+type+userId);
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+
+
 }

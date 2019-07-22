@@ -8,6 +8,7 @@ import com.yiban.suoai.forepojo.ForeReview;
 import com.yiban.suoai.pojo.*;
 import com.yiban.suoai.service.*;
 import com.yiban.suoai.service.impl.ImageServiceImpl;
+import com.yiban.suoai.service.impl.RedisServiceImpl;
 import com.yiban.suoai.util.FileHelper;
 import com.yiban.suoai.util.MapHelper;
 import com.yiban.suoai.util.PageUtil;
@@ -46,14 +47,16 @@ public class SquareController {
     LikeInfoService likeInfoService;
     @Autowired
     WordReviewService wordReviewService;
+    @Autowired
+    MessageService messageService;
 
-    @ApiOperation(value = "添加表白", notes = "添加表白")
+    @ApiOperation(value = "添加表白", notes = "添加表白  如果有图片 用返回的userid再调用  文件图片上传的接口")
     @RequestMapping(value ="expression" , method = RequestMethod.PUT)
     @ResponseBody
     public Map<String, Object> expressionPut(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
             //@RequestParam("image")  @ApiParam(value = "用户ID") MultipartFile[] uploadFiles,
-            @RequestParam(value = "who",defaultValue = "0")  @ApiParam(value = "who  是否有特定的表白对象，没有传") int who,
+            @RequestParam(value = "who",defaultValue = "0")  @ApiParam(value = "who  是否有特定的表白对象 即特定表白对象的userid，没有传") int who,
             @RequestParam(value = "privacy")  @ApiParam(value = "privacy 1 为私密表白  0为公开表白") Boolean privacy,
             @RequestParam(value = "hide")  @ApiParam(value = "hide 1 为身份隐藏 0 为身份可视") Boolean hide,
             @RequestParam(value = "text")  @ApiParam(value = "内容") String text
@@ -70,13 +73,43 @@ public class SquareController {
                 Image image=new Image(path,cyid);
                 imageService.add(image);
             }*/
+            //如果有特定的表白对象  则创建消息
+            if(0!=who){
+                //让对方被表白的次数 +1
+
+
+
+                //加入 message
+                Message message=new Message();
+                if(true==privacy){
+                    //如果是私密表白
+                    message.setType(1);
+                }else {
+                    message.setType(0);//公开表白
+                }
+                message.setCyId(cyid);
+                if(true==hide){
+                    //如果要隐藏身份
+                    message.setSponsorId(0);
+                }else {
+                    message.setSponsorId(userid);
+                }
+                message.setUserId(who);//收到消息的用户
+                message.setTime(new Date());
+                messageService.add(message);
+
+                //创建消息后 还有让通知对方  加入redis
+                redisService.addImformToRedis(who, RedisServiceImpl.Expression);//对方的userId
+
+            }
+
             map= MapHelper.success();
             map.put("cyid",cyid);
         return map;
     }
 
 
-    @ApiOperation(value = "获取广场表白内容", notes = "获取广场表白内容")
+    @ApiOperation(value = "获取广场表白内容", notes = "获取广场表白内容  原图在缩略图的名称基础上加-y")
     @RequestMapping(value ="expression" , method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> expressionGet(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
@@ -87,8 +120,8 @@ public class SquareController {
         PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
         List<Cyinfor> cyinfors = cyinforService.getAll();
         int total = (int) new PageInfo<>(cyinfors).getTotal();
-        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);
-        //对每个表白判断  当前的这个用户是不是点了赞的
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);//里面方法有 对每个表白判断  当前的这个用户是不是点了赞的  也有图片的路径
+
 
         Map<String, Object> map = MapHelper.success();
         map.put("data", list);
@@ -109,6 +142,22 @@ public class SquareController {
         int userId= redisService.getUserId(token);
         Review review= reviewService.full(cyid,userId,text,replyId);
         reviewService.add(review);
+
+        //给对方通知
+        Cyinfor cyinfor=cyinforService.get(cyid);
+        int imformUserId=cyinfor.getUserId();//被通知的userId
+        //创建消息
+        Message message=new Message();
+        message.setType(3);//评论
+        message.setCyId(review.getId());
+        message.setSponsorId(userId);//发起者
+        message.setUserId(imformUserId);
+        message.setTime(new Date());
+        messageService.add(message);
+
+        //redis通知他
+        redisService.addImformToRedis(cyinfor.getUserId(), RedisServiceImpl.Comment);//对方的userId
+
         map=MapHelper.success();
         return map;
     }
@@ -195,6 +244,9 @@ public class SquareController {
         int type;
         LikeInfo likeInfo=null;
         int id=0;
+
+
+
         if(0!=cyid){
             type=0;
             likeInfo= likeInfoService.getByCyidAndUserIdAndType(cyid,userId,type);
@@ -229,25 +281,43 @@ public class SquareController {
                wordReviewService.update(wordReview);
            }
        }else {
+           int imformUserId=0;
+
            //没有就加入
            likeInfoService.add(new LikeInfo(id,userId,(byte)type));
            //点赞数量加一
            if(type==0){
                Cyinfor cyinfor=cyinforService.get(cyid);
+               imformUserId=cyinfor.getUserId();
                int likeCount=cyinfor.getLikeTime()+1;
                cyinfor.setLikeTime(likeCount);
                cyinforService.update(cyinfor);
            }else if(type==1){
                Review review=reviewService.get(reviewId);
+               imformUserId=review.getUserId();
                int likeCount=review.getLikeTime()+1;
                review.setLikeTime(likeCount);
                reviewService.update(review);
            }else {
                WordReview wordReview=wordReviewService.get(wordReviewId);
+               imformUserId=wordReview.getUserId();
                int likeCount=wordReview.getLikeTime()+1;
                wordReview.setLikeTime(likeCount);
                wordReviewService.update(wordReview);
            }
+
+           //创建消息
+           Message message=new Message();
+           message.setType(2);//评论
+           message.setCyId(id);
+           message.setSponsorId(userId);//发起者
+           message.setUserId(imformUserId);//接到通知的人
+           message.setTime(new Date());
+           messageService.add(message);
+
+           //redis通知他
+           redisService.addImformToRedis(imformUserId, RedisServiceImpl.Like);//对方的userId
+
        }
         return map;
     }

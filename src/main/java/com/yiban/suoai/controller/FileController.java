@@ -49,7 +49,10 @@ public class FileController {
             //保存路径
             Image image=new Image(path,cyid);
             imageService.add(image);
+            //压缩图片
+            FileHelper.compressPicture(file,uuid);
         }
+
         return map;
     }
 }

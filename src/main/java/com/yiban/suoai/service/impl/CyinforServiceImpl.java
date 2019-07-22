@@ -90,6 +90,7 @@ public class CyinforServiceImpl  implements CyinforService {
             foreCyinfor.setName(user.getName());
             foreCyinfor.setTime(cyinfor.getTime());
             foreCyinfor.setLike_time(cyinfor.getLikeTime());
+            foreCyinfor.setReviewTime(cyinfor.getReviewTime());
             foreCyinfor.setText(cyinfor.getText());
             foreCyinfor.setId(cyinfor.getId());
             foreCyinfor.setUserId(user.getId());
