@@ -26,6 +26,11 @@ public class UserServiceImpl  implements UserService {
     }
 
     @Override
+    public int addExperience(int userId, int count) {
+        return 0;
+    }
+
+    @Override
     public void add(User user) {
         userMapper.insert(user);
     }

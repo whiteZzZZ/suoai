@@ -49,6 +49,10 @@ public class SquareController {
     WordReviewService wordReviewService;
     @Autowired
     MessageService messageService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    WallService wallService;
 
     @ApiOperation(value = "添加表白", notes = "添加表白  如果有图片 用返回的userid再调用  文件图片上传的接口")
     @RequestMapping(value ="expression" , method = RequestMethod.PUT)
@@ -76,9 +80,11 @@ public class SquareController {
             //如果有特定的表白对象  则创建消息
             if(0!=who){
                 //让对方被表白的次数 +1
-
-
-
+                User user=userService.get(who);
+                int expressTime=user.getExpressTime();
+                expressTime++;
+                user.setExpressTime(expressTime);
+                userService.update(user);
                 //加入 message
                 Message message=new Message();
                 if(true==privacy){
@@ -323,15 +329,20 @@ public class SquareController {
     }
 
 
+    /**
+     * 从数据库拿实在太慢了  要从redis
+     * @param token
+     * @return
+     * @throws SAException
+     */
     @ApiOperation(value = "获取表白墙", notes = "获取表白墙")
     @RequestMapping(value ="getWall" , method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getWall( @RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException {
         int userId=redisService.getUserId(token);
-        List<Cyinfor> cyinfors=cyinforService.topTen();
+        List<Cyinfor> cyinfors=wallService.get();
         List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);
         //对每个表白判断  当前的这个用户是不是点了赞的
-
         Map<String, Object> map = MapHelper.success();
         map.put("data", list);
         return map;

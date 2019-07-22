@@ -23,9 +23,8 @@ public class RedisServiceImpl implements RedisService {
 
    // private final JedisPool Pool = RedisAPI.getPool();//
 
-
     //必须用冒号    这样在redis中可以分组
-    private static final String WallCode="Wall:";//表白墙前缀
+    public static final String Wall="Wall:";//表白墙前缀
 
     private static final String Token="token:";//token前缀
 
@@ -40,6 +39,7 @@ public class RedisServiceImpl implements RedisService {
     public static final String Matching="matching:";//收到匹配的前缀
 
     public static final String Imform2="imform2:";//收到通知的前缀
+
 
 
 

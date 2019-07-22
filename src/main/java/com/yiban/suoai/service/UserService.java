@@ -16,4 +16,12 @@ public interface UserService {
     User get(int id);
 
     User selectByNameNum(String name , String num);
+
+    /**
+     * 用户增加经验值
+     * @param userId
+     * @param count
+     * @return
+     */
+    int addExperience(int userId,int count);
 }

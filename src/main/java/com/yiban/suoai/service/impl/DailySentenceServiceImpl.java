@@ -5,7 +5,10 @@ import com.yiban.suoai.pojo.DailySentence;
 import com.yiban.suoai.service.DailySentenceService;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+@Service
 public class DailySentenceServiceImpl implements DailySentenceService {
     @Autowired
     DailySentenceMapper dailySentenceMapper;
