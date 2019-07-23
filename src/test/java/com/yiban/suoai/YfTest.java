@@ -2,7 +2,11 @@ package com.yiban.suoai;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.pojo.Chat;
+import com.yiban.suoai.pojo.Cyinfor;
+import com.yiban.suoai.service.CyinforService;
+import com.yiban.suoai.service.impl.RedisServiceImpl;
 import com.yiban.suoai.util.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +32,9 @@ public class YfTest {
     RedisTemplate<String,Object> rr;
     @Autowired
     RedisUtil redisUtil;
+    @Autowired
+    CyinforService cyinforService;
+
 
     @Test
     public void testRedis(){
@@ -43,8 +50,9 @@ public class YfTest {
     }
 
     @Test
-    public void testRedisUtil(){
-        System.out.println(redisUtil.hasKey("fdsf"));
+    public void testRedisUtil() throws SAException {
+        List<Cyinfor> cyinfors=cyinforService.topTen();
+        redisUtil.setObject(RedisServiceImpl.Wall,cyinfors);
     }
 
 

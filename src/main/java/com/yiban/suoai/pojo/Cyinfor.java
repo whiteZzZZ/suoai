@@ -1,5 +1,7 @@
 package com.yiban.suoai.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Cyinfor {
@@ -11,6 +13,7 @@ public class Cyinfor {
 
     private Integer academyId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间
     private Date time;
 
     private Integer likeTime;

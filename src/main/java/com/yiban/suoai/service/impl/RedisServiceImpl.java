@@ -117,7 +117,6 @@ public class RedisServiceImpl implements RedisService {
     public int getImformFromRedis(int userId,String type) {
        if(redisUtil.hasKey(Imform+type+userId)){
             int time=Integer.parseInt(redisUtil.get(Imform+type+userId));
-            //redisUtil.del(Imform+Expression+userId);
             return time;
         }else{
            return 0;

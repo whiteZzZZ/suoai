@@ -11,6 +11,8 @@ public class Notice {
 
     private Date time;
 
+    private String title;
+
     public Integer getId() {
         return id;
     }
@@ -41,5 +43,13 @@ public class Notice {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 }
