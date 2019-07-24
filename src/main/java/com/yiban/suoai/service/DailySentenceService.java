@@ -11,4 +11,8 @@ public interface DailySentenceService {
     void delete(int id);
 
     void update(DailySentence cyinfor);
+
+    void updateByDay();
+
+    DailySentence getByDay();
 }

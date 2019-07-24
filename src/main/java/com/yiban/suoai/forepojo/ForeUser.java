@@ -27,14 +27,24 @@ public class ForeUser {
 
     private Integer titleId;
 
-    private Integer rank;
+    private Integer level;
 
     private String signature;
 
     private Integer paperId;
 
+    private Integer experience;
+
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//格式化时间
     private Date birthday;
+
+    public Integer getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Integer experience) {
+        this.experience = experience;
+    }
 
     public Integer getPaperId() {
         return paperId;
@@ -140,12 +150,12 @@ public class ForeUser {
         this.titleId = titleId;
     }
 
-    public Integer getRank() {
-        return rank;
+    public Integer getlevel() {
+        return level;
     }
 
-    public void setRank(Integer rank) {
-        this.rank = rank;
+    public void setlevel(Integer level) {
+        this.level = level;
     }
 
     public String getSignature() {

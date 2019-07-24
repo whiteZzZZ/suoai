@@ -21,7 +21,7 @@ public class InformServiceImpl implements InformService {
     }
 
     @Override
-    public Inform get(int id) {
+    public Inform get(Integer id) {
         return informMapper.selectByPrimaryKey(id);
     }
 }

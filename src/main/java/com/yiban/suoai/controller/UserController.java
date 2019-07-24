@@ -16,8 +16,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,7 +50,7 @@ public class UserController {
    CyinforService cyinforService;
 
     @ApiOperation(value = "获取侧拉栏状态", notes = "获取侧拉栏状态")
-    @RequestMapping(value ="getState" , method = RequestMethod.PUT)
+    @RequestMapping(value ="getState" , method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getState(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException{
@@ -116,7 +118,7 @@ public class UserController {
 
 
     @ApiOperation(value = "通过学号和姓名查找用户",notes = "通过学号和姓名查找用户")
-    @RequestMapping(value = "finduser",method = RequestMethod.PUT)
+    @RequestMapping(value = "showByNameNum",method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> findUser(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
@@ -129,9 +131,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "获取用户信息卡",notes = "获取用户信息卡")
-    @RequestMapping(value = "show",method = RequestMethod.PUT)
+    @RequestMapping(value = "show",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> show(
+    public Map<String, Object> show1(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException {
         int userid = redisService.getUserId(token);
         User user = userService.get(userid);
@@ -143,7 +145,44 @@ public class UserController {
         foreUser.setTitleId(user.getTitleId());
         foreUser.setArea(user.getArea());
         foreUser.setSignature(user.getSignature());
-        foreUser.setRank(user.getLevel());
+        foreUser.setlevel(user.getLevel());
+        foreUser.setBirthday(user.getBirthday());
+        foreUser.setStu_Num(user.getStuNum());
+        foreUser.setPaperId(user.getPaper());
+        if(user.getSex()==true){
+            foreUser.setSex("男");
+        }else {
+            foreUser.setSex("女");
+        }
+        if(user.getSchoolId()!=null) {
+            School school = schoolService.get(user.getSchoolId());
+            foreUser.setSchool(school.getName());
+        }
+        if(user.getAcademyId()!=null) {
+            Academy academy = academyService.get(user.getAcademyId());
+            foreUser.setAcademy(academy.getName());
+        }
+        Map map = MapHelper.success();
+        map.put("user",foreUser);
+        return map;
+    }
+
+    @ApiOperation(value = "获取指定用户信息卡",notes = "获取指定用户信息卡")
+    @RequestMapping(value = "/show/{userId}",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> show2(
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
+            @PathVariable("userId") @ApiParam(value = "用户Id") Integer userId) throws SAException {
+        User user = userService.get(userId);
+        ForeUser foreUser = new ForeUser();
+        foreUser.setUserId(userId);
+        foreUser.setName(user.getName());
+        foreUser.setHeadImg(user.getHeadImg());
+        foreUser.setBackGround(user.getBgImg());
+        foreUser.setTitleId(user.getTitleId());
+        foreUser.setArea(user.getArea());
+        foreUser.setSignature(user.getSignature());
+        foreUser.setlevel(user.getLevel());
         foreUser.setBirthday(user.getBirthday());
         foreUser.setStu_Num(user.getStuNum());
         foreUser.setPaperId(user.getPaper());
@@ -183,7 +222,7 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> updateUserRealName(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("name") @ApiParam(value = "名字") String name
+            @RequestParam("realName") @ApiParam(value = "名字") String name
     ) throws SAException{
         User user = userService.get(redisService.getUserId(token));
         user.setTurename(name);
@@ -218,6 +257,7 @@ public class UserController {
         }else {
             user.setSex(false);
         }
+        userService.update(user);
         return MapHelper.success();
     }
 
@@ -231,7 +271,7 @@ public class UserController {
             ) throws SAException{
         User user = userService.get(redisService.getUserId(token));
         List<Academy> academies = academyService.selectBySchool(schoolId);
-        int id = academies.get(adademyId).getId();
+        int id = academies.get(adademyId-1).getId();
         user.setAcademyId(id);
         userService.update(user);
         return MapHelper.success();
@@ -312,60 +352,54 @@ public class UserController {
             @RequestParam(value = "num", required = false) @ApiParam(value = "num") String num
     ) throws SAException{
         User user = userService.get(redisService.getUserId(token));
-        user.setPhone(num);
+        user.setStuNum(num);
         userService.update(user);
         return MapHelper.success();
     }
 
     @ApiOperation(value = "更改用户资料-头像",notes = "更改用户资料-头像")
-    @RequestMapping(value = "updateUserHeadImg",method = RequestMethod.PUT)
+    @RequestMapping(value = "updateUserHeadImg",method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> updateUserHeadImg(
-            @RequestHeader("token") @ApiParam(value = "权限校验") String token
-            ) throws SAException{
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
+            @RequestParam("Img") @ApiParam(value = "图片")MultipartFile file
+            ) throws SAException, IOException {
         User user = userService.get(redisService.getUserId(token));
         String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
-//        String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
-//        user.setHeadImg(path);
+        String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
+        user.setHeadImg(path);
         userService.update(user);
         Map map = MapHelper.success();
-//        map.put("path",path);
         return map;
     }
 
     @ApiOperation(value = "更改用户资料-背景",notes = "更改用户资料-背景")
-    @RequestMapping(value = "updateUserBgImg",method = RequestMethod.PUT)
+    @RequestMapping(value = "updateUserBgImg",method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> updateUserBgImg(
-            @RequestHeader("token") @ApiParam(value = "权限校验") String token
-            ) throws SAException{
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
+            @RequestParam("Img") @ApiParam(value = "背景")MultipartFile file
+    ) throws SAException, IOException {
         User user = userService.get(redisService.getUserId(token));
         String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
-//        String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
-//        user.setHeadImg(path);
+        String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
+        user.setBgImg(path);
         userService.update(user);
-        Map map = MapHelper.success();
-//        map.put("path",path);
         return MapHelper.success();
     }
 
 
     @ApiOperation(value = "获取每日一句",notes = "获取每日一句")
-    @RequestMapping(value = "dailySentence",method = RequestMethod.PUT)
+    @RequestMapping(value = "dailySentence",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> dailySentence(
-            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("nowId") @ApiParam(value = "当前每日一句Id") Integer nowId
+    public Map<String, Object> dailySentenceGet(
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token
             ) throws SAException{
         Map map = MapHelper.success();
-        while (true){
-            nowId+=1;
-            if(dailySentenceService.get(nowId)!=null){
-                map.put("dailySentence",dailySentenceService.get(nowId));
-                return map;
-            }
-        }
+        map.put("data",dailySentenceService.getByDay());
+        return map;
     }
+
 
     @ApiOperation(value = "发送举报信息",notes = "发送举报信息")
     @RequestMapping(value = "inform",method = RequestMethod.PUT)
@@ -374,7 +408,7 @@ public class UserController {
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
             @RequestParam("typeId") @ApiParam(value = "类型") Integer typeId,
             @RequestParam(value = "cyId") @ApiParam(value = "创阅Id") Integer cyId,
-            @RequestParam(value = "text",required = false) @ApiParam(value = "其他内容") String text
+            @RequestParam(value = "text") @ApiParam(value = "内容") String text
             ) throws SAException{
         int userId = redisService.getUserId(token);
         Inform inform = informService.get(cyId);
@@ -388,6 +422,7 @@ public class UserController {
             inform1.setNum(1);
             inform1.setUserId(userId);
             inform1.setType(typeId);
+            inform1.setContent(text);
             informService.add(inform1);
         }else {
             inform.setNum(inform.getNum()+1);

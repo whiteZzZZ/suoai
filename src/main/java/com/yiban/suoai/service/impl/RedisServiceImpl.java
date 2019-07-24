@@ -40,6 +40,8 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String Imform2="imform2:";//收到通知的前缀
 
+    public static final String dailySentence="dailySentence:";//每日一句前缀
+
 
 
 
@@ -71,8 +73,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public int getUserId(String token) throws SAException {
-
-        if(!redisUtil.hasKey(token)){
+        if(!redisUtil.hasKey(Token+token)){
             throw new SAException("token过期","003");
         }
 

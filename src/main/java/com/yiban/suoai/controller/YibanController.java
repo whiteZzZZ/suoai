@@ -48,7 +48,7 @@ public class YibanController {
     public void init(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
         Authorize authorize = new Authorize(AppContext.APP_ID, AppContext.APP_SEC);
-        String url = authorize.forwardurl(AppContext.BACK_URL, "QUERY", Authorize.DISPLAY_TAG_T.MOBILE);
+        String url = authorize.forwardurl(AppContext.BACK_URL, "QUERY", Authorize.DISPLAY_TAG_T.WEB);
         System.out.println("url="+url);
 
         res.sendRedirect(url);
@@ -65,7 +65,9 @@ public class YibanController {
     @ResponseBody
     public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String,Object>  map=null;
+//        System.out.println(AppContext.KEY_CODE);
         String code = req.getParameter(AppContext.KEY_CODE);
+//        System.out.println(code);
         if (code == null || code.equals("")) {
             //resp.sendRedirect("/yiban_demo/index.html");
             System.out.println("登录失败");

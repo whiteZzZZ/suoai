@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, num, user_id, type, check, content
+    id, num, user_id, type, `check`, content
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yiban.suoai.pojo.InformExample" >
     select
@@ -103,7 +103,7 @@
   </delete>
   <insert id="insert" parameterType="com.yiban.suoai.pojo.Inform" useGeneratedKeys="true" keyProperty="id" >
     insert into inform (num, user_id, type, 
-      check, content)
+      `check`, content)
     values (#{num,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
       #{check,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR})
   </insert>
@@ -120,7 +120,7 @@
         type,
       </if>
       <if test="check != null" >
-        check,
+        `check`,
       </if>
       <if test="content != null" >
         content,
@@ -166,7 +166,7 @@
         type = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.check != null" >
-        check = #{record.check,jdbcType=INTEGER},
+        `check` = #{record.check,jdbcType=INTEGER},
       </if>
       <if test="record.content != null" >
         content = #{record.content,jdbcType=VARCHAR},
@@ -182,7 +182,7 @@
       num = #{record.num,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
-      check = #{record.check,jdbcType=INTEGER},
+      `check` = #{record.check,jdbcType=INTEGER},
       content = #{record.content,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +201,7 @@
         type = #{type,jdbcType=INTEGER},
       </if>
       <if test="check != null" >
-        check = #{check,jdbcType=INTEGER},
+        `check` = #{check,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
@@ -214,7 +214,7 @@
     set num = #{num,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
-      check = #{check,jdbcType=INTEGER},
+        `check` = #{check,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

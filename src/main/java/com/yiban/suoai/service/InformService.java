@@ -7,5 +7,5 @@ public interface InformService {
 
     void update(Inform inform);
 
-    Inform get(int id);
+    Inform get(Integer id);
 }

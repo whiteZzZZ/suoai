@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.yiban.suoai.exception.SAException;
+import com.yiban.suoai.service.DailySentenceService;
 import com.yiban.suoai.service.WallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +20,8 @@ public class Scheduler{
 
     @Autowired
     WallService wallService;
+    @Autowired
+    DailySentenceService dailySentenceService;
 
     //每隔2秒执行一次
     @Scheduled(fixedRate = 2000)
@@ -31,6 +34,7 @@ public class Scheduler{
     public void testTasks() throws SAException {
         //System.out.println("定时任务执行时间：" + dateFormat.format(new Date()));
         wallService.updateWall();
+        dailySentenceService.updateByDay();
     }
 
 
