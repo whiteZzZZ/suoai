@@ -17,7 +17,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -34,6 +39,8 @@ public class YfTest {
     RedisUtil redisUtil;
     @Autowired
     CyinforService cyinforService;
+    public final static String forePath="D/image";//todo  记得修改  路径
+    public final static String cyinfor="/cyinfor";//cyinfor路径
 
 
     @Test
@@ -55,5 +62,28 @@ public class YfTest {
         redisUtil.setObject(RedisServiceImpl.Wall,cyinfors);
     }
 
+
+    @Test
+    public void fileSave2() {
+        String subpath="/cyinfor";
+        File file1=new File(forePath+subpath);
+        if(!file1.exists()){
+            file1.mkdirs();
+        }
+        String uuid="123213";
+        String path=forePath+subpath+"/"+uuid+"-y.jpg";
+
+        try {
+            File file = new File(path);
+            OutputStream out = new FileOutputStream(file);
+            byte[] data = Base64.getDecoder().decode("http://tmp/wxa89746c53ec389f1.o6zAJszUrvR4HctQ2Ydo….6mqseHw4kuqzd37a60563d42854d53f0b991ede4963c.jpg");
+            out.write(data);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

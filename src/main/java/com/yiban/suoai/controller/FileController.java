@@ -32,26 +32,26 @@ public class FileController {
     CyinforService cyinforService;
 
     @ApiOperation(value = "表白图片上传", notes = "表白图片上传")
-    @RequestMapping(value ="cyImageUpload" , method = RequestMethod.PUT)
+    @RequestMapping(value ="cyImageUpload" , method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> cyImageUpload(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
-                                           @RequestParam("image")  @ApiParam(value = "图片") MultipartFile[] uploadFiles,
+                                           @RequestParam("image")  @ApiParam(value = "图片") String uploadFiles,
                                            @RequestParam(value = "cyid")  @ApiParam(value = "表白id  ") int cyid
                                            ) throws IOException {
         Map map= MapHelper.success();
-        int hasImage=uploadFiles.length;//图片的数量
+        int hasImage=1;//图片的数量
         Cyinfor cyinfor = cyinforService.get(cyid);
         cyinfor.setHasImage(hasImage);
         cyinforService.update(cyinfor);
-        for(MultipartFile file : uploadFiles){
+
             String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
-            String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
+            String path= FileHelper.FileSave2(uploadFiles,uuid,FileHelper.cyinfor);
             //保存路径
             Image image=new Image(path,cyid);
             imageService.add(image);
             //压缩图片
-            FileHelper.compressPicture(file,uuid);
-        }
+          //  FileHelper.compressPicture(file,uuid,FileHelper.cyinfor);
+
 
         return map;
     }
