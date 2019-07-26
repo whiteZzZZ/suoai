@@ -59,7 +59,6 @@ public class SquareController {
     @ResponseBody
     public Map<String, Object> expressionPut(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            //@RequestParam("image")  @ApiParam(value = "用户ID") MultipartFile[] uploadFiles,
             @RequestParam(value = "who",defaultValue = "0")  @ApiParam(value = "who  是否有特定的表白对象 即特定表白对象的userid，没有传") int who,
             @RequestParam(value = "privacy")  @ApiParam(value = "privacy 1 为私密表白  0为公开表白") Boolean privacy,
             @RequestParam(value = "hide")  @ApiParam(value = "hide 1 为身份隐藏 0 为身份可视") Boolean hide,
@@ -122,6 +121,7 @@ public class SquareController {
                                           @RequestParam(value = "schoolId",defaultValue = "0")  @ApiParam(value = "学校筛选  没有筛选不传") int schoolId ,
                                           @RequestParam(value = "academyId",defaultValue = "0")  @ApiParam(value = "学院筛选  没有筛选不传") int academyId ,
                                           @RequestParam("startPage") @ApiParam(value = "起始页") Integer start) throws SAException {
+
         int userId=redisService.getUserId(token);
         PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
         List<Cyinfor> cyinfors = cyinforService.getAll();
@@ -329,12 +329,12 @@ public class SquareController {
     }
 
 
-    /**
+   /* *//**
      * 从数据库拿实在太慢了  要从redis
      * @param token
      * @return
      * @throws SAException
-     */
+     *//*
     @ApiOperation(value = "获取表白墙", notes = "获取表白墙")
     @RequestMapping(value ="getWall" , method = RequestMethod.GET)
     @ResponseBody
@@ -346,7 +346,27 @@ public class SquareController {
         Map<String, Object> map = MapHelper.success();
         map.put("data", list);
         return map;
+    }*/
+
+    /**
+     * 本来要从redis拿到的  但是  从redis 拿 如果用户点赞后  redis是 0点时拿到的  不能更新  顾从数据库直接去好了
+     * @param token
+     * @return
+     * @throws SAException
+     */
+    @ApiOperation(value = "获取表白墙", notes = "获取表白墙")
+    @RequestMapping(value ="getWall" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getWall( @RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException {
+        int userId=redisService.getUserId(token);
+        List<Cyinfor> cyinfors=cyinforService.topTen();
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);
+        //对每个表白判断  当前的这个用户是不是点了赞的
+        Map<String, Object> map = MapHelper.success();
+        map.put("data", list);
+        return map;
     }
+
 
 
 

@@ -58,32 +58,12 @@ public class YfTest {
 
     @Test
     public void testRedisUtil() throws SAException {
-        List<Cyinfor> cyinfors=cyinforService.topTen();
-        redisUtil.setObject(RedisServiceImpl.Wall,cyinfors);
+       redisUtil.lpush("ol","3");
+       /*  redisUtil.lpush("ol","2");*/
+   //   redisUtil.lpop("ol");
     }
 
 
-    @Test
-    public void fileSave2() {
-        String subpath="/cyinfor";
-        File file1=new File(forePath+subpath);
-        if(!file1.exists()){
-            file1.mkdirs();
-        }
-        String uuid="123213";
-        String path=forePath+subpath+"/"+uuid+"-y.jpg";
 
-        try {
-            File file = new File(path);
-            OutputStream out = new FileOutputStream(file);
-            byte[] data = Base64.getDecoder().decode("http://tmp/wxa89746c53ec389f1.o6zAJszUrvR4HctQ2Ydo….6mqseHw4kuqzd37a60563d42854d53f0b991ede4963c.jpg");
-            out.write(data);
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 }

@@ -24,6 +24,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
+			<scope>true</scope>
 		</dependency>
 
 		<!--调用其他项目-->
@@ -278,12 +279,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--热部署，自启动程序-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
+
 
 		<!--调用其他项目-->
 		<dependency>

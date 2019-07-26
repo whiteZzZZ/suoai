@@ -1,9 +1,9 @@
 package com.yiban.suoai.yiban;
 
 public class AppContext {
-    public static final String APP_ID = "a8bc0dd3c4fd7794";
+    public static final String APP_ID = "0dd6bf115cecf35c";
 
-    public static final String APP_SEC = "2a67f0e84334706dbf21c16c584d6e88";
+    public static final String APP_SEC = "7b224475c34e07888fcc29afe167412b";
 
     public static final String WEB_SITE = "http://47.107.74.195:8080/suoai";
 

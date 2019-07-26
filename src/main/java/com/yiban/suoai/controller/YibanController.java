@@ -17,6 +17,7 @@ import com.yiban.suoai.yiban.AppContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,8 @@ import java.util.Map;
 @RequestMapping("")
 public class YibanController {
 
+    private static Logger logger = Logger.getLogger(YibanController.class);// 添加日志
+
 
     @Autowired
     RedisService redisService;
@@ -42,15 +45,16 @@ public class YibanController {
     @Autowired
     SchoolService schoolService;
 
-    @RequestMapping(value = "/init",method = RequestMethod.GET)
+    @RequestMapping(value = "/init",method = RequestMethod.POST)
     @ApiOperation(value = "易班登录入口",notes = "易班登录入口")
     @ResponseBody
     public void init(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
+        logger.error("进入init方法");
         Authorize authorize = new Authorize(AppContext.APP_ID, AppContext.APP_SEC);
         String url = authorize.forwardurl(AppContext.BACK_URL, "QUERY", Authorize.DISPLAY_TAG_T.WEB);
         System.out.println("url="+url);
-
+        logger.error("url="+url);
         res.sendRedirect(url);
     }
 
@@ -64,6 +68,7 @@ public class YibanController {
     @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
     @ResponseBody
     public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        logger.error("调用成功");
         Map<String,Object>  map=null;
 //        System.out.println(AppContext.KEY_CODE);
         String code = req.getParameter(AppContext.KEY_CODE);

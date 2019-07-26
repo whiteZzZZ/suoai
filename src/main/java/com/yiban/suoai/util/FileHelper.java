@@ -13,8 +13,8 @@ import java.util.Base64;
 
 public class FileHelper {
 
-    //public final static String forePath="/image";//todo  记得修改  路径
-    public final static String forePath="D:/image";//todo  记得修改  路径
+    public final static String forePath="/image";//todo  记得修改  路径
+   // public final static String forePath="D:/image";//todo  记得修改  路径
     public final static String cyinfor="/cyinfor";//cyinfor路径
     public final static String dailySentence="/dailySentence";//每日一句的路径
     public final static String weekWord="/weekWord";//每日一句的路径
@@ -72,7 +72,27 @@ public class FileHelper {
             e.printStackTrace();
         }
         return path;
+    }
 
+
+    /**
+     * 小程序 传图片保存
+     * @param multipartFile
+     * @param uuid
+     * @param subpath
+     * @return
+     * @throws IOException
+     */
+    public static String FileSave3( MultipartFile multipartFile,String uuid,String subpath) throws IOException {
+        //创建目录
+        File file1=new File(forePath+subpath);
+        if(!file1.exists()){
+            file1.mkdirs();
+        }
+        String path=forePath+subpath+"/"+uuid+"-y.jpg";
+        File file  =  new File(path);
+        multipartFile.transferTo(file);
+        return path;
     }
 
 
