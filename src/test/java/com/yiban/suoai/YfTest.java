@@ -6,6 +6,7 @@ import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.pojo.Chat;
 import com.yiban.suoai.pojo.Cyinfor;
 import com.yiban.suoai.service.CyinforService;
+import com.yiban.suoai.service.RedisService;
 import com.yiban.suoai.service.impl.RedisServiceImpl;
 import com.yiban.suoai.util.RedisUtil;
 import org.junit.Test;
@@ -39,6 +40,8 @@ public class YfTest {
     RedisUtil redisUtil;
     @Autowired
     CyinforService cyinforService;
+    @Autowired
+    RedisService redisService;
     public final static String forePath="D/image";//todo  记得修改  路径
     public final static String cyinfor="/cyinfor";//cyinfor路径
 
@@ -58,7 +61,8 @@ public class YfTest {
 
     @Test
     public void testRedisUtil() throws SAException {
-       redisUtil.lpush("ol","3");
+       // System.out.println(redisUtil.lpop("o2"));
+        redisService.addOrdinaryMatch(1,0);
        /*  redisUtil.lpush("ol","2");*/
    //   redisUtil.lpop("ol");
     }

@@ -50,15 +50,17 @@ public class ImformController {
          int expressionMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Expression);
          int likeMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Like);
          int commentMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Comment);
-         int matchingMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Matching);
+         //匹配的消息还没 弄
+         //int matchingMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Matching);
+
          int imform2Message=redisService.getImformFromRedis(userId, RedisServiceImpl.Imform2);
-         TotalMessage=likeMessage+expressionMessage+commentMessage+matchingMessage+imform2Message;
+         TotalMessage=likeMessage+expressionMessage+commentMessage+imform2Message;
          Map map=new HashMap();
          map.put("TotalMessage",TotalMessage);
          map.put("expressionMessage",expressionMessage);
          map.put("likeMessage",likeMessage);
          map.put("commentMessage",commentMessage);
-         map.put("matchingMessage",matchingMessage);
+        // map.put("matchingMessage",matchingMessage);
          map.put("imform2Message",imform2Message);
          return map;
      }

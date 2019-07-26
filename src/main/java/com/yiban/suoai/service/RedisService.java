@@ -39,86 +39,22 @@ public interface RedisService {
      */
     int deleteImformFromRedis(int userId,String type);
 
-  /*  *//**
-     * 把点赞的通知发给对方
+    /**
+     * 加入匹配
      * @param userId
-     *//*
-    void addLikeToRedis(int userId);
+     * @param sex
+     * @return
+     */
+    int addOrdinaryMatch(int userId,int sex);
 
-
-    *//**
-     * 对方获取点赞的通知
-     * @param userId
-     *//*
-    int getLikeFromRedis(int userId);
-
-    *//**
-     * 点开通知后 删掉提醒
-     * @param userId
-     *//*
-    int deleteLikeFromRedis(int userId);
-
-
-    *//**
-     * 把评论的通知发给对方
-     * @param userId
-     *//*
-    void addReviewToRedis(int userId);
-
-
-    *//**
-     * 对方获取评论的通知
-     * @param userId
-     *//*
-    int getReviewFromRedis(int userId);
-
-    *//**
-     * 点开通知后 删掉提醒
-     * @param userId
-     *//*
-    int deleteReviewFromRedis(int userId);
-
-
-    *//**
-     * 把匹配的通知发给对方
-     * @param userId
-     *//*
-    void addMatchingToRedis(int userId);
-
-
-    *//**
-     * 对方获取匹配的通知
-     * @param userId
-     *//*
-    int getMatchingFromRedis(int userId);
-
-    *//**
-     * 点开通知后 删掉提醒
-     * @param userId
-     *//*
-    int deleteMatchingFromRedis(int userId);
+    /**
+     * 获取异性匹配或者匹配成功后删除自己
+     * @param sex
+     * @return
+     */
+    String getOrdinaryMatch(int sex);
 
 
 
-    *//**
-     * 把通知发给对方
-     * @param userId
-     *//*
-    void addImformToRedis(int userId);
-
-
-    *//**
-     * 对方获取通知
-     * @param userId
-     *//*
-    int getImformFromRedis(int userId);
-
-
-    *//**
-     * 点开通知后 删掉提醒
-     * @param userId
-     *//*
-    int deleteImformFromRedis(int userId);
-*/
 
 }

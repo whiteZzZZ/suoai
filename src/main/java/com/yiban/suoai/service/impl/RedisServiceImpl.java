@@ -36,11 +36,13 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String Comment="comment:";//收到评论的前缀
 
-    public static final String Matching="matching:";//收到匹配的前缀
+    public static final String OrdinaryMatching="ordinaryMatching:";//收到匹配的前缀
 
     public static final String Imform2="imform2:";//收到通知的前缀
 
     public static final String dailySentence="dailySentence:";//每日一句前缀
+
+
 
 
 
@@ -133,6 +135,18 @@ public class RedisServiceImpl implements RedisService {
             return 0;
         }
     }
+
+    @Override
+    public int addOrdinaryMatch(int userId, int sex) {
+       return (int)redisUtil.rpush(OrdinaryMatching+sex+":",""+userId);
+
+    }
+
+    @Override
+    public String getOrdinaryMatch( int sex) {
+       return redisUtil.lpop(OrdinaryMatching+sex+":");
+    }
+
 
 
 
