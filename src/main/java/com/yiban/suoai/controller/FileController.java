@@ -70,7 +70,7 @@ public class FileController {
     @ApiOperation(value = "表白图片上传", notes = "表白图片上传")
     @RequestMapping(value ="cyImageUpload" , method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> uploadPicture(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
+    public Map<String, Object> cyImageUpload(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
                                              @RequestParam(value = "cyid")  @ApiParam(value = "表白id  ") int cyid,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         //System.out.println("进入get方法！");

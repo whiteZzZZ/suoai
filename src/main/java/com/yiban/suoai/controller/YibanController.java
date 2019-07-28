@@ -45,7 +45,7 @@ public class YibanController {
     @Autowired
     SchoolService schoolService;
 
-    @RequestMapping(value = "/init",method = RequestMethod.POST)
+    @RequestMapping(value = "/init")
     @ApiOperation(value = "易班登录入口",notes = "易班登录入口")
     @ResponseBody
     public void init(HttpServletRequest req, HttpServletResponse res) throws IOException {
@@ -91,6 +91,7 @@ public class YibanController {
 
         int yibanId = userInfo.getInt("yb_userid");//获取用户id
         com.yiban.suoai.pojo.User user = userService.get(yibanId);
+
 
         if(user == null){
             String name = userInfo.getString("yb_usernick");//获取用户昵称
