@@ -13,6 +13,7 @@ import java.util.Base64;
 
 public class FileHelper {
 
+    public final static String urlPath="http://47.107.74.195:8080";
     public final static String forePath="/image";//todo  记得修改  路径
    // public final static String forePath="D:/image";//todo  记得修改  路径
     public final static String cyinfor="/cyinfor";//cyinfor路径
@@ -92,7 +93,9 @@ public class FileHelper {
         String path=forePath+subpath+"/"+uuid+"-y.jpg";
         File file  =  new File(path);
         multipartFile.transferTo(file);
-        return path;
+        //保存的时候路径要加上服务器 地址
+        String path2=urlPath+forePath+subpath+"/"+uuid+".jpg";//并且保存的是缩略图的路径
+        return path2;
     }
 
 
