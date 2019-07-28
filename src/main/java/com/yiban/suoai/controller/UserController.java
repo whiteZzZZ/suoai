@@ -366,8 +366,9 @@ public class UserController {
             ) throws SAException, IOException {
         User user = userService.get(redisService.getUserId(token));
         String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
-        String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
+        String path= FileHelper.FileSave3(file,uuid,FileHelper.headImg);
         user.setHeadImg(path);
+        FileHelper.compressPicture(file,uuid,FileHelper.headImg);
         userService.update(user);
         Map map = MapHelper.success();
         return map;
@@ -382,8 +383,9 @@ public class UserController {
     ) throws SAException, IOException {
         User user = userService.get(redisService.getUserId(token));
         String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
-        String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
+        String path= FileHelper.FileSave3(file,uuid,FileHelper.bgImg);
         user.setBgImg(path);
+        FileHelper.compressPicture(file,uuid,FileHelper.bgImg);
         userService.update(user);
         return MapHelper.success();
     }

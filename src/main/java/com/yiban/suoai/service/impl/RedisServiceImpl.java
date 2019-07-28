@@ -42,6 +42,8 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String dailySentence="dailySentence:";//每日一句前缀
 
+    public static final String weekWord="weekWord:";//每日一句前缀
+
 
 
 
