@@ -27,4 +27,6 @@ public interface ChatMapper {
     int updateByPrimaryKeySelective(Chat record);
 
     int updateByPrimaryKey(Chat record);
+
+    int insertForeach(List<Chat> list);
 }

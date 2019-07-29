@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,7 +52,7 @@ public class SquareController {
     @ResponseBody
     public Map<String, Object> expressionPut(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("image")  @ApiParam(value = "用户ID") MultipartFile[] uploadFiles,
+            //@RequestParam("image")  @ApiParam(value = "用户ID") MultipartFile[] uploadFiles,
             @RequestParam(value = "who",defaultValue = "0")  @ApiParam(value = "who  是否有特定的表白对象，没有传") int who,
             @RequestParam(value = "privacy")  @ApiParam(value = "privacy 1 为私密表白  0为公开表白") Boolean privacy,
             @RequestParam(value = "hide")  @ApiParam(value = "hide 1 为身份隐藏 0 为身份可视") Boolean hide,
@@ -59,17 +60,18 @@ public class SquareController {
     ) throws IOException, SAException {
             Map map = new HashMap();
             int userid= redisService.getUserId(token);
-            int hasImage=uploadFiles.length;//图片的数量
-            Cyinfor cyinfor= cyinforService.full(userid,privacy,hide,who,hasImage,text);
+            //   int hasImage=uploadFiles.length;//图片的数量
+            Cyinfor cyinfor= cyinforService.full(userid,privacy,hide,who,0,text);
             int cyid=cyinforService.add(cyinfor);
-            for(MultipartFile file : uploadFiles){
+            /*for(MultipartFile file : uploadFiles){
                 String uuid=UUIDUtil.getUUID();//使用uuid作为图片的名称
                String path= FileHelper.FileSave(file,uuid,FileHelper.cyinfor);
                 //保存路径
                 Image image=new Image(path,cyid);
                 imageService.add(image);
-            }
+            }*/
             map= MapHelper.success();
+            map.put("cyid",cyid);
         return map;
     }
 
@@ -80,11 +82,14 @@ public class SquareController {
     public Map<String, Object> expressionGet(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
                                           @RequestParam(value = "schoolId",defaultValue = "0")  @ApiParam(value = "学校筛选  没有筛选不传") int schoolId ,
                                           @RequestParam(value = "academyId",defaultValue = "0")  @ApiParam(value = "学院筛选  没有筛选不传") int academyId ,
-                                          @RequestParam("startPage") @ApiParam(value = "起始页") Integer start){
+                                          @RequestParam("startPage") @ApiParam(value = "起始页") Integer start) throws SAException {
+        int userId=redisService.getUserId(token);
         PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
         List<Cyinfor> cyinfors = cyinforService.getAll();
         int total = (int) new PageInfo<>(cyinfors).getTotal();
-        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors);
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);
+        //对每个表白判断  当前的这个用户是不是点了赞的
+
         Map<String, Object> map = MapHelper.success();
         map.put("data", list);
         map.put("page", PageUtil.getPage(total, cyinfors.size(), start));
@@ -114,12 +119,13 @@ public class SquareController {
     public Map<String, Object> commentGet( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
                                         @RequestParam(value = "cyid")  @ApiParam(value = "表白的id") int cyid,
                                            @RequestParam("startPage") @ApiParam(value = "起始页") Integer start
-    ){
+    ) throws SAException {
+        int userId=redisService.getUserId(token);
             Map map=MapHelper.success();
             PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
             List<Review> reviews=reviewService.getAllButReply(cyid);
             int total = (int) new PageInfo<>(reviews).getTotal();
-            List<ForeReview> list=reviewService.foreFull(reviews);
+            List<ForeReview> list=reviewService.foreFull(reviews,userId);
             map.put("date",list);
             map.put("page", PageUtil.getPage(total, reviews.size(), start));
             return map;
@@ -131,8 +137,10 @@ public class SquareController {
     public Map<String, Object> commentofcommentGet( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
                                         @RequestParam(value = "cyid")  @ApiParam(value = "表白的id") int cyid,
                                         @RequestParam(value = "reviewId")  @ApiParam(value = "评论的id") int reviewId,
-                                                    @RequestParam("startPage") @ApiParam(value = "起始页") Integer start) {
+                                                    @RequestParam("startPage") @ApiParam(value = "起始页") Integer start) throws SAException {
         Map map=MapHelper.success();
+        int userId=redisService.getUserId(token);
+
         //先查找所有评论中的回复评论的id是  这条的评论id
         List<ForeReview> foreReviews=new ArrayList<>();
         List<Review> reviews=reviewService.getAllByReplyId(reviewId);//二、三级评论
@@ -141,7 +149,7 @@ public class SquareController {
             return map;
         }
         int threeIndex=reviews.size();//三级评论的起始位置
-        List<ForeReview> subForeReview1=reviewService.foreFullSecondaryComments(reviews);//二级评论 转前端需要的格式
+        List<ForeReview> subForeReview1=reviewService.foreFullSecondaryComments(reviews,userId);//二级评论 转前端需要的格式
         //通过二级评论获得三级评论
         List<Review>  threeReview=new ArrayList<>();//三级评论
         //for(Review review:reviews){
@@ -159,7 +167,7 @@ public class SquareController {
 
         //对三级评论进行转成前端需要的格式，记得三级评论要显示回复方的昵称
         List<Review> reviews3=reviews.subList(threeIndex,size);//三级评论
-        List<ForeReview> foreReviews3=reviewService.foreFull(reviews3);//对三级评论 进行格式化
+        List<ForeReview> foreReviews3=reviewService.foreFull(reviews3,userId);//对三级评论 进行格式化
 
 
         List<ForeReview> list=new ArrayList<>();//把格式化好的二三级评论加进去
@@ -241,6 +249,21 @@ public class SquareController {
                wordReviewService.update(wordReview);
            }
        }
+        return map;
+    }
+
+
+    @ApiOperation(value = "获取表白墙", notes = "获取表白墙")
+    @RequestMapping(value ="getWall" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getWall( @RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException {
+        int userId=redisService.getUserId(token);
+        List<Cyinfor> cyinfors=cyinforService.topTen();
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);
+        //对每个表白判断  当前的这个用户是不是点了赞的
+
+        Map<String, Object> map = MapHelper.success();
+        map.put("data", list);
         return map;
     }
 

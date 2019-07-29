@@ -1,6 +1,7 @@
 package com.yiban.suoai.util;
 
 
+import com.yiban.suoai.exception.SAException;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -219,5 +220,27 @@ public class RedisUtil {
     public List getList(String key){
         long n = redisTemplate.opsForList().size(key);
         return redisTemplate.opsForList().range(key,0,n);
+    }
+
+    public boolean hasToken(String token){
+        return stringRedisTemplate.hasKey("token:"+token);
+    }
+
+    public int getUserId(String token)throws SAException {
+        System.out.println("in get ID");
+        if(stringRedisTemplate.hasKey("token:"+token)){
+            System.out.println("in id token"+token);
+            System.out.println(Integer.parseInt(stringRedisTemplate.opsForValue().get("token:"+token)));
+            return Integer.parseInt(stringRedisTemplate.opsForValue().get("token:"+token));
+        }
+            throw new SAException(ErrorCode.TOKEN_FAILURE);
+    }
+
+    public List getObjList(String key){
+        return redisTemplate.opsForList().range(key,0,-1);
+    }
+
+    public boolean delObject(String key){
+        return redisTemplate.delete(key);
     }
 }

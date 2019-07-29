@@ -15,6 +15,8 @@ public class Chat implements Serializable {
     private Integer cuId;
 
     private Integer type;
+    //发送者的token
+    private String token;
 
     public Integer getId() {
         return id;
@@ -62,5 +64,13 @@ public class Chat implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

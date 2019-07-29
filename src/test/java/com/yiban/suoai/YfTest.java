@@ -3,6 +3,7 @@ package com.yiban.suoai;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.yiban.suoai.pojo.Chat;
+import com.yiban.suoai.scheduler.ChatScheduler;
 import com.yiban.suoai.util.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan("com.yiban.suoai")
 public class YfTest {
     @Autowired
@@ -30,11 +31,13 @@ public class YfTest {
     RedisTemplate<String,Object> rr;
     @Autowired
     RedisUtil redisUtil;
+    @Autowired
+    ChatScheduler chatScheduler;
 
     @Test
-    public void testRedis(){
+    public void testRedis()throws Exception{
         //stringRedisTemplate.opsForValue().set("test1","112");
-        System.out.println(redisUtil.get("d4d605fa7bde590c31ae7f005b3d2b513163f4e3"));
+        redisUtil.setObject("keyyy",new Chat(),4);
     }
 
     @Test
@@ -77,6 +80,10 @@ public class YfTest {
        redisUtil.lpushObject("qwer",5);
         List<Integer> list = redisUtil.getList("qwer");
        list.forEach(System.out::println);
+    }
 
+    @Test
+    public void testSchedule(){
+        chatScheduler.updateDataBase();
     }
 }
