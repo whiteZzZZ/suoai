@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@ServerEndpoint("/chat/{room}/{Token}")
+@ServerEndpoint("/chat/{Token}")
 public class WebSocketChatServer {
 
 
@@ -38,7 +38,7 @@ public class WebSocketChatServer {
 
     //打开连接
     @OnOpen
-    public void onOpen(@PathParam("room")int roomId,@PathParam("Token")String token,Session session){
+    public void onOpen(@PathParam("Token")String token,Session session){
         System.out.println("in open");
         System.out.println(token);
         int userId = 0;
