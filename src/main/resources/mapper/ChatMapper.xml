@@ -203,4 +203,18 @@
       cu_id = #{cuId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="insertForeach" parameterType="java.util.List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into chat (user_id, content, time,
+      cu_id)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+      #{item.userId},
+      #{item.content},
+      #{item.time},
+      #{item.cuId}
+      )
+    </foreach>
+  </insert>
 </mapper>
