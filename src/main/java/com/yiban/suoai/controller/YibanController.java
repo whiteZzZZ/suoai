@@ -90,17 +90,22 @@ public class YibanController {
         JSONObject userInfo = JSONObject.fromObject(yibanUser.me()).getJSONObject("info");
 
         int yibanId = userInfo.getInt("yb_userid");//获取用户id
-        String name = userInfo.getString("yb_usernick");//获取用户名字
-        String sex = userInfo.getString("yb_sex");//获取用户性别
-        String school = userInfo.getString("yb_schoolname");
         com.yiban.suoai.pojo.User user = userService.get(yibanId);
 
 
 
         if(user == null){
+            String name = userInfo.getString("yb_usernick");//获取用户昵称
+            String sex = userInfo.getString("yb_sex");//获取用户性别
+            String school = userInfo.getString("yb_schoolname");
+            String trueName = userInfo.getString("yb_username");//获取用户名
+            String headImg = userInfo.getString("yb_userhead");//获取用户易班头像
+
             com.yiban.suoai.pojo.User user1 = new com.yiban.suoai.pojo.User();
             user1.setId(yibanId);
             user1.setName(name);
+            user1.setTurename(trueName);
+            user1.setHeadImg(headImg);
             if(sex=="男") {
                 user1.setSex(true);
             }else {
@@ -114,6 +119,10 @@ public class YibanController {
                         break;
                     }
                 }
+            }else {
+                School school1 = new School();
+                school1.setName(school);
+                schoolService.add(school1);
             }
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
             userService.add(user1);

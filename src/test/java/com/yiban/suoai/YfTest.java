@@ -2,12 +2,8 @@ package com.yiban.suoai;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.pojo.Chat;
-import com.yiban.suoai.pojo.Cyinfor;
-import com.yiban.suoai.service.CyinforService;
-import com.yiban.suoai.service.RedisService;
-import com.yiban.suoai.service.impl.RedisServiceImpl;
+import com.yiban.suoai.scheduler.ChatScheduler;
 import com.yiban.suoai.util.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,16 +14,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Base64;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan("com.yiban.suoai")
 public class YfTest {
     @Autowired
@@ -39,17 +32,12 @@ public class YfTest {
     @Autowired
     RedisUtil redisUtil;
     @Autowired
-    CyinforService cyinforService;
-    @Autowired
-    RedisService redisService;
-    public final static String forePath="D/image";//todo  记得修改  路径
-    public final static String cyinfor="/cyinfor";//cyinfor路径
-
+    ChatScheduler chatScheduler;
 
     @Test
-    public void testRedis(){
+    public void testRedis()throws Exception{
         //stringRedisTemplate.opsForValue().set("test1","112");
-        System.out.println(redisUtil.get("d4d605fa7bde590c31ae7f005b3d2b513163f4e3"));
+        redisUtil.setObject("keyyy",new Chat(),4);
     }
 
     @Test
@@ -60,14 +48,42 @@ public class YfTest {
     }
 
     @Test
-    public void testRedisUtil() throws SAException {
-       // System.out.println(redisUtil.lpop("o2"));
-        redisService.addOrdinaryMatch(1,0);
-       /*  redisUtil.lpush("ol","2");*/
-   //   redisUtil.lpop("ol");
+    public void testRedisUtil(){
+        System.out.println(redisUtil.hasKey("fdsf"));
     }
 
+    @Test
+    public void addRoom(){
+        List<Chat> chats = new ArrayList<>();
+        for(int i = 0;i<10;i++){
+            Chat chat = new Chat();
+            chat.setContent("hello"+i);
+            chat.setType(1);
+            chat.setTime(new Date());
+            chat.setUserId(1);
+            chats.add(chat);
+        }
+        for(int i =0;i<10;i++){
+            redisUtil.setObject("room:"+i,chats,7200);
+        }
+    }
 
+    @Test
+    public void testPattern(){
+        Set<String> set =  redisUtil.objectKeys("room:*");
+        set.forEach(System.out::println);
+    }
 
+    @Test
+    public void testIncr(){
 
+       redisUtil.lpushObject("qwer",5);
+        List<Integer> list = redisUtil.getList("qwer");
+       list.forEach(System.out::println);
+    }
+
+    @Test
+    public void testSchedule(){
+        chatScheduler.updateDataBase();
+    }
 }
