@@ -36,7 +36,7 @@ public class RedisMessageListener implements MessageListener {
         Session session = WebSocketChatServer.onlineSessions.get(userId);
         try {
             session.close();
-            WebSocketChatServer.onlineSessions.remove(userId);
+            //WebSocketChatServer.onlineSessions.remove(userId);
         } catch (IOException e) {
             e.printStackTrace();
         }

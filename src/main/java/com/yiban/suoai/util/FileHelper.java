@@ -2,13 +2,7 @@ package com.yiban.suoai.util;
 
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class FileHelper {

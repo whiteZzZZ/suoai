@@ -7,6 +7,7 @@ import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.pojo.Chat;
 import com.yiban.suoai.service.RedisService;
 import com.yiban.suoai.util.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,10 +18,12 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
+@Slf4j
 @ServerEndpoint("/chat/{Token}")
 public class WebSocketChatServer {
 
@@ -86,13 +89,15 @@ public class WebSocketChatServer {
 
     @OnError
     public void onError(Session session, Throwable error){
+        log.error(error.getMessage());
         error.printStackTrace();
     }
 
     @OnClose
     public void onClose(Session session){
         System.out.println("连接关闭");
-        onlineSessions.remove(session.getId());
+        Collection<Session> values = onlineSessions.values();
+        values.remove(session);
     }
 
     private void checkHeartBeat(Session session,Chat chat){
@@ -128,7 +133,5 @@ public class WebSocketChatServer {
             session.getAsyncRemote().sendText(JSONObject.toJSONString(chat));
         }
     }
-
-
 }
 
