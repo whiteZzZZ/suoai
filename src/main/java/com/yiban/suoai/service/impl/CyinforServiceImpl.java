@@ -96,7 +96,7 @@ public class CyinforServiceImpl  implements CyinforService {
             foreCyinfor.setUserId(user.getId());
             List<Image>  images=imageService.getByCyid(cyinfor.getId());
             if(null!=images){
-                if(1>=images.size()){
+                if(1<=images.size()){
                     foreCyinfor.setImage1(images.get(0).getUrl());
                     if(2==images.size()){
                         foreCyinfor.setImage2(images.get(1).getUrl());

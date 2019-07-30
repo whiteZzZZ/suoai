@@ -93,6 +93,7 @@ public class YibanController {
         com.yiban.suoai.pojo.User user = userService.get(yibanId);
 
 
+
         if(user == null){
             String name = userInfo.getString("yb_usernick");//获取用户昵称
             String sex = userInfo.getString("yb_sex");//获取用户性别
