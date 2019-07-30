@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.service.DailySentenceService;
+import com.yiban.suoai.service.RedisService;
 import com.yiban.suoai.service.WallService;
 import com.yiban.suoai.service.WeekWordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class Scheduler{
     DailySentenceService dailySentenceService;
     @Autowired
     WeekWordService weekWordService;
+    @Autowired
+    RedisService redisService;
     //每隔2秒执行一次
     @Scheduled(fixedRate = 2000)
     public void testTasks1() {
@@ -44,6 +47,7 @@ public class Scheduler{
         //System.out.println("定时任务执行时间：" + dateFormat.format(new Date()));
         wallService.updateWall();
         dailySentenceService.updateByDay();
+        redisService.resetSpaceLimit();
     }
 
 

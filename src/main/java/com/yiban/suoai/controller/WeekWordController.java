@@ -13,6 +13,7 @@ import com.yiban.suoai.util.PageUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,8 @@ import java.util.Map;
 @Api(value = "每周一话")
 public class WeekWordController {
 
+    private static Logger logger = Logger.getLogger(WeekWordController.class);// 添加日志
+
     @Autowired
     WeekWordService weekWordService;
     @Autowired
@@ -33,6 +36,7 @@ public class WeekWordController {
 
     @ApiOperation(value = "获取每周一话",notes = "获取每周一话")
     @RequestMapping(value = "head",method = RequestMethod.GET)
+    @ResponseBody
     public Map<String,Object> getHead(
             @RequestHeader(value = "token") @ApiParam(value = "验证") String token
             ){
@@ -43,6 +47,7 @@ public class WeekWordController {
 
     @ApiOperation(value = "获取评论",notes = "获取评论")
     @RequestMapping(value = "content",method = RequestMethod.GET)
+    @ResponseBody
     public Map<String,Object> getWeekWord1(
             @RequestHeader(value = "token") @ApiParam(value = "验证") String token,
             @RequestParam(value = "weekWordId")  @ApiParam(value = "每周一话的id") int weekWordId,
@@ -65,6 +70,7 @@ public class WeekWordController {
 
     @ApiOperation(value = "发表评论",notes = "获取评论")
     @RequestMapping(value = "content",method = RequestMethod.PUT)
+    @ResponseBody
     public Map<String,Object> getWeekWord2(
             @RequestHeader(value = "token") @ApiParam(value = "验证") String token,
             @RequestParam(value = "weekWordId") @ApiParam(value = "每周一话Id") int weekWordId,

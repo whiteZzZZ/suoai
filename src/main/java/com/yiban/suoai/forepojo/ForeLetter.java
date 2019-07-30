@@ -1,16 +1,18 @@
-package com.yiban.suoai.pojo;
+package com.yiban.suoai.forepojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class Letter {
+public class ForeLetter {
     private Integer id;
-
-    private String headline;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间
     private Date time;
+
+    private String headLine;
+
+    private String content;
 
     private Boolean myself;
 
@@ -20,11 +22,13 @@ public class Letter {
 
     private Integer userId;
 
-    private Boolean isDelete=false;
+    public Integer getUserId() {
+        return userId;
+    }
 
-    private Boolean isRead=false;
-
-    private String content;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public Integer getId() {
         return id;
@@ -34,20 +38,28 @@ public class Letter {
         this.id = id;
     }
 
-    public String getHeadline() {
-        return headline;
-    }
-
-    public void setHeadline(String headline) {
-        this.headline = headline == null ? null : headline.trim();
-    }
-
     public Date getTime() {
         return time;
     }
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getHeadLine() {
+        return headLine;
+    }
+
+    public void setHeadLine(String headLine) {
+        this.headLine = headLine;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Boolean getMyself() {
@@ -72,37 +84,5 @@ public class Letter {
 
     public void setPublish(Boolean publish) {
         this.publish = publish;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Boolean getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public Boolean getIsRead() {
-        return isRead;
-    }
-
-    public void setIsRead(Boolean isRead) {
-        this.isRead = isRead;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
     }
 }

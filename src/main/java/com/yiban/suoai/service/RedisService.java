@@ -54,7 +54,22 @@ public interface RedisService {
      */
     String getOrdinaryMatch(int sex);
 
+    /**
+     *
+     * 设置每天时空邮局获取限制
+     * @param userId
+     */
+    void setSpaceLetterLimit(int userId);
 
+    /**
+     * 判断是否已到达获取次数
+     * @param userId
+     * @return
+     */
+    boolean getSpaceLimit(int userId);
 
-
+    /**
+     * 每天重置获取次数
+     */
+    void resetSpaceLimit();
 }

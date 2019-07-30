@@ -30,7 +30,7 @@ public class MapHelper {
 		return map;
 	}
     public static Map error(){
-		
+
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("status", "0");
@@ -38,7 +38,17 @@ public class MapHelper {
 		
 		return map;
 	}
-    
+
+	public static Map error(String s){
+
+		Map<String, Object> map = new HashMap<>();
+
+		map.put("status", "0");
+		map.put("errmsg", oserror);
+		map.put("value",s);
+		return map;
+	}
+
     public static Map success(){
 		
 		Map<String, Object> map = new HashMap<>();

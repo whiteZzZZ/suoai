@@ -52,14 +52,15 @@ public class ImformController {
          int commentMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Comment);
          //匹配的消息还没 弄
          //int matchingMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Matching);
-
+         int letterMessage = redisService.getImformFromRedis(userId,RedisServiceImpl.LetterMessage);
          int imform2Message=redisService.getImformFromRedis(userId, RedisServiceImpl.Imform2);
-         TotalMessage=likeMessage+expressionMessage+commentMessage+imform2Message;
+         TotalMessage=likeMessage+expressionMessage+commentMessage+imform2Message+letterMessage;
          Map map=new HashMap();
          map.put("TotalMessage",TotalMessage);
          map.put("expressionMessage",expressionMessage);
          map.put("likeMessage",likeMessage);
          map.put("commentMessage",commentMessage);
+         map.put("letterMessage",letterMessage);
         // map.put("matchingMessage",matchingMessage);
          map.put("imform2Message",imform2Message);
          return map;
@@ -113,6 +114,22 @@ public class ImformController {
         //点进去后，把该消息 提醒删掉
         redisService.deleteImformFromRedis(userId,RedisServiceImpl.Comment);
         List<Message> list= messageService.getByUserAndType(userId,3);//评论
+        List<ForeImform> foreImforms=messageService.full(list);
+        Map map=new HashMap();
+        map.put("list",foreImforms);
+        return map;
+    }
+
+    @ApiOperation(value = "获取时空邮局留言通知", notes = "获取时空邮局留言的评论")
+    @RequestMapping(value ="lettermessage" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> letterMessage(
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token
+    ) throws SAException {
+        int userId=redisService.getUserId(token);
+        //点进去后，把该消息 提醒删掉
+        redisService.deleteImformFromRedis(userId,RedisServiceImpl.LetterMessage);
+        List<Message> list= messageService.getByUserAndType(userId,5);//留言
         List<ForeImform> foreImforms=messageService.full(list);
         Map map=new HashMap();
         map.put("list",foreImforms);

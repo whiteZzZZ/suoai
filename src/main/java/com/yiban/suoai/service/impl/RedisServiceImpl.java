@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -36,6 +38,8 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String Comment="comment:";//收到评论的前缀
 
+    public static final String LetterMessage="letterMessage";//收到时空邮局留言的前缀
+
     public static final String OrdinaryMatching="ordinaryMatching:";//收到匹配的前缀
 
     public static final String Imform2="imform2:";//收到通知的前缀
@@ -44,6 +48,7 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String weekWord="weekWord:";//每日一句前缀
 
+    public static final String spaceLimit="spaceLimit:";//时空邮局每天获取限制前缀
 
 
 
@@ -149,7 +154,22 @@ public class RedisServiceImpl implements RedisService {
        return redisUtil.lpop(OrdinaryMatching+sex+":");
     }
 
+    @Override
+    public void setSpaceLetterLimit(int userId) {
+        redisUtil.set(spaceLimit+userId,"1",86400);
+    }
 
+    @Override
+    public boolean getSpaceLimit(int userId) {
+        return redisUtil.hasKey(spaceLimit+userId);
+    }
 
-
+    @Override
+    public void resetSpaceLimit() {
+        Set<String> keys = redisUtil.keys(spaceLimit+"*");
+        Iterator<String> iterator = keys.iterator();
+        while (iterator.hasNext()){
+            redisUtil.del(iterator.next());
+        }
+    }
 }
