@@ -96,6 +96,7 @@ public class YibanController {
         com.yiban.suoai.pojo.User user = userService.get(yibanId);
 
 
+
         if(user == null){
             com.yiban.suoai.pojo.User user1 = new com.yiban.suoai.pojo.User();
             user1.setId(yibanId);
