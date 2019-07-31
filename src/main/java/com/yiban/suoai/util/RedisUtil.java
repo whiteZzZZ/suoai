@@ -166,6 +166,21 @@ public class RedisUtil {
     public String lpop(String key) {
         return (String) stringRedisTemplate.opsForList().leftPop(key);
     }
+
+
+    /**
+     * 阻塞队列   如果拿不到 线程会阻塞60秒
+     * @param key
+     * @return
+     */
+    public String blockLpop(String key,int seconds) {
+        return (String) stringRedisTemplate.opsForList().leftPop(key,seconds,TimeUnit.SECONDS);
+    }
+
+
+
+
+
     /**
      * 实现命令：RPUSH key value，将一个值 value插入到列表 key的表尾(最右边)。
      *
@@ -175,6 +190,17 @@ public class RedisUtil {
      */
     public long rpush(String key, String value) {
         return stringRedisTemplate.opsForList().rightPush(key, value);
+    }
+
+    /**
+     * List中删除指定的元素  count> 0：删除等于从左到右移动的值的第一个元素；count< 0：删除等于从右到左移动的值的第一个元素；count = 0：删除等于value的所有元素。
+     * @param key
+     * @param count
+     * @param value
+     * @return
+     */
+    public long listMove(String  key, long count, Object value){
+        return stringRedisTemplate.opsForList().remove(key,count,value);
     }
 
     public Object getObject(String key){

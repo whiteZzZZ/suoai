@@ -45,16 +45,33 @@ public interface RedisService {
      * @param sex
      * @return
      */
-    int addOrdinaryMatch(int userId,int sex);
+    int addOrdinaryMatch(int userId);
 
     /**
      * 获取异性匹配或者匹配成功后删除自己
      * @param sex
      * @return
      */
-    String getOrdinaryMatch(int sex);
+    String getOrdinaryMatch();
+
+    long deleteOrdinaryMatch(int userId);
 
 
+    String blockGetOrdinaryMatch();
 
+    /**
+     * 通知被匹配的用户
+     * @param userId
+     * @param matchUserId
+     * @return
+     */
+    int addOrdinaryMatchImfore(int userId,int matchUserId);
+
+    /**
+     * 女 查找自己有没有被匹配
+     * @param userId
+     * @return
+     */
+    int getOrdinaryMatchImfore(int userId);
 
 }

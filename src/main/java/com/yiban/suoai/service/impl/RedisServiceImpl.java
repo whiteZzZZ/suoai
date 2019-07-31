@@ -46,14 +46,6 @@ public class RedisServiceImpl implements RedisService {
 
 
 
-
-
-
-
-
-
-
-
     @Autowired
     RedisTemplate redisTemplate;
     @Autowired
@@ -66,13 +58,6 @@ public class RedisServiceImpl implements RedisService {
 
         redisUtil.set(Token+token, String.valueOf(userId),saveState);
 
-       /* Jedis redis =Pool.getResource();
-
-        redis.set(token,String.valueOf(userId));
-
-        redis.expire(token,saveState);//有效期为15天
-
-        redis.close();*/
     }
 
     @Override
@@ -89,20 +74,6 @@ public class RedisServiceImpl implements RedisService {
 
        return userId;
 
-        /*Jedis redis =Pool.getResource();
-
-        int userId;
-
-        if(redis.exists(token)){
-            redis.expire(token,saveState);
-            userId=Integer.parseInt(redis.get(token));
-            redis.close();
-            return  userId;
-        }else {
-            redis.close();
-            throw new SAException("token过期","003");
-        }
-*/
     }
 
     @Override
@@ -139,17 +110,48 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public int addOrdinaryMatch(int userId, int sex) {
-       return (int)redisUtil.rpush(OrdinaryMatching+sex+":",""+userId);
+    public int addOrdinaryMatch(int userId) {
+       return (int)redisUtil.rpush(OrdinaryMatching,""+userId);
 
     }
 
     @Override
-    public String getOrdinaryMatch( int sex) {
-       return redisUtil.lpop(OrdinaryMatching+sex+":");
+    public String getOrdinaryMatch( ) {
+       return redisUtil.lpop(OrdinaryMatching);
     }
 
+    @Override
+    public long deleteOrdinaryMatch(int userId) {
+        return redisUtil.listMove(OrdinaryMatching,-1,""+userId);
+    }
 
+    @Override
+    public String blockGetOrdinaryMatch() {
+        try {
+            redisUtil.blockLpop(OrdinaryMatching,60);
+        }catch (Exception e){
+            System.out.println("error");
+        }
+
+        return null;
+    }
+
+    @Override
+    public int addOrdinaryMatchImfore(int userId, int matchUserId) {
+        redisUtil.set(OrdinaryMatching+"imfore:"+matchUserId, ""+userId);
+        return 0;
+    }
+
+    @Override
+    public int getOrdinaryMatchImfore(int userId) {
+        if(!redisUtil.hasKey(OrdinaryMatching+"imfore:"+userId)){
+            return 0;
+        }
+
+        String s=redisUtil.get(OrdinaryMatching+"imfore:"+userId);
+        redisUtil.del(OrdinaryMatching+"imfore:"+userId);//获取到 消息后 立刻删除
+        return  Integer.parseInt(s);
+    }
 
 
 }

@@ -85,4 +85,24 @@ public class YfTest {
     public void testSchedule(){
         chatScheduler.updateDataBase();
     }
+
+    @Test
+    public void testMoveList(){
+
+        redisUtil.listMove("ordinaryMatching:1:",-1,"1");
+    }
+
+    @Test
+    public void addlist(){
+        redisUtil.rpush("ordinaryMatching:1:","1");
+    }
+
+
+    @Test
+    public void blockList(){
+        System.out.println(redisUtil.blockLpop("ordinaryMatching:1:",60));
+        System.out.println("finish");
+    }
+
+
 }
