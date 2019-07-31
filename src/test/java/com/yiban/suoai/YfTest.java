@@ -100,7 +100,7 @@ public class YfTest {
 
     @Test
     public void blockList(){
-        System.out.println(redisUtil.blockLpop("ordinaryMatching:1:",60));
+        System.out.println(redisUtil.blockLpop("ordinaryMatching:",60));
         System.out.println("finish");
     }
 

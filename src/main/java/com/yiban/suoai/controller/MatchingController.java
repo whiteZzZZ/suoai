@@ -123,7 +123,7 @@ public class MatchingController {
         if (mysex == 0) {
             //如果是女的就入队
             redisService.addOrdinaryMatch(userId);
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < 60; i++) {
                 //搜索 自己有没有被匹配到
                 matchUserId2 = redisService.getOrdinaryMatchImfore(userId);
                 if (matchUserId2 != 0) {
@@ -151,13 +151,14 @@ public class MatchingController {
             //男的就阻塞  查  阻塞60秒
             String match=redisService.blockGetOrdinaryMatch();
             if(null!=match){
-                matchUserId = Integer.parseInt(redisService.blockGetOrdinaryMatch());
+                matchUserId = Integer.parseInt(match);
             }
             if (matchUserId != 0) {
                 //匹配成功
                 //通知被匹配的用户
                 redisService.addOrdinaryMatchImfore(userId, matchUserId);
                 User matchUser = userService.get(matchUserId);
+               map=MapHelper.success();
                 map.put("matchUserId", matchUserId);
                 map.put("matchUserHeadImg", matchUser.getHeadImg());
                 map.put("matchUserName", matchUser.getName());

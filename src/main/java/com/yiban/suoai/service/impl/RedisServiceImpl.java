@@ -167,12 +167,13 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public String blockGetOrdinaryMatch() {
         try {
-            redisUtil.blockLpop(OrdinaryMatching,60);
+            return redisUtil.blockLpop(OrdinaryMatching,60);
         }catch (Exception e){
             System.out.println("error");
+            return null;
         }
 
-        return null;
+
     }
 
     @Override

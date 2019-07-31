@@ -68,8 +68,9 @@ public class YibanController {
     @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
     @ResponseBody
     public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        logger.error("调用成功");
-        Map<String,Object>  map=null;
+        logger.error("调用成功2");
+        return  MapHelper.success();
+        /*Map<String,Object>  map=null;
 //        System.out.println(AppContext.KEY_CODE);
         String code = req.getParameter(AppContext.KEY_CODE);
 //        System.out.println(code);
@@ -137,7 +138,7 @@ public class YibanController {
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
             return  map;
-        }
+        }*/
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像
 //        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
