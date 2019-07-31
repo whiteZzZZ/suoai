@@ -152,4 +152,13 @@ public class YibanController {
       //  resp.sendRedirect("http://127.0.0.1:8080/yiban_demo/index.html");
 
     }
+
+    @RequestMapping("testBaidu")
+    public void testBaidu(HttpServletResponse resp){
+        try {
+            resp.sendRedirect("https://www.baidu.com/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
