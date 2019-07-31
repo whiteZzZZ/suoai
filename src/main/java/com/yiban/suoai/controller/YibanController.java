@@ -156,6 +156,7 @@ public class YibanController {
     @RequestMapping("testBaidu")
     public void testBaidu(HttpServletResponse resp){
         try {
+            System.out.println("123456798");
             resp.sendRedirect("https://www.baidu.com/");
         } catch (IOException e) {
             e.printStackTrace();
