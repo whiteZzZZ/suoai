@@ -351,6 +351,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>suoai</finalName>
 		<pluginManagement>
 		<plugins>
 			<plugin>
