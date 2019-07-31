@@ -102,6 +102,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.yiban.suoai.pojo.LetterMessage" useGeneratedKeys="true" keyProperty="id" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into letter_message (letter_id, message, user_id, 
       is_delete, time)
     values (#{letterId,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 

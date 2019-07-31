@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, headline, time, myself, hide, publish, user_id, is_delete, is_read
+    id, headline, `time`, myself, hide, publish, user_id, is_delete, is_read
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -130,7 +130,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.yiban.suoai.pojo.Letter" useGeneratedKeys="true" keyProperty="id" >
-    insert into letter (headline, time, myself, 
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into letter (headline, `time`, myself,
       hide, publish, user_id, is_delete, 
       is_read, content)
     values (#{headline,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{myself,jdbcType=BIT}, 
@@ -144,7 +147,7 @@
         headline,
       </if>
       <if test="time != null" >
-        time,
+        `time`,
       </if>
       <if test="myself != null" >
         myself,
@@ -214,7 +217,7 @@
         headline = #{record.headline,jdbcType=VARCHAR},
       </if>
       <if test="record.time != null" >
-        time = #{record.time,jdbcType=TIMESTAMP},
+        `time` = #{record.time,jdbcType=TIMESTAMP},
       </if>
       <if test="record.myself != null" >
         myself = #{record.myself,jdbcType=BIT},
@@ -246,7 +249,7 @@
     update letter
     set id = #{record.id,jdbcType=INTEGER},
       headline = #{record.headline,jdbcType=VARCHAR},
-      time = #{record.time,jdbcType=TIMESTAMP},
+      `time` = #{record.time,jdbcType=TIMESTAMP},
       myself = #{record.myself,jdbcType=BIT},
       hide = #{record.hide,jdbcType=BIT},
       publish = #{record.publish,jdbcType=BIT},
@@ -262,7 +265,7 @@
     update letter
     set id = #{record.id,jdbcType=INTEGER},
       headline = #{record.headline,jdbcType=VARCHAR},
-      time = #{record.time,jdbcType=TIMESTAMP},
+      `time` = #{record.time,jdbcType=TIMESTAMP},
       myself = #{record.myself,jdbcType=BIT},
       hide = #{record.hide,jdbcType=BIT},
       publish = #{record.publish,jdbcType=BIT},
@@ -280,7 +283,7 @@
         headline = #{headline,jdbcType=VARCHAR},
       </if>
       <if test="time != null" >
-        time = #{time,jdbcType=TIMESTAMP},
+        `time` = #{time,jdbcType=TIMESTAMP},
       </if>
       <if test="myself != null" >
         myself = #{myself,jdbcType=BIT},
@@ -309,7 +312,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yiban.suoai.pojo.Letter" >
     update letter
     set headline = #{headline,jdbcType=VARCHAR},
-      time = #{time,jdbcType=TIMESTAMP},
+        `time` = #{time,jdbcType=TIMESTAMP},
       myself = #{myself,jdbcType=BIT},
       hide = #{hide,jdbcType=BIT},
       publish = #{publish,jdbcType=BIT},
@@ -322,7 +325,7 @@
   <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Letter" >
     update letter
     set headline = #{headline,jdbcType=VARCHAR},
-      time = #{time,jdbcType=TIMESTAMP},
+        `time` = #{time,jdbcType=TIMESTAMP},
       myself = #{myself,jdbcType=BIT},
       hide = #{hide,jdbcType=BIT},
       publish = #{publish,jdbcType=BIT},

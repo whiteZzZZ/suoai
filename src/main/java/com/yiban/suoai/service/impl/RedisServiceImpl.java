@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -36,6 +38,8 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String Comment="comment:";//收到评论的前缀
 
+    public static final String LetterMessage="letterMessage";//收到时空邮局留言的前缀
+
     public static final String OrdinaryMatching="ordinaryMatching:";//收到匹配的前缀
 
     public static final String Imform2="imform2:";//收到通知的前缀
@@ -43,6 +47,15 @@ public class RedisServiceImpl implements RedisService {
     public static final String dailySentence="dailySentence:";//每日一句前缀
 
     public static final String weekWord="weekWord:";//每日一句前缀
+
+    public static final String spaceLimit="spaceLimit:";//时空邮局每天获取限制前缀
+
+
+
+
+
+
+
 
 
 
@@ -58,6 +71,13 @@ public class RedisServiceImpl implements RedisService {
 
         redisUtil.set(Token+token, String.valueOf(userId),saveState);
 
+       /* Jedis redis =Pool.getResource();
+
+        redis.set(token,String.valueOf(userId));
+
+        redis.expire(token,saveState);//有效期为15天
+
+        redis.close();*/
     }
 
     @Override
@@ -74,6 +94,20 @@ public class RedisServiceImpl implements RedisService {
 
        return userId;
 
+        /*Jedis redis =Pool.getResource();
+
+        int userId;
+
+        if(redis.exists(token)){
+            redis.expire(token,saveState);
+            userId=Integer.parseInt(redis.get(token));
+            redis.close();
+            return  userId;
+        }else {
+            redis.close();
+            throw new SAException("token过期","003");
+        }
+*/
     }
 
     @Override
@@ -116,6 +150,11 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
+    public String getOrdinaryMatch(int sex) {
+        return null;
+    }
+
+    @Override
     public String getOrdinaryMatch( ) {
        return redisUtil.lpop(OrdinaryMatching);
     }
@@ -141,6 +180,10 @@ public class RedisServiceImpl implements RedisService {
         redisUtil.set(OrdinaryMatching+"imfore:"+matchUserId, ""+userId);
         return 0;
     }
+    @Override
+    public void setSpaceLetterLimit(int userId) {
+        redisUtil.set(spaceLimit+userId,"1",86400);
+    }
 
     @Override
     public int getOrdinaryMatchImfore(int userId) {
@@ -152,6 +195,17 @@ public class RedisServiceImpl implements RedisService {
         redisUtil.del(OrdinaryMatching+"imfore:"+userId);//获取到 消息后 立刻删除
         return  Integer.parseInt(s);
     }
+    @Override
+    public boolean getSpaceLimit(int userId) {
+        return redisUtil.hasKey(spaceLimit+userId);
+    }
 
-
+    @Override
+    public void resetSpaceLimit() {
+        Set<String> keys = redisUtil.keys(spaceLimit+"*");
+        Iterator<String> iterator = keys.iterator();
+        while (iterator.hasNext()){
+            redisUtil.del(iterator.next());
+        }
+    }
 }
