@@ -309,7 +309,7 @@
 			<artifactId>ybopenapi</artifactId>
 			<version>0.0.1</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/resources/lib/YBOpenApi.jar</systemPath>
+			<systemPath>/usr/local/tomcat9/lib/YBOpenApi.jar</systemPath>
 		</dependency>
 
 
