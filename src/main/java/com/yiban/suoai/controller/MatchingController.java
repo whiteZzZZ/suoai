@@ -129,7 +129,7 @@ public class MatchingController {
         if (mysex == 0) {
             //如果是女的就入队
             redisService.addOrdinaryMatch(userId);
-            for (int i = 0; i < 60; i++) {
+            for (int i = 0; i < 30; i++) {
                 //搜索 自己有没有被匹配到
                 matchUserId2 = redisService.getOrdinaryMatchImfore(userId);
                 if (matchUserId2 != 0) {
