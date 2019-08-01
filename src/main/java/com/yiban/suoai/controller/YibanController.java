@@ -69,8 +69,9 @@ public class YibanController {
     @ResponseBody
     public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.error("调用成功2");
-        return  MapHelper.success();
-        /*Map<String,Object>  map=null;
+        //return  MapHelper.success();
+        Map<String,Object>  map=null;
+
 //        System.out.println(AppContext.KEY_CODE);
         String code = req.getParameter(AppContext.KEY_CODE);
 //        System.out.println(code);
@@ -90,7 +91,8 @@ public class YibanController {
         User yibanUser = new User(AppContext.ACCESS_TOKEN);
         JSONObject userInfo = JSONObject.fromObject(yibanUser.me()).getJSONObject("info");
 
-        int yibanId = userInfo.getInt("yb_userid");//获取用户id
+
+        int yibanId =userInfo.getInt("yb_userid");//获取用户id
         com.yiban.suoai.pojo.User user = userService.get(yibanId);
 
 
@@ -107,7 +109,7 @@ public class YibanController {
             user1.setName(name);
             user1.setTurename(trueName);
             user1.setHeadImg(headImg);
-            if(sex=="男") {
+            if(sex=="M") {
                 user1.setSex(true);
             }else {
                 user1.setSex(false);
@@ -138,7 +140,7 @@ public class YibanController {
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
             return  map;
-        }*/
+        }
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像
 //        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称

@@ -23,7 +23,6 @@ public class RedisServiceImpl implements RedisService {
 
     private  static  final int  saveState=1296000;//token保存的15天
 
-   // private final JedisPool Pool = RedisAPI.getPool();//
 
     //必须用冒号    这样在redis中可以分组
     public static final String Wall="Wall:";//表白墙前缀
@@ -51,14 +50,6 @@ public class RedisServiceImpl implements RedisService {
     public static final String spaceLimit="spaceLimit:";//时空邮局每天获取限制前缀
 
 
-
-
-
-
-
-
-
-
     @Autowired
     RedisTemplate redisTemplate;
     @Autowired
@@ -71,13 +62,6 @@ public class RedisServiceImpl implements RedisService {
 
         redisUtil.set(Token+token, String.valueOf(userId),saveState);
 
-       /* Jedis redis =Pool.getResource();
-
-        redis.set(token,String.valueOf(userId));
-
-        redis.expire(token,saveState);//有效期为15天
-
-        redis.close();*/
     }
 
     @Override
@@ -94,20 +78,7 @@ public class RedisServiceImpl implements RedisService {
 
        return userId;
 
-        /*Jedis redis =Pool.getResource();
 
-        int userId;
-
-        if(redis.exists(token)){
-            redis.expire(token,saveState);
-            userId=Integer.parseInt(redis.get(token));
-            redis.close();
-            return  userId;
-        }else {
-            redis.close();
-            throw new SAException("token过期","003");
-        }
-*/
     }
 
     @Override
@@ -121,6 +92,22 @@ public class RedisServiceImpl implements RedisService {
             redisUtil.set(Imform+type+userId,"1");
         }
 
+    }
+
+    @Override
+    public int deleteOneImformFromRedis(int userId, String type) {
+        //获取之后  加一
+        int time=0;
+        if(redisUtil.hasKey(Imform+type+userId)){
+            time=Integer.parseInt(redisUtil.get(Imform+type+userId));
+            if(time>1){
+                redisUtil.set(Imform+type+userId, ""+(--time));
+            }else {
+                redisUtil.del(Imform+type+userId);
+            }
+            return 1;
+        }
+        return 0;
     }
 
     @Override

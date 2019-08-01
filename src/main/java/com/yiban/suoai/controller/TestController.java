@@ -1,5 +1,6 @@
 package com.yiban.suoai.controller;
 
+import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.service.RedisService;
 import com.yiban.suoai.util.MapHelper;
 import io.swagger.annotations.Api;
@@ -46,6 +47,18 @@ public class TestController {
         Map map=new HashMap();
        // res.sendRedirect("https://www.baidu.com");
         return "forward:https://www.baidu.com";
+
+    }
+
+
+    @ApiOperation(value = "抛出异常，仅测试使用", notes = "抛出异常，仅测试使用")
+    @RequestMapping(value ="exceptionTest" , method = RequestMethod.POST)
+    @ResponseBody
+    public  Map<String, Object>  exceptionTest(
+            HttpServletRequest req, HttpServletResponse res) throws IOException, SAException {
+        Map map=new HashMap();
+        throw new SAException("eer","1");
+
 
     }
 

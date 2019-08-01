@@ -7,7 +7,8 @@ public class AppContext {
 
     public static final String WEB_SITE = "http://47.107.74.195:8080/suoai";
 
-    public static final String BACK_URL = "http://47.107.74.195:8080/suoai/back";//回调地址
+    //public static final String BACK_URL = "http://47.107.74.195:8080/suoai/back";//回调地址
+    public static final String BACK_URL = "http://localhost:8080/back";//回调地址
 
     public static final String KEY_CODE = "code";
 

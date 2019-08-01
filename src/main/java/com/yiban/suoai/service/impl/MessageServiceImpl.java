@@ -101,4 +101,11 @@ public class MessageServiceImpl implements MessageService {
         }
         return list;
     }
+
+    @Override
+    public int deleteByAll(int type, int cyId, int sponsorId, int userId) {
+        MessageExample example=new MessageExample();
+        example.createCriteria().andTypeEqualTo(type).andCyIdEqualTo(cyId).andSponsorIdEqualTo(sponsorId).andUserIdEqualTo(userId);
+        return messageMapper.deleteByExample(example);
+    }
 }

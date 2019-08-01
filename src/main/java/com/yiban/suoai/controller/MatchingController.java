@@ -2,8 +2,12 @@ package com.yiban.suoai.controller;
 
 
 import com.yiban.suoai.exception.SAException;
+import com.yiban.suoai.pojo.LikeInfo;
+import com.yiban.suoai.pojo.Review;
 import com.yiban.suoai.pojo.User;
+import com.yiban.suoai.service.LikeInfoService;
 import com.yiban.suoai.service.RedisService;
+import com.yiban.suoai.service.ReviewService;
 import com.yiban.suoai.service.UserService;
 import com.yiban.suoai.util.MapHelper;
 import com.yiban.suoai.util.RedisUtil;
@@ -16,8 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("matching")
@@ -33,7 +36,10 @@ public class MatchingController {
     UserService userService;
     @Autowired
     RedisUtil redisUtil;
-
+    @Autowired
+    LikeInfoService likeInfoService;
+    @Autowired
+    ReviewService reviewService;
 
   /*  *//**
      * 思路： 先从redis中 获取有没有异性  如果没有再把自己加入匹配队列
@@ -169,6 +175,86 @@ public class MatchingController {
 
 
         }
+
+
+    }
+
+
+    /**
+     * 思路 找到自己所有点赞记录  和 评论记录  之后  搜索 和自己 相同的   最后比较谁出现的次数多     另外，注意  还有屏蔽匹配的
+     * @param token
+     * @param start
+     * @return
+     * @throws SAException
+     */
+    @ApiOperation(value = "开始灵魂匹配", notes = "开始灵魂匹配 一天匹配一次 ")
+    @RequestMapping(value ="sendinvitation" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> sendinvitation(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                             @RequestParam("startPage") @ApiParam(value = "起始页") Integer start) throws SAException {
+        Map<String, Object> map =new HashMap<>();
+        int userId=redisService.getUserId(token);
+        List<Integer> users=new ArrayList<>();//找到所有的可以被匹配的用户
+        List<Integer> usersLike=new ArrayList<>();//从点赞中找到的用户
+        List<Integer> usersReview=new ArrayList<>();//从评论中找到的用户
+        List<LikeInfo> likeInfos=likeInfoService.getByUserId(userId);
+        for(LikeInfo likeInfo:likeInfos){
+            List<Integer> temp=likeInfoService.getByCyidAndType(likeInfo.getCyId(),likeInfo.getType(),userId);
+            if(null!=temp){
+                usersLike.addAll(temp);
+            }
+        }
+        //注意 如果一个用户评论 多个cyid  会有bug 这要用 set
+        List<Review>  reviews=reviewService.getAllByuserId(userId);
+        int nowReviewCyid=0;
+       for(int i=0;i<reviews.size();i++){
+           //如果该用户  对一表白多次评论 会造成 有多条这匹配 要筛选
+            if(nowReviewCyid!=reviews.get(i).getCyId()){
+                nowReviewCyid=reviews.get(i).getCyId();
+                List<Integer> temp=reviewService.getAllbyCyid(reviews.get(i).getCyId(),userId);//要用set
+                if(null!=temp){
+                    usersReview.addAll(temp);
+                }
+            }
+
+        }
+         if(!usersLike.isEmpty()){
+        users.addAll(usersLike);
+         }
+       if(!usersReview.isEmpty()){
+           users.addAll(usersReview);
+       }
+
+        if(!users.isEmpty()){
+            //找出现次数最多的用户
+
+            users.sort((Integer a,Integer b)->a.compareTo(b));//
+
+            int time=1;
+            int currentTime=1;
+            int currentUserId= users.get(0);
+            for(int i=1;i<users.size();i++){
+
+                if(users.get(i-1)==users.get(i)){
+                    currentTime++;
+                    if(currentTime>time){
+                        time=currentTime;
+                        currentUserId=users.get(i);
+                    }
+                }else {
+                    currentTime=1;
+                }
+            }
+            User matchUser=userService.get(currentUserId);
+            map.put("matchUserId",currentUserId);
+            map.put("matchUserName",matchUser.getName());
+            map.put("matchUserHeadImg",matchUser.getHeadImg());
+            return map;
+        }
+
+        //如果没有匹配到
+        map=MapHelper.error("没有合适的匹配对象，多去评论和点赞就有机会匹配到啦~~");
+        return map;
 
 
     }

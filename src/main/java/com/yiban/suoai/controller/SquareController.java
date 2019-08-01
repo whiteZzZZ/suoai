@@ -242,16 +242,15 @@ public class SquareController {
     @RequestMapping(value ="givelike" , method = RequestMethod.PUT)
     @ResponseBody
     public Map<String, Object> givelike( @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-                                         @RequestParam(value = "userId")  @ApiParam(value = "用户的id") int userId ,
                                          @RequestParam(value = "cyid",defaultValue = "0")  @ApiParam(value = "表白的id 如果不是表白就不传  下面一样" ) int cyid,
                                          @RequestParam(value = "reviewId",defaultValue = "0")  @ApiParam(value = "评论的id") int reviewId ,
-                                         @RequestParam(value = "wordReviewId",defaultValue = "0")  @ApiParam(value = "每周一话的评论id") int wordReviewId) {
+                                         @RequestParam(value = "wordReviewId",defaultValue = "0")  @ApiParam(value = "每周一话的评论id") int wordReviewId) throws SAException {
         Map map=MapHelper.success();
-        int type;
+        int type=0;
         LikeInfo likeInfo=null;
         int id=0;
-
-
+        int imformUserId=0;
+        int userId=redisService.getUserId(token);
 
         if(0!=cyid){
             type=0;
@@ -272,22 +271,31 @@ public class SquareController {
            //点赞数量减一
            if(type==0){
                 Cyinfor cyinfor=cyinforService.get(cyid);
+                  imformUserId=cyinfor.getUserId();
                 int likeCount=cyinfor.getLikeTime()-1;
                 cyinfor.setLikeTime(likeCount);
                 cyinforService.update(cyinfor);
            }else if(type==1){
                 Review review=reviewService.get(reviewId);
+               imformUserId=review.getUserId();
                 int likeCount=review.getLikeTime()-1;
                 review.setLikeTime(likeCount);
                 reviewService.update(review);
            }else {
                WordReview wordReview=wordReviewService.get(wordReviewId);
+               imformUserId=wordReview.getUserId();
                int likeCount=wordReview.getLikeTime()-1;
                wordReview.setLikeTime(likeCount);
                wordReviewService.update(wordReview);
            }
+
+           //删除消息
+            messageService.deleteByAll(type,cyid,imformUserId,userId);
+           redisService.deleteOneImformFromRedis(imformUserId, RedisServiceImpl.Like);
+
+
        }else {
-           int imformUserId=0;
+
 
            //没有就加入
            likeInfoService.add(new LikeInfo(id,userId,(byte)type));
@@ -314,7 +322,7 @@ public class SquareController {
 
            //创建消息
            Message message=new Message();
-           message.setType(2);//评论
+           message.setType(type);//评论
            message.setCyId(id);
            message.setSponsorId(userId);//发起者
            message.setUserId(imformUserId);//接到通知的人
@@ -323,6 +331,7 @@ public class SquareController {
 
            //redis通知他
            redisService.addImformToRedis(imformUserId, RedisServiceImpl.Like);//对方的userId
+
 
        }
         return map;

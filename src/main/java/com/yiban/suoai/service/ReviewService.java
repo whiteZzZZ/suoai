@@ -41,4 +41,13 @@ public interface ReviewService {
      */
     List<ForeReview> foreFullSecondaryComments(List<Review> list,int userId);
 
+    /**
+     * 获取自己所有的评论
+     * @param userId
+     * @return
+     */
+    List<Review> getAllByuserId(int userId);
+
+    List<Integer> getAllbyCyid(int cyId,int userId);
+
 }
