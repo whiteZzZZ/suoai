@@ -115,7 +115,7 @@ public class MatchingController {
      * @throws InterruptedException
      */
     @ApiOperation(value = "普通匹配", notes = "普通匹配")
-    @RequestMapping(value ="ordinaryMatch" , method = RequestMethod.PUT)
+    @RequestMapping(value ="ordinaryMatch" , method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> ordinaryMatch(@RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException, InterruptedException {
 
