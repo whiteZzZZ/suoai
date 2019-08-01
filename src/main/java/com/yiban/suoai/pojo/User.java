@@ -15,11 +15,11 @@ public class User {
 
     private String phone;
 
-    private String password;
+    private String password="";
 
-    private String sha;
+    private String sha="";
 
-    private String salt;
+    private String salt="";
 
     private Boolean sex;
 
@@ -27,31 +27,31 @@ public class User {
 
     private String area;
 
-    private Integer schoolId;
+    private Integer schoolId=1;
 
-    private Integer academyId;
+    private Integer academyId=1;
 
-    private String stuNum;
+    private String stuNum="";
 
     private String signature;
 
-    private Boolean isParticular;
+    private Boolean isParticular=true;
 
-    private Boolean isMatch;
+    private Boolean isMatch=true;
 
-    private Boolean isRank;
+    private Boolean isRank=true;
 
-    private Boolean violator;
+    private Boolean violator=false;
 
-    private Integer expressTime;
+    private Integer expressTime=0;
 
-    private Integer experience;
+    private Integer experience=0;
 
-    private Integer titleId;
+    private Integer titleId=1;
 
-    private Integer paper;
+    private Integer paper=1;
 
-    private Integer level;
+    private Integer level=1;
 
     public Integer getId() {
         return id;

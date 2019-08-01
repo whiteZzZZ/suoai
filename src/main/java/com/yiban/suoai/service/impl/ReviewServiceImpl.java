@@ -148,4 +148,33 @@ public class ReviewServiceImpl  implements ReviewService {
         }
         return foreCyinfors;
     }
+
+    @Override
+    public List<Review> getAllByuserId(int userId) {
+        ReviewExample example=new ReviewExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("cy_id desc");
+        List<Review>  reviews=reviewMapper.selectByExample(example);
+        if(reviews.isEmpty()){
+            return null;
+        }
+        return reviews;
+    }
+
+    @Override
+    public List<Integer> getAllbyCyid(int cyId,int userId) {
+        ReviewExample example=new ReviewExample();
+        example.createCriteria().andCyIdEqualTo(cyId);
+        List<Review>  reviews=reviewMapper.selectByExample(example);
+        if(reviews.isEmpty()){
+            return null;
+        }
+        List<Integer> list=new ArrayList<>();
+        for(Review review:reviews){
+            if(review.getUserId()!=userId){
+                list.add(review.getUserId());
+            }
+        }
+        return list;
+    }
 }

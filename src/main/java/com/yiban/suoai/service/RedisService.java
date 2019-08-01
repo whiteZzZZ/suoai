@@ -26,6 +26,14 @@ public interface RedisService {
      */
     void addImformToRedis(int userId,String type);
 
+    /**
+     * 第二次点赞后   把之前那条提醒减掉
+     * @param userId
+     * @param type
+     * @return
+     */
+    int deleteOneImformFromRedis(int userId,String type);
+
 
     /**
      * 对方获取通知

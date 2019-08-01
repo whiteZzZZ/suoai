@@ -68,8 +68,10 @@ public class YibanController {
     @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
     @ResponseBody
     public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        logger.error("调用成功");
+        logger.error("调用成功2");
+        //return  MapHelper.success();
         Map<String,Object>  map=null;
+
 //        System.out.println(AppContext.KEY_CODE);
         String code = req.getParameter(AppContext.KEY_CODE);
 //        System.out.println(code);
@@ -89,7 +91,8 @@ public class YibanController {
         User yibanUser = new User(AppContext.ACCESS_TOKEN);
         JSONObject userInfo = JSONObject.fromObject(yibanUser.me()).getJSONObject("info");
 
-        int yibanId = userInfo.getInt("yb_userid");//获取用户id
+
+        int yibanId =userInfo.getInt("yb_userid");//获取用户id
         com.yiban.suoai.pojo.User user = userService.get(yibanId);
 
 
@@ -106,7 +109,7 @@ public class YibanController {
             user1.setName(name);
             user1.setTurename(trueName);
             user1.setHeadImg(headImg);
-            if(sex=="男") {
+            if(sex=="M") {
                 user1.setSex(true);
             }else {
                 user1.setSex(false);
@@ -151,5 +154,15 @@ public class YibanController {
 
       //  resp.sendRedirect("http://127.0.0.1:8080/yiban_demo/index.html");
 
+    }
+
+    @RequestMapping("testBaidu")
+    public void testBaidu(HttpServletResponse resp){
+        try {
+            System.out.println("123456798");
+            resp.sendRedirect("https://www.baidu.com/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

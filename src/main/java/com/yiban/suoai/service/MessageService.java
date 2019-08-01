@@ -19,4 +19,6 @@ public interface MessageService {
     List<Message> getByUserAndType(int userId,int type);
 
     List<ForeImform>  full(List<Message> messages);
+
+    int deleteByAll(int type,int cyId,int sponsorId,int userId);
 }

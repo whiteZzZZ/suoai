@@ -7,6 +7,7 @@ import com.yiban.suoai.service.LikeInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,5 +40,35 @@ public class LikeInfoServiceImpl implements LikeInfoService {
             return null;
         }
         return likeInfos.get(0);
+    }
+
+    @Override
+    public List<Integer> getByCyidAndType(int cyid, int type,int userId) {
+       LikeInfoExample example=new LikeInfoExample();
+       example.createCriteria().andCyIdEqualTo(cyid).andTypeEqualTo((byte) type);
+       List<LikeInfo> likeInfos=likeInfoMapper.selectByExample(example);
+       if(likeInfos.isEmpty()){
+           return null;
+       }
+       List<Integer>  list =new ArrayList<>();
+       for(LikeInfo likeInfo:likeInfos){
+           if(likeInfo.getUserId()!=userId){
+               list.add(likeInfo.getUserId());
+           }
+
+       }
+       return list;
+
+    }
+
+    @Override
+    public List<LikeInfo> getByUserId(int userId) {
+        LikeInfoExample example=new LikeInfoExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        List<LikeInfo> likeInfos=likeInfoMapper.selectByExample(example);
+        if(likeInfos.isEmpty()){
+            return null;
+        }
+        return likeInfos;
     }
 }

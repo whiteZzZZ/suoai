@@ -1,14 +1,13 @@
-package com.yiban.suoai.exception;
+package com.yiban.suoai.forepojo;
 
 import com.yiban.suoai.util.ErrorCode;
 
-public class SAException  extends Exception{
+public class ExceptionInfo {
 
     public String message;
     public String errorCode;
     public ErrorCode code;
 
-    @Override
     public String getMessage() {
         return message;
     }
@@ -30,18 +29,6 @@ public class SAException  extends Exception{
     }
 
     public void setCode(ErrorCode code) {
-        this.code = code;
-    }
-
-    public SAException() {
-    }
-
-    public SAException(String message, String errorCode) {
-        this.message = message;
-        this.errorCode = errorCode;
-    }
-
-    public SAException(ErrorCode code){
         this.code = code;
     }
 }
