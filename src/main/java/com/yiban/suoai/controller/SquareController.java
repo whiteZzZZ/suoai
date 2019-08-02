@@ -137,6 +137,30 @@ public class SquareController {
 
 
 
+
+    @ApiOperation(value = "获取单个表白内容", notes = "获取表白内容  原图在缩略图的名称基础上加")
+    @RequestMapping(value ="oneExpression" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> oneExpression(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                             @RequestParam(value = "cyid")  @ApiParam(value = "cyid") int cyid ) throws SAException {
+
+        int userId=redisService.getUserId(token);
+        Cyinfor cyinfor=cyinforService.get(cyid);
+        List<Cyinfor> cyinfors = new ArrayList<>();
+        cyinfors.add(cyinfor);
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);//里面方法有 对每个表白判断  当前的这个用户是不是点了赞的  也有图片的路径
+
+
+        Map<String, Object> map = MapHelper.success();
+        if(list.isEmpty()||null==list){
+            return MapHelper.error("无法找到该cyid");
+        }
+        map.put("data", list.get(0));
+        return map;
+    }
+
+
+
     @ApiOperation(value = "添加表白的评论", notes = "添加表白的评论")
     @RequestMapping(value ="comment" , method = RequestMethod.PUT)
     @ResponseBody
@@ -253,15 +277,15 @@ public class SquareController {
         int userId=redisService.getUserId(token);
 
         if(0!=cyid){
-            type=0;
+            type=6;
             likeInfo= likeInfoService.getByCyidAndUserIdAndType(cyid,userId,type);
             id=cyid;
         }else if(0!=reviewId){
-            type=1;
+            type=7;
             likeInfo= likeInfoService.getByCyidAndUserIdAndType(reviewId,userId,type);
             id=reviewId;
         }else {
-            type=2;
+            type=8;
             likeInfo= likeInfoService.getByCyidAndUserIdAndType(wordReviewId,userId,type);
             id=wordReviewId;
         }
@@ -269,13 +293,13 @@ public class SquareController {
        if(null!=likeInfo){
            likeInfoService.delete(likeInfo.getId());
            //点赞数量减一
-           if(type==0){
+           if(type==6){
                 Cyinfor cyinfor=cyinforService.get(cyid);
                   imformUserId=cyinfor.getUserId();
                 int likeCount=cyinfor.getLikeTime()-1;
                 cyinfor.setLikeTime(likeCount);
                 cyinforService.update(cyinfor);
-           }else if(type==1){
+           }else if(type==7){
                 Review review=reviewService.get(reviewId);
                imformUserId=review.getUserId();
                 int likeCount=review.getLikeTime()-1;
@@ -300,13 +324,13 @@ public class SquareController {
            //没有就加入
            likeInfoService.add(new LikeInfo(id,userId,(byte)type));
            //点赞数量加一
-           if(type==0){
+           if(type==6){
                Cyinfor cyinfor=cyinforService.get(cyid);
                imformUserId=cyinfor.getUserId();
                int likeCount=cyinfor.getLikeTime()+1;
                cyinfor.setLikeTime(likeCount);
                cyinforService.update(cyinfor);
-           }else if(type==1){
+           }else if(type==7){
                Review review=reviewService.get(reviewId);
                imformUserId=review.getUserId();
                int likeCount=review.getLikeTime()+1;

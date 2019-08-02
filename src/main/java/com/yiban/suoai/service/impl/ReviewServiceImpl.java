@@ -105,6 +105,7 @@ public class ReviewServiceImpl  implements ReviewService {
                 foreReview.setReply_user_id(replyUserId);
                 foreReview.setReply_content(replyReview.getContent());
                 foreReview.setReply_name(replyUser.getName());
+                foreReview.setReply(true);//回复
             }
             foreCyinfors.add(foreReview);
         }

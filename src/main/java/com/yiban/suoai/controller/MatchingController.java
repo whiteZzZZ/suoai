@@ -3,12 +3,11 @@ package com.yiban.suoai.controller;
 
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.pojo.LikeInfo;
+import com.yiban.suoai.pojo.Message;
 import com.yiban.suoai.pojo.Review;
 import com.yiban.suoai.pojo.User;
-import com.yiban.suoai.service.LikeInfoService;
-import com.yiban.suoai.service.RedisService;
-import com.yiban.suoai.service.ReviewService;
-import com.yiban.suoai.service.UserService;
+import com.yiban.suoai.service.*;
+import com.yiban.suoai.service.impl.RedisServiceImpl;
 import com.yiban.suoai.util.MapHelper;
 import com.yiban.suoai.util.RedisUtil;
 import io.swagger.annotations.Api;
@@ -40,6 +39,8 @@ public class MatchingController {
     LikeInfoService likeInfoService;
     @Autowired
     ReviewService reviewService;
+    @Autowired
+    MessageService messageService;
 
   /*  *//**
      * 思路： 先从redis中 获取有没有异性  如果没有再把自己加入匹配队列
@@ -145,11 +146,20 @@ public class MatchingController {
                 map.put("matchUserId", matchUserId2);
                 map.put("matchUserHeadImg", matchUser.getHeadImg());
                 map.put("matchUserName", matchUser.getName());
+
+                //新建通知
+                Message message=new Message();
+                message.setType(9);//
+                message.setCyId(0);
+                message.setSponsorId(matchUserId2);//发起者
+                message.setUserId(userId);
+                message.setTime(new Date());
+                messageService.add(message);
                 return map;
             } else {
                 //没匹配到还有把自己从列表中删除
                 redisService.deleteOrdinaryMatch(userId);
-                return MapHelper.error();
+                return MapHelper.error("匹配失败");
             }
 
 
@@ -164,13 +174,21 @@ public class MatchingController {
                 //通知被匹配的用户
                 redisService.addOrdinaryMatchImfore(userId, matchUserId);
                 User matchUser = userService.get(matchUserId);
+                Message message=new Message();
+                message.setType(9);//
+                message.setCyId(0);
+                message.setSponsorId(matchUserId2);//发起者
+                message.setUserId(userId);
+                message.setTime(new Date());
+                messageService.add(message);
+
                map=MapHelper.success();
                 map.put("matchUserId", matchUserId);
                 map.put("matchUserHeadImg", matchUser.getHeadImg());
                 map.put("matchUserName", matchUser.getName());
                 return map;
             } else {
-                return MapHelper.error();
+                return MapHelper.error("匹配失败");
             }
 
 
@@ -190,8 +208,7 @@ public class MatchingController {
     @ApiOperation(value = "开始灵魂匹配", notes = "开始灵魂匹配 一天匹配一次 ")
     @RequestMapping(value ="sendinvitation" , method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> sendinvitation(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
-                                             @RequestParam("startPage") @ApiParam(value = "起始页") Integer start) throws SAException {
+    public Map<String, Object> sendinvitation(@RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException {
         Map<String, Object> map =new HashMap<>();
         int userId=redisService.getUserId(token);
         List<Integer> users=new ArrayList<>();//找到所有的可以被匹配的用户
@@ -245,6 +262,16 @@ public class MatchingController {
                     currentTime=1;
                 }
             }
+
+            //redis
+            redisService.addImformToRedis(currentUserId, RedisServiceImpl.Sendinvitation);//对方的userId
+            Message message=new Message();
+            message.setType(10);//
+            message.setCyId(0);
+            message.setSponsorId(userId);//发起者
+            message.setUserId(currentUserId);//被接受到的用户
+            message.setTime(new Date());
+            messageService.add(message);
             User matchUser=userService.get(currentUserId);
             map.put("matchUserId",currentUserId);
             map.put("matchUserName",matchUser.getName());

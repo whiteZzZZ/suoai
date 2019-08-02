@@ -40,7 +40,7 @@ public class ImformController {
     NoticeService noticeService;
 
 
-    @ApiOperation(value = "获取消息数量", notes = "获取消息数量  需要前端 10秒一次轮询")
+    @ApiOperation(value = "获取消息数量", notes = "获取消息数量  需要前端 10秒一次轮询 imform2Message通知")
     @RequestMapping(value ="getMessageCount" , method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> getMessageCount(
@@ -50,18 +50,17 @@ public class ImformController {
          int expressionMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Expression);
          int likeMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Like);
          int commentMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Comment);
-         //匹配的消息还没 弄
-         //int matchingMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Matching);
+         int matchingMessage=redisService.getImformFromRedis(userId, RedisServiceImpl.Sendinvitation);
          int letterMessage = redisService.getImformFromRedis(userId,RedisServiceImpl.LetterMessage);
          int imform2Message=redisService.getImformFromRedis(userId, RedisServiceImpl.Imform2);
-         TotalMessage=likeMessage+expressionMessage+commentMessage+imform2Message+letterMessage;
+         TotalMessage=likeMessage+expressionMessage+commentMessage+imform2Message+letterMessage+matchingMessage;
          Map map=new HashMap();
          map.put("TotalMessage",TotalMessage);
          map.put("expressionMessage",expressionMessage);
          map.put("likeMessage",likeMessage);
          map.put("commentMessage",commentMessage);
          map.put("letterMessage",letterMessage);
-        // map.put("matchingMessage",matchingMessage);
+         map.put("matchingMessage",matchingMessage);
          map.put("imform2Message",imform2Message);
          return map;
      }
@@ -91,10 +90,11 @@ public class ImformController {
     public Map<String, Object> like(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token
     ) throws SAException {
+        //类型  6 收到的表白赞 7收到的评论赞 8收到的每周一话赞
         int userId=redisService.getUserId(token);
         //点进去后，把该消息 提醒删掉
         redisService.deleteImformFromRedis(userId,RedisServiceImpl.Like);
-        List<Message> list= messageService.getByUserAndType(userId,2);//点赞
+        List<Message> list= messageService.getByUserAndType(userId,6,7,8);//点赞
         List<ForeImform> foreImforms=messageService.full(list);
         Map map=new HashMap();
         map.put("list",foreImforms);
@@ -114,6 +114,22 @@ public class ImformController {
         //点进去后，把该消息 提醒删掉
         redisService.deleteImformFromRedis(userId,RedisServiceImpl.Comment);
         List<Message> list= messageService.getByUserAndType(userId,3);//评论
+        List<ForeImform> foreImforms=messageService.full(list);
+        Map map=new HashMap();
+        map.put("list",foreImforms);
+        return map;
+    }
+
+    @ApiOperation(value = "获取匹配通知", notes = "获取匹配通知")
+    @RequestMapping(value ="match" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> match(
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token
+    ) throws SAException {
+        int userId=redisService.getUserId(token);
+        //点进去后，把该消息 提醒删掉
+        redisService.deleteImformFromRedis(userId,RedisServiceImpl.Sendinvitation);
+        List<Message> list= messageService.getByUserAndType(userId,9,10);
         List<ForeImform> foreImforms=messageService.full(list);
         Map map=new HashMap();
         map.put("list",foreImforms);

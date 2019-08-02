@@ -41,6 +41,8 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String OrdinaryMatching="ordinaryMatching:";//收到匹配的前缀
 
+    public static final String Sendinvitation="sendinvitation:";//收到灵魂匹配的前缀
+
     public static final String Imform2="imform2:";//收到通知的前缀
 
     public static final String dailySentence="dailySentence:";//每日一句前缀

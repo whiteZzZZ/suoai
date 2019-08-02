@@ -36,6 +36,16 @@ public class ForeReview {
 
     private Boolean ifLike=false;
 
+    private Boolean Reply=false;
+
+    public Boolean getReply() {
+        return Reply;
+    }
+
+    public void setReply(Boolean reply) {
+        Reply = reply;
+    }
+
     public Boolean getIfLike() {
         return ifLike;
     }
