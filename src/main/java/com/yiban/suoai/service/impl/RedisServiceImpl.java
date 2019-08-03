@@ -67,6 +67,16 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
+    public Boolean tokenExists(String token) {
+        if(redisUtil.hasKey(Token+token)){
+           return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    @Override
     public int getUserId(String token) throws SAException {
         if(!redisUtil.hasKey(Token+token)){
             throw new SAException("token过期","003");

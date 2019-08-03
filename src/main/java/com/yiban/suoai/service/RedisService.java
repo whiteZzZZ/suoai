@@ -13,6 +13,15 @@ public interface RedisService {
      */
     void addTokenToRedis(int userId, String token);
 
+
+    /**
+     * 判断token是否存在
+     * @param token
+     * @return
+     */
+    Boolean tokenExists(String token);
+
+
     /**
      * 获得userid
      * @param token
@@ -50,7 +59,7 @@ public interface RedisService {
     /**
      * 加入匹配
      * @param userId
-     * @param sex
+     * @param
      * @return
      */
     int addOrdinaryMatch(int userId);

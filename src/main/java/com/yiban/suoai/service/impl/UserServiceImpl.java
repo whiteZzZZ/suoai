@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 public class UserServiceImpl  implements UserService {
@@ -27,7 +28,23 @@ public class UserServiceImpl  implements UserService {
 
     @Override
     public int addExperience(int userId, int count) {
-        return 0;
+        User user=userMapper.selectByPrimaryKey(userId);
+        int experience=user.getExperience();
+        int nowExperience=experience+count;
+        user.setExperience(nowExperience);//记得后面要更新数据库
+        int upgradeExperience=1;//所需要的升级经验
+        int upgrade=0;//用户是否升级  1为升级了
+        for(int i=1;i<=10;i++){
+            if(experience<upgradeExperience&&nowExperience>=upgradeExperience){
+                //如果用户升级了
+                upgrade=1;
+                user.setLevel(user.getLevel()+1);//升级
+                break;
+            }
+            upgradeExperience*=2;
+        }
+        update(user);
+        return upgrade;
     }
 
     @Override
