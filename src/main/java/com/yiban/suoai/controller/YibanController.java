@@ -3,6 +3,7 @@ package com.yiban.suoai.controller;
 import cn.yiban.open.Authorize;
 import cn.yiban.open.common.User;
 
+import cn.yiban.util.HTTPSimple;
 import com.alibaba.fastjson.JSON;
 import com.yiban.suoai.pojo.Image;
 import com.yiban.suoai.pojo.School;
@@ -17,6 +18,18 @@ import com.yiban.suoai.yiban.AppContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONObject;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,9 +38,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import  net.sf.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.net.ssl.SSLContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.KeyStore;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.http.message.BasicNameValuePair;
@@ -82,8 +105,13 @@ public class YibanController {
         }
         //System.out.println(code);
 
-        Authorize authorize = new Authorize(AppContext.APP_ID, AppContext.APP_SEC);
-        String text = authorize.querytoken(code, AppContext.BACK_URL);
+        //Authorize authorize = new Authorize(AppContext.APP_ID, AppContext.APP_SEC);
+       // String text = authorize.querytoken(code, AppContext.BACK_URL);
+
+        //自己实现
+
+
+        String text = doPost(code);
 
        // System.out.println(text);
         com.alibaba.fastjson.JSONObject json = JSON.parseObject(text);
@@ -164,5 +192,85 @@ public class YibanController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String doPost(String code){
+        String result = "";
+        List <NameValuePair> param = new ArrayList<NameValuePair>();
+        param.add(new BasicNameValuePair("client_id", AppContext.APP_ID));
+        param.add(new BasicNameValuePair("client_secret", AppContext.APP_SEC));
+        param.add(new BasicNameValuePair("code", code));
+        param.add(new BasicNameValuePair("redirect_uri", AppContext.BACK_URL));
+
+        String url = "https://openapi.yiban.cn/oauth/access_token";
+        String responseContext = "";
+        int found = url.indexOf('?');
+        if (found > 0)
+        {
+            url = url.substring(0, found);
+        }
+        try
+        {
+            CloseableHttpClient httpclient = getClientInstance(url);
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.setEntity(new UrlEncodedFormEntity(param));
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+            int status = response.getStatusLine().getStatusCode();
+            if( status > 300 && status < 310)
+            {
+                Header[] h = response.getHeaders("Location");
+                if(h.length > 0)
+                {
+                    httpclient.close();
+                    return HTTPSimple.POST(h[0].toString().substring(10), param);
+                }
+            }
+            HttpEntity entity = response.getEntity();
+            responseContext = EntityUtils.toString(entity);
+            EntityUtils.consume(entity);
+            httpclient.close();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        result = responseContext;
+        System.out.println("result="+result);
+        return result;
+    }
+
+    static CloseableHttpClient getClientInstance(String url) throws Exception
+    {
+        CloseableHttpClient httpclient = null;
+        if (isSecurity(url))
+        {
+            KeyStore myTrustKeyStore = KeyStore.getInstance(
+                    KeyStore.getDefaultType()
+            );
+            SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(myTrustKeyStore, new TrustStrategy() {
+                @Override
+                public boolean isTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
+                    return true;
+                }
+            }).build();
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+                    sslcontext,
+                    new String[] { "TLSv1" },
+                    null,
+                    SSLConnectionSocketFactory.getDefaultHostnameVerifier()
+            );
+            httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+        }
+        else
+        {
+            httpclient = HttpClients.createDefault();
+        }
+        return httpclient;
+    }
+
+    private static boolean isSecurity(String url) throws Exception
+    {
+        URL u = new URL(url);
+        return u.getProtocol().contentEquals("https");
     }
 }
