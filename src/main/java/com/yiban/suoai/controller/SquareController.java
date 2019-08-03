@@ -108,6 +108,7 @@ public class SquareController {
 
             }
 
+
             map= MapHelper.success();
             map.put("cyid",cyid);
         return map;
@@ -188,6 +189,7 @@ public class SquareController {
         //redis通知他
         redisService.addImformToRedis(cyinfor.getUserId(), RedisServiceImpl.Comment);//对方的userId
 
+        userService.addExperience(userId,1);
         map=MapHelper.success();
         return map;
     }
