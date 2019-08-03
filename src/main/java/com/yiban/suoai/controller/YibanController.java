@@ -23,6 +23,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
@@ -67,6 +68,12 @@ public class YibanController {
     UserService userService;
     @Autowired
     SchoolService schoolService;
+
+    private final String YIBAN_OPEN_URL		= "https://openapi.yiban.cn/";
+
+    private final String YIBAN_USER_ME_INFO	= "user/me";
+    private final String YIBAN_USER_OTHER	= "user/other";
+    private final String YIBAN_USER_REALME	= "user/real_me";
 
     @RequestMapping(value = "/init")
     @ApiOperation(value = "易班登录入口",notes = "易班登录入口")
@@ -117,7 +124,7 @@ public class YibanController {
         com.alibaba.fastjson.JSONObject json = JSON.parseObject(text);
         AppContext.ACCESS_TOKEN = json.getString(AppContext.KEY_TOKEN);
         User yibanUser = new User(AppContext.ACCESS_TOKEN);
-        JSONObject userInfo = JSONObject.fromObject(yibanUser.me()).getJSONObject("info");
+        JSONObject userInfo = JSONObject.fromObject(me(AppContext.ACCESS_TOKEN)).getJSONObject("info");
 
 
         int yibanId =userInfo.getInt("yb_userid");//获取用户id
@@ -272,5 +279,43 @@ public class YibanController {
     {
         URL u = new URL(url);
         return u.getProtocol().contentEquals("https");
+    }
+
+    public static String GET(String url)
+    {
+        String responseContext = "";
+        try
+        {
+            CloseableHttpClient httpclient = getClientInstance(url);
+            HttpGet httpGet = new HttpGet(url);
+            CloseableHttpResponse response = httpclient.execute(httpGet);
+            int status = response.getStatusLine().getStatusCode();
+            if( status > 300 && status < 310)
+            {
+                Header[] h = response.getHeaders("Location");
+                if(h.length > 0)
+                {
+                    httpclient.close();
+                    return GET(h[0].toString().substring(10));
+                }
+            }
+            HttpEntity entity = response.getEntity();
+            responseContext = EntityUtils.toString(entity);
+            EntityUtils.consume(entity);
+            httpclient.close();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return responseContext;
+    }
+
+    private String me(String token){
+        String query = YIBAN_OPEN_URL;
+        query += YIBAN_USER_ME_INFO;
+        query += "?access_token=";
+        query += token;
+        return GET(query);
     }
 }
