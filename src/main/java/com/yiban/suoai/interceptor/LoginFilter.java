@@ -1,10 +1,13 @@
-/*
+
 
 package com.yiban.suoai.interceptor;
 
+import com.yiban.suoai.service.RedisService;
 import com.yiban.suoai.util.ApiResult;
 import com.yiban.suoai.util.ErrorCode;
-import com.yiban.suoai.util.RedisAPI;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -22,6 +25,9 @@ import java.util.List;
 @WebFilter(urlPatterns = { "/*" }, filterName = "TokenFilter")
 public class LoginFilter implements Filter {
 
+	@Autowired
+	RedisService redisService;
+
 	@Override
 	public void destroy() {
         // Auto-generated method stub
@@ -36,7 +42,7 @@ public class LoginFilter implements Filter {
 		// 如果没有登录
 		String uri = req.getRequestURI();
 
-		int flag = 0;
+		int flag = 0;//1就要拦截
 
 		List<String> banPages = new ArrayList<>();
 		banPages.add("/square");
@@ -45,6 +51,11 @@ public class LoginFilter implements Filter {
 		banPages.add("/matching");
 		banPages.add("/word");
 		banPages.add("/inform");
+		banPages.add("/chat");
+		banPages.add("/file");
+		banPages.add("/paper");
+		banPages.add("/weekWord");
+
 
 		//添加url
 		for (String o : banPages) {
@@ -53,9 +64,7 @@ public class LoginFilter implements Filter {
 			}
 		}
 
-		JedisPool Poo = RedisAPI.getPool();
 
-		Jedis redis = Poo.getResource();
 
 
 		if(uri.contains("druid")) flag = 0;
@@ -70,7 +79,6 @@ public class LoginFilter implements Filter {
 
 		if (flag == 0) {
 			chain.doFilter(req, res);
-			redis.close();
 		} else {
 			String token = req.getHeader("token");
 			if(token == null){
@@ -78,19 +86,17 @@ public class LoginFilter implements Filter {
                 res.getWriter().println(apiResult);
             }
 			else{
-				if (redis.exists(token)) {
-
+				if (redisService.tokenExists(token)) {
 					chain.doFilter(req, res);
 				}
 				// 继续访问其他资源
-
 				else {
                     ApiResult apiResult = new ApiResult(ErrorCode.TOKEN_FAILURE,"token_is_wrong");
                     res.getWriter().println(apiResult);
 				}
 			}
 
-			redis.close();
+
 		}
 	}
 
@@ -100,4 +106,4 @@ public class LoginFilter implements Filter {
 
 	}
 
-}*/
+}

@@ -104,5 +104,9 @@ public class YfTest {
         System.out.println("finish");
     }
 
+    @Test
+    public void upgradeTest(){
+
+    }
 
 }
