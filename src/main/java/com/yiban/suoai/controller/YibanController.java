@@ -96,7 +96,6 @@ public class YibanController {
      */
     @RequestMapping("/back")
     @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
-    @ResponseBody
     public  String back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.error("调用成功2");
         //return  MapHelper.success();
