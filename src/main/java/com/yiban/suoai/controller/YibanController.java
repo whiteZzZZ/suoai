@@ -166,7 +166,7 @@ public class YibanController {
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-           // resp.sendRedirect("${project.basedir}/src/main/resources/index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
+            resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
             return "/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
         }else {
 
@@ -174,7 +174,7 @@ public class YibanController {
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-            //resp.sendRedirect("${project.basedir}/src/main/resources/index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
+            resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
             return "/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
         }
 
