@@ -167,7 +167,7 @@ public class YibanController {
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-           // resp.sendRedirect("/pages/tabbar/home/home?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
+            resp.sendRedirect("${project.basedir}/src/main/resources/index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
             return  map;
         }else {
 
