@@ -117,6 +117,7 @@ public class MessageServiceImpl implements MessageService {
                //评论的赞或者评论
                Review review=reviewService.get(message.getCyId());
                foreImform.setText(review.getContent());
+               foreImform.setTrueCyid(review.getCyId());
            }
            if(8==message.getType()){
                 WordReview wordReview=wordReviewService.get(message.getCyId());

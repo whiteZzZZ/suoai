@@ -24,6 +24,16 @@ public class ForeImform {
 
     private Integer type;
 
+    private int trueCyid;
+
+    public int getTrueCyid() {
+        return trueCyid;
+    }
+
+    public void setTrueCyid(int trueCyid) {
+        this.trueCyid = trueCyid;
+    }
+
     public Integer getType() {
         return type;
     }
