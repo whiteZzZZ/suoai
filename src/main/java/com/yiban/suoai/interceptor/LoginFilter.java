@@ -83,7 +83,8 @@ public class LoginFilter implements Filter {
                 res.getWriter().println(apiResult);
             }
 			else{
-				if (redisService.tokenExists(token)) {
+				//if (redisService.tokenExists(token)) {
+				if (true) {
 					chain.doFilter(req, res);
 				}
 				// 继续访问其他资源
