@@ -1,3 +1,4 @@
+/*
 
 
 package com.yiban.suoai.interceptor;
@@ -64,9 +65,6 @@ public class LoginFilter implements Filter {
 			}
 		}
 
-
-
-
 		if(uri.contains("druid")) flag = 0;
 
 		if(uri.contains("swagger")||uri.contains("api")){
@@ -107,3 +105,4 @@ public class LoginFilter implements Filter {
 	}
 
 }
+*/
