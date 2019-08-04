@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Component
-@WebFilter(urlPatterns = { "/*" }, filterName = "TokenFilter")
+/*@Component
+@WebFilter(urlPatterns = { "/*" }, filterName = "TokenFilter")*/
 public class LoginFilter implements Filter {
 
 	@Autowired
@@ -33,6 +34,7 @@ public class LoginFilter implements Filter {
         // Auto-generated method stub
 
 	}
+
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -83,8 +85,8 @@ public class LoginFilter implements Filter {
                 res.getWriter().println(apiResult);
             }
 			else{
-				//if (redisService.tokenExists(token)) {
-				if (true) {
+				if (redisService.tokenExists(token)) {
+				//if (true) {
 					chain.doFilter(req, res);
 				}
 				// 继续访问其他资源
