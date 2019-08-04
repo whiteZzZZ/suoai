@@ -43,6 +43,8 @@ public class Aspect {
     public Object doAroundAdvice(ProceedingJoinPoint point) {
         //System.out.println("环绕通知被执行，目标方法执行之前");
         try {
+
+
             Object obj = point.proceed(); //执行方法
             //System.out.println("环绕通知被执行，目标方法执行之后");
             String classType = point.getTarget().getClass().getName();
