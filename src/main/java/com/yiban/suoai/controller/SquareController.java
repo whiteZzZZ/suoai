@@ -176,6 +176,8 @@ public class SquareController {
 
         //给对方通知
         Cyinfor cyinfor=cyinforService.get(cyid);
+        cyinfor.setReviewTime(cyinfor.getReviewTime()+1);//增加评论数量
+        cyinforService.update(cyinfor);
         int imformUserId=cyinfor.getUserId();//被通知的userId
         //创建消息
         Message message=new Message();
@@ -189,7 +191,10 @@ public class SquareController {
         //redis通知他
         redisService.addImformToRedis(cyinfor.getUserId(), RedisServiceImpl.Comment);//对方的userId
 
-        userService.addExperience(userId,1);
+
+
+
+       // userService.addExperience(userId,1);
         map=MapHelper.success();
         return map;
     }

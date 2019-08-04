@@ -97,7 +97,7 @@ public class YibanController {
     @RequestMapping("/back")
     @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
     @ResponseBody
-    public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public  String back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.error("调用成功2");
         //return  MapHelper.success();
         Map<String,Object>  map=null;
@@ -108,7 +108,7 @@ public class YibanController {
         if (code == null || code.equals("")) {
             //resp.sendRedirect("/yiban_demo/index.html");
             System.out.println("登录失败");
-            return MapHelper.error();
+            return "error";
         }
         //System.out.println(code);
 
@@ -168,15 +168,15 @@ public class YibanController {
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
             resp.sendRedirect("${project.basedir}/src/main/resources/index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
-            return  map;
+            return "/index";
         }else {
 
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-            resp.sendRedirect("${project.basedir}/src/main/resources/index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
-            return  map;
+            //resp.sendRedirect("${project.basedir}/src/main/resources/index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
+            return "/index";
         }
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像
