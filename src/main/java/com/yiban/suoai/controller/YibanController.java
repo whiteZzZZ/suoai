@@ -186,6 +186,7 @@ public class YibanController {
             model.addObject("token", AppContext.ACCESS_TOKEN);
             model.setViewName("redirect:/index.html");
             return model;
+
         }
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像
