@@ -169,7 +169,8 @@ public class YibanController {
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
            // resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
-            return "redirect:index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
+            attr.addAttribute("userId",yibanId);
+            return "/index";
         }else {
 
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
@@ -179,7 +180,7 @@ public class YibanController {
             //resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
            // return "/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
             attr.addAttribute("userId",yibanId);
-            return "redirect:index.html";
+            return "/index";
         }
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像

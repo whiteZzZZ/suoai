@@ -193,18 +193,33 @@ public class MatchingController {
 
 
         }
-
-
     }
 
 
     /**
-     * 思路 找到自己所有点赞记录  和 评论记录  之后  搜索 和自己 相同的   最后比较谁出现的次数多     另外，注意  还有屏蔽匹配的
+     * 如果是女的 取消 立即删掉她在队中
      * @param token
-     * @param start
      * @return
      * @throws SAException
+     * @throws InterruptedException
      */
+    @ApiOperation(value = "取消普通匹配", notes = "取消普通匹配")
+    @RequestMapping(value ="cancelOrdinaryMatch" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> cancelOrdinaryMatch(@RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException, InterruptedException {
+
+return null;
+    }
+
+
+
+        /**
+         * 思路 找到自己所有点赞记录  和 评论记录  之后  搜索 和自己 相同的   最后比较谁出现的次数多     另外，注意  还有屏蔽匹配的
+         * @param token
+         * @param
+         * @return
+         * @throws SAException
+         */
     @ApiOperation(value = "开始灵魂匹配", notes = "开始灵魂匹配 一天匹配一次 ")
     @RequestMapping(value ="sendinvitation" , method = RequestMethod.GET)
     @ResponseBody
