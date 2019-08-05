@@ -221,6 +221,7 @@ public class MatchingController {
         User user = userService.get(userId);
         int mysex = user.getSex() ? 1 : 0;//我的性别
 
+
         if(mysex==0){
             //如果是女生就出队
             redisService.deleteOrdinaryMatch(userId);
