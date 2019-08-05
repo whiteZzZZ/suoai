@@ -37,18 +37,11 @@
    var btn =document.getElementById("btn")
    btn.onclick=function(){
          console.log(window.Request)
+         wx.miniProgram.postMessage({
+      data: window.Request
+    });
          wx.miniProgram.switchTab({
-            url:'/pages/tabbar/home/home?infor=' + JSON.stringify(window.Request),
-            success: function(){
-                console.log('success')
-            },
-            fail: function(){
-                console.log('fail');
-            },
-            complete:function(){
-                console.log('complete');
-            }
- 
+            url:'/pages/tabbar/home/home'
             });
    }
     </script>
