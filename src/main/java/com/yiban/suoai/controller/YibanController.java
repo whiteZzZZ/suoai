@@ -166,16 +166,17 @@ public class YibanController {
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-            resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
-            return "/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
+           // resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
+            return "redirect:index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
         }else {
 
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-            resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
-            return "/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
+            //resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
+           // return "/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
+            return "redirect:index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
         }
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像
