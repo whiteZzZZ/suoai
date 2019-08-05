@@ -169,6 +169,13 @@ public class MatchingController {
             if(null!=match){
                 matchUserId = Integer.parseInt(match);
             }
+
+            if(1==redisService.getDeleteOrdinaryMatchImform(userId)&&matchUserId != 0){
+                //如果男方取消匹配后，但是  阻塞60的过程中接受到匹配  那就把拿到的女生重新入队
+                redisService.addOrdinaryMatch(matchUserId);
+                return MapHelper.error("匹配失败");
+            }
+
             if (matchUserId != 0) {
                 //匹配成功
                 //通知被匹配的用户
@@ -188,9 +195,10 @@ public class MatchingController {
                 map.put("matchUserHeadImg", matchUser.getHeadImg());
                 map.put("matchUserName", matchUser.getName());
                 return map;
-            } else {
-                return MapHelper.error("匹配失败");
             }
+
+                return MapHelper.error("匹配失败");
+
 
 
         }
@@ -198,7 +206,7 @@ public class MatchingController {
 
 
     /**
-     * 如果是女的 取消 立即删掉她在队中
+     * 如果是女的 取消 立即删掉她在队中  男的加入redis通知  拿到女生后   判断有没有被取消，有就马上再把女生入队
      * @param token
      * @return
      * @throws SAException
@@ -208,8 +216,22 @@ public class MatchingController {
     @RequestMapping(value ="cancelOrdinaryMatch" , method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> cancelOrdinaryMatch(@RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException, InterruptedException {
+        int userId = redisService.getUserId(token);
+        int matchUserId = 0;//获得匹配成功的userId
+        User user = userService.get(userId);
+        int mysex = user.getSex() ? 1 : 0;//我的性别
 
-return null;
+        if(mysex==0){
+            //如果是女生就出队
+            redisService.deleteOrdinaryMatch(userId);
+        }else {
+            //男生  用redis通知
+            redisService.deleteOrdinaryMatchImform(userId);
+        }
+
+        Map<String, Object> map =MapHelper.success();
+        map.put("massge","取消匹配成功");
+            return map;
     }
 
 
