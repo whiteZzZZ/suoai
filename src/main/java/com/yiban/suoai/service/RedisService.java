@@ -77,6 +77,7 @@ public interface RedisService {
      * @param userId
      */
     void setSpaceLetterLimit(int userId);
+
     String getOrdinaryMatch();
 
     long deleteOrdinaryMatch(int userId);
