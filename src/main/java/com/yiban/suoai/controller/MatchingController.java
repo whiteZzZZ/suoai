@@ -173,6 +173,7 @@ public class MatchingController {
                 //匹配成功
                 //通知被匹配的用户
                 redisService.addOrdinaryMatchImfore(userId, matchUserId);
+
                 User matchUser = userService.get(matchUserId);
                 Message message=new Message();
                 message.setType(9);//
