@@ -176,6 +176,7 @@ public class YibanController {
             model.setViewName("redirect:/index.html");
             return model;
 
+
         }else {
 
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
