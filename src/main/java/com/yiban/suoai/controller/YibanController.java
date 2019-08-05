@@ -55,6 +55,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("")
 public class YibanController {
@@ -96,7 +98,7 @@ public class YibanController {
      */
     @RequestMapping("/back")
     @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
-    public  String back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public  String back(HttpServletRequest req, RedirectAttributes attr) throws IOException {
         logger.error("调用成功2");
         //return  MapHelper.success();
         Map<String,Object>  map=null;
@@ -176,7 +178,8 @@ public class YibanController {
             map.put("token",AppContext.ACCESS_TOKEN);
             //resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
            // return "/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
-            return "redirect:index.html?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN;
+            attr.addAttribute("userId",yibanId);
+            return "redirect:index.html";
         }
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像
