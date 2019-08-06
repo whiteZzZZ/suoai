@@ -94,12 +94,12 @@ public class YibanController {
     /**
      * 易班回调
      * @param req
-     * @param resp
+     * @param
      * @return
      */
     @RequestMapping("/back")
     @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
-    public  ModelAndView back(HttpServletRequest req, RedirectAttributes attr, ModelAndView model) throws IOException {
+    public  void back(HttpServletRequest req, HttpServletResponse res,RedirectAttributes attr, ModelAndView model) throws IOException {
         logger.error("调用成功2");
         //return  MapHelper.success();
         Map<String,Object>  map=null;
@@ -110,7 +110,7 @@ public class YibanController {
         if (code == null || code.equals("")) {
             //resp.sendRedirect("/yiban_demo/index.html");
             System.out.println("登录失败");
-            return null;
+            //return null;
         }
         //System.out.println(code);
 
@@ -171,11 +171,11 @@ public class YibanController {
             map.put("token",AppContext.ACCESS_TOKEN);
          /*  // resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
             attr.addAttribute("userId",yibanId);*/
-            model.addObject("userId", yibanId);
+           /* model.addObject("userId", yibanId);
             model.addObject("token", AppContext.ACCESS_TOKEN);
             model.setViewName("redirect:/index.html");
-            return model;
-
+            return model;*/
+            res.sendRedirect("https://www.baidu.com?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
 
         }else {
 
@@ -183,11 +183,11 @@ public class YibanController {
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-            model.addObject("userId", yibanId);
+           /* model.addObject("userId", yibanId);
             model.addObject("token", AppContext.ACCESS_TOKEN);
             model.setViewName("redirect:/index.html");
-            return model;
-
+            return model;*/
+            res.sendRedirect("https://www.baidu.com?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
         }
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像

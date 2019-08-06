@@ -42,13 +42,13 @@ public class TestController {
 
     @ApiOperation(value = "重定向，仅测试使用", notes = "重定向，仅测试使用")
     @RequestMapping(value ="togoTest" , method = RequestMethod.GET)
-    public ModelAndView togoTest(
+    public void togoTest(
             HttpServletRequest req, HttpServletResponse res,ModelAndView    model) throws IOException {
         Map map=new HashMap();
-       // res.sendRedirect("https://www.baidu.com");
-        model.addObject("user", 55);
-        model.setViewName("redirect:/index.html");
-        return model;
+        res.sendRedirect("https://www.baidu.com?i=1");
+       /* model.addObject("user", 55);
+        model.setViewName("https://www.baidu.com");
+        return model;*/
        // return "/index";
 
     }
