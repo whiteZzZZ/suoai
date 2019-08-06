@@ -55,6 +55,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("")
 public class YibanController {
@@ -96,8 +99,7 @@ public class YibanController {
      */
     @RequestMapping("/back")
     @ApiOperation(value = "易班回调地址",notes = "易班回调地址")
-    @ResponseBody
-    public  Map<String,Object> back(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public  ModelAndView back(HttpServletRequest req, RedirectAttributes attr, ModelAndView model) throws IOException {
         logger.error("调用成功2");
         //return  MapHelper.success();
         Map<String,Object>  map=null;
@@ -108,7 +110,7 @@ public class YibanController {
         if (code == null || code.equals("")) {
             //resp.sendRedirect("/yiban_demo/index.html");
             System.out.println("登录失败");
-            return MapHelper.error();
+            return null;
         }
         //System.out.println(code);
 
@@ -167,14 +169,25 @@ public class YibanController {
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-            return  map;
+         /*  // resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
+            attr.addAttribute("userId",yibanId);*/
+            model.addObject("userId", yibanId);
+            model.addObject("token", AppContext.ACCESS_TOKEN);
+            model.setViewName("redirect:/index.html");
+            return model;
+
+
         }else {
 
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
             map=MapHelper.success();
             map.put("userId",yibanId);
             map.put("token",AppContext.ACCESS_TOKEN);
-            return  map;
+            model.addObject("userId", yibanId);
+            model.addObject("token", AppContext.ACCESS_TOKEN);
+            model.setViewName("redirect:/index.html");
+            return model;
+
         }
 
 //        byte file = (byte) userInfo.get("yb_userhead");//获取头像

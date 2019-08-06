@@ -256,6 +256,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!--html-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
@@ -304,6 +312,14 @@
 		<!--
 		导入自定义jar包
 		工具类-->
+		<!--<dependency>-->
+			<!--<groupId>com.ybopenapi</groupId>-->
+			<!--<artifactId>ybopenapi</artifactId>-->
+			<!--<version>0.0.1</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>/usr/local/tomcat9/lib/YBOpenApi.jar</systemPath>-->
+		<!--</dependency>-->
+
 		<dependency>
 			<groupId>com.ybopenapi</groupId>
 			<artifactId>ybopenapi</artifactId>
@@ -395,6 +411,10 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+
+
+
 
 	</build>
 

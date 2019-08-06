@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("test")
+//@RequestMapping("test")
 @Api("测试")
 public class TestController {
 
@@ -40,13 +41,15 @@ public class TestController {
 
 
     @ApiOperation(value = "重定向，仅测试使用", notes = "重定向，仅测试使用")
-    @RequestMapping(value ="togoTest" , method = RequestMethod.POST)
-    @ResponseBody
-    public String togoTest(
-            HttpServletRequest req, HttpServletResponse res) throws IOException {
+    @RequestMapping(value ="togoTest" , method = RequestMethod.GET)
+    public ModelAndView togoTest(
+            HttpServletRequest req, HttpServletResponse res,ModelAndView    model) throws IOException {
         Map map=new HashMap();
        // res.sendRedirect("https://www.baidu.com");
-        return "forward:https://www.baidu.com";
+        model.addObject("user", 55);
+        model.setViewName("redirect:/index.html");
+        return model;
+       // return "/index";
 
     }
 

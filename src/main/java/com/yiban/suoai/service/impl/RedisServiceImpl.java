@@ -51,6 +51,7 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String spaceLimit="spaceLimit:";//时空邮局每天获取限制前缀
 
+    public static final String DeleteOrdinaryMatching="deleteOrdinaryMatching:";//收到取消匹配的前缀
 
     @Autowired
     RedisTemplate redisTemplate;
@@ -195,6 +196,22 @@ public class RedisServiceImpl implements RedisService {
         redisUtil.del(OrdinaryMatching+"imfore:"+userId);//获取到 消息后 立刻删除
         return  Integer.parseInt(s);
     }
+
+    @Override
+    public int deleteOrdinaryMatchImform(int userId) {
+        redisUtil.set(DeleteOrdinaryMatching+userId, "1");
+        return 1;
+    }
+
+    @Override
+    public int getDeleteOrdinaryMatchImform(int userId) {
+        if(redisUtil.hasKey(DeleteOrdinaryMatching+userId)){
+            redisUtil.del(DeleteOrdinaryMatching+userId);
+            return 1;
+            }
+        return 0;
+    }
+
     @Override
     public boolean getSpaceLimit(int userId) {
         return redisUtil.hasKey(spaceLimit+userId);

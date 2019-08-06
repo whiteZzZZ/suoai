@@ -77,6 +77,7 @@ public interface RedisService {
      * @param userId
      */
     void setSpaceLetterLimit(int userId);
+
     String getOrdinaryMatch();
 
     long deleteOrdinaryMatch(int userId);
@@ -109,5 +110,22 @@ public interface RedisService {
      * @return
      */
     int getOrdinaryMatchImfore(int userId);
+
+
+    /**
+     * 发送男生取消匹配通知
+     * @param userId
+     * @return
+     */
+    int deleteOrdinaryMatchImform(int userId);
+
+    /**
+     * 男生接受取消匹配通知 1为已经按了取消匹配
+     * @param userId
+     * @return
+     */
+    int getDeleteOrdinaryMatchImform(int userId);
+
+
 
 }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>易班授权成功t</title>
+</head>
+<body>
+	<div style="display: flex; width: 100%;height: 500px;align-items: center;justify-content: center;flex-direction: column;">
+			<image src='http://47.107.74.195:8080/image/cyinfor/0d8af017736c43bca358fcf35f8bcda8-y.jpg' style='height: 150px;width: 150px;margin-bottom: 10px'></image>
+			<text style='font-size: 20px;margin-bottom: 40px'>易班授权成功</text>
+        <button  id="btn" style="background: rgb(90,204,147); text-decoration: none;border: none;padding: 15px 15px;font-size: 17px;border-radius: 10px">返回小程序</button>
+    </div>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.3.0.js"></script>
+    <script>
+    	    //window.location.protocol设置或获取 URL 的协议部分
+       //window.location.href设置或获取整个 URL字符串
+    // var test = window.location.href;
+    // alert(test);
+        function GetRequest() {
+        var url = window.location.search;
+        // var url = '?userId=123456&token=123'; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var Request = new Object();
+    Request = GetRequest();
+    console.log(Request)
+   var btn =document.getElementById("btn")
+   btn.onclick=function(){
+         console.log(window.Request)
+         wx.miniProgram.postMessage({
+      data: window.Request
+    });
+         wx.miniProgram.switchTab({
+            url:'/pages/tabbar/home/home'
+            });
+   }
+    </script>
+
+</body>
+</html>
