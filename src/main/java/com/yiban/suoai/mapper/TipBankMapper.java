@@ -27,4 +27,6 @@ public interface TipBankMapper {
     int updateByPrimaryKeySelective(TipBank record);
 
     int updateByPrimaryKey(TipBank record);
+
+    int batchSaveOrUpdate(List<TipBank> list);
 }

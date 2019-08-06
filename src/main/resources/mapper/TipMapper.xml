@@ -218,4 +218,24 @@
       content = #{content,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id = "updateBatch" parameterType="java.util.list">
+    <foreach collection="list" item="item" index = "index"  separator=";">
+        update tip set
+        source = #{item.source,jdbcType=INTEGER},
+        source_id = #{item.sourceId,jdbcType=INTEGER},
+        type = #{item.type,jdbcType=INTEGER},
+        status = #{item.status,jdbcType=INTEGER},
+        content = #{item.content,jdbcType=VARCHAR}
+        where id = #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+  <update id = "updateFlagBatch" parameterType="java.util.list">
+    <foreach collection="list" item="item" index = "index" separator=";">
+      update ${item.name} set
+      is_delete = #{item.isDelete,jdbcType=BIT}
+      where id = #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
 </mapper>

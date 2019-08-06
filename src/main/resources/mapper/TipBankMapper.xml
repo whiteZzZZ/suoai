@@ -233,4 +233,28 @@
       ans = #{ans,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="batchSaveOrUpdate" parameterType="java.util.list">
+    insert into tip_bank (source, source_id, type,
+      content, status, ans)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+        #{item.id,jdbcType=INTEGER},
+        #{item.source,jdbcType=INTEGER},
+        #{item.sourceId,jdbcType=INTEGER},
+        #{item.type,jdbcType=INTEGER},
+        #{item.content,jdbcType=VARCHAR},
+        #{item.status,jdbcType=INTEGER},
+        #{item.ans,jdbcType=BIT}
+      )
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    source = VALUES(source),
+    source_id = VALUES(source_id),
+    type = VALUES(type),
+    content = VALUES(content),
+    status = VALUES(status),
+    ans = VALUES(ans)
+  </insert>
 </mapper>

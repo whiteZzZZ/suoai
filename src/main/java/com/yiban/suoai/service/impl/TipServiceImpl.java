@@ -1,18 +1,19 @@
 package com.yiban.suoai.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.yiban.suoai.mapper.CyinforMapper;
-import com.yiban.suoai.mapper.TipBankMapper;
-import com.yiban.suoai.mapper.TipMapper;
-import com.yiban.suoai.mapper.TipUserMapper;
+import com.yiban.suoai.mapper.*;
 import com.yiban.suoai.pojo.*;
 import com.yiban.suoai.service.TipService;
 import com.yiban.suoai.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.stream.Collectors;
 
+@Service
 public class TipServiceImpl implements TipService {
 
     @Autowired
@@ -24,7 +25,13 @@ public class TipServiceImpl implements TipService {
     @Autowired
     CyinforMapper cyinforMapper;
     @Autowired
+    UserMapper userMapper;
+    @Autowired
     RedisUtil redisUtil;
+    @Autowired
+    ReviewMapper reviewMapper;
+    @Autowired
+    WordReviewMapper wordReviewMapper;
 
     @Override
     public int addTip(Tip tip) {
@@ -39,8 +46,66 @@ public class TipServiceImpl implements TipService {
     @Override
     public int checkTip(int userId,List<TipBank> list) {
         List<Boolean> trueAns = (List)redisUtil.getObject("ans:"+userId);
-       // int count =
-       return 0;
+        int count = 0;
+        ListIterator<TipBank> iterator = list.listIterator(list.size());
+        for(int i = trueAns.size()-1;i>=0;i--){
+            if(trueAns.get(i) == iterator.previous().getAns())count++;
+        }
+        if (count>(list.size()*0.8)){
+            redisUtil.delObject("ans:"+userId);
+            list.forEach((n)->n.setStatus(1)); //审核通过
+            tipMapper.updateBatch(list);
+
+            User user = new User();  //更新考试用户违规状态
+            user.setId(userId);
+            user.setViolator(false);
+            userMapper.updateByPrimaryKeySelective(user);
+
+            List<TipModel> tipModelList = new ArrayList<>();
+            TipModel tm = null;
+            //更改被举报用户状态为违规
+            for(Tip tip:list) {
+                userId = 0;
+                switch (tip.getSource()) {
+                    case 1:
+                        Cyinfor cyinfor = cyinforMapper.selectByPrimaryKey(tip.getSourceId());
+                        userId = cyinfor.getUserId();
+                        tm = new TipModel();
+                        tm.setDelete(true);
+                        tm.setName("cyinfor");
+                        tm.setId(tip.getSourceId());
+                        tipModelList.add(tm);
+                        break;
+                    case 2:
+                        Review review = reviewMapper.selectByPrimaryKey(tip.getSourceId());
+                        userId = review.getUserId();
+                        tm = new TipModel();
+                        tm.setDelete(true);
+                        tm.setName("review");
+                        tm.setId(tip.getSourceId());
+                        tipModelList.add(tm);
+                        break;
+                    case 3:
+                        WordReview wordReview = wordReviewMapper.selectByPrimaryKey(tip.getSourceId());
+                        userId = wordReview.getUserId();
+                        tm = new TipModel();
+                        tm.setDelete(true);
+                        tm.setName("word_review");
+                        tm.setId(tip.getSourceId());
+                        tipModelList.add(tm);
+                        break;
+                }
+                User u = new User();
+                u.setId(userId);
+                u.setViolator(true);
+                userMapper.updateByPrimaryKeySelective(user);
+            }
+
+            tipMapper.updateFlagBatch(tipModelList);  //更新被举报事件的删除标记
+
+            return tipBankMapper.batchSaveOrUpdate(list);  //将题目添加进题库
+        }
+       return -1;
     }
 
     @Override
@@ -71,4 +136,5 @@ public class TipServiceImpl implements TipService {
         lt.addAll(ltb);
         return lt;
     }
+
 }

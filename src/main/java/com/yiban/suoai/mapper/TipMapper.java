@@ -3,6 +3,8 @@ package com.yiban.suoai.mapper;
 import com.yiban.suoai.pojo.Tip;
 import com.yiban.suoai.pojo.TipExample;
 import java.util.List;
+
+import com.yiban.suoai.pojo.TipModel;
 import org.apache.ibatis.annotations.Param;
 
 public interface TipMapper {
@@ -27,4 +29,8 @@ public interface TipMapper {
     int updateByPrimaryKeySelective(Tip record);
 
     int updateByPrimaryKey(Tip record);
+
+    int updateBatch(List<? extends Tip> list);
+
+    int updateFlagBatch(List<TipModel> list);
 }
