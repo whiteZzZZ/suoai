@@ -68,6 +68,7 @@ public class ReviewServiceImpl  implements ReviewService {
     public List<Review> getAllButReply(int cyid) {
         ReviewExample example=new ReviewExample();
         example.createCriteria().andCyIdEqualTo(cyid).andReplyIdEqualTo(0);//不获取评论的评论
+        example.setOrderByClause("id desc");
         List<Review> list=reviewMapper.selectByExampleWithBLOBs(example);
         if(list.isEmpty()){
             return null;

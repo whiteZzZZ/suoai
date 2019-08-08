@@ -77,6 +77,7 @@ public class MessageServiceImpl implements MessageService {
         for(Message message:messages){
             ForeImform foreImform=new ForeImform();
             foreImform.setCyId(message.getCyId());
+            foreImform.setTrueCyid(message.getCyId());//先在这里设置  后面如果是评论点赞 评论 每周一话就要修改
             foreImform.setUserId(message.getUserId());
             foreImform.setSponsorId(message.getSponsorId());
             foreImform.setTime(message.getTime());
@@ -120,9 +121,9 @@ public class MessageServiceImpl implements MessageService {
                foreImform.setTrueCyid(review.getCyId());
            }
            if(8==message.getType()){
+               //每周一话
                 WordReview wordReview=wordReviewService.get(message.getCyId());
                 foreImform.setText(wordReview.getContent());
-
            }
 
             list.add(foreImform);
