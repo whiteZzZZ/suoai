@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.forepojo.ForeCyinfor;
+import com.yiban.suoai.forepojo.ForeRankUser;
 import com.yiban.suoai.forepojo.ForeReview;
 import com.yiban.suoai.pojo.*;
 import com.yiban.suoai.service.*;
@@ -407,7 +408,17 @@ public class SquareController {
         return map;
     }
 
-
+    @ApiOperation(value = "获取排行榜", notes = "获取排行榜")
+    @RequestMapping(value ="getRanking" , method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> getRanking(
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token
+    ) throws SAException {
+        List<ForeRankUser> foreRankUsers = userService.topTen();
+        Map<String, Object> map = MapHelper.success();
+        map.put("data", foreRankUsers);
+        return map;
+    }
 
 
 

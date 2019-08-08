@@ -1,6 +1,8 @@
 package com.yiban.suoai.service;
 
 
+import com.yiban.suoai.exception.SAException;
+import com.yiban.suoai.forepojo.ForeRankUser;
 import com.yiban.suoai.pojo.User;
 import org.springframework.stereotype.Service;
 
@@ -24,4 +26,6 @@ public interface UserService {
      * @return
      */
     int addExperience(int userId,int count);
+
+    List<ForeRankUser> topTen() throws SAException;
 }

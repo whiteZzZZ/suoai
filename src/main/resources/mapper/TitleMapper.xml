@@ -70,6 +70,9 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.Title" useGeneratedKeys="true">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into title (name, userId)
     values (#{name,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER})
   </insert>

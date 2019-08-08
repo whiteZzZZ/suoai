@@ -48,6 +48,8 @@ public class UserController {
 //   InformService informService;
    @Autowired
    CyinforService cyinforService;
+   @Autowired
+   TitleService titleService;
 
     @ApiOperation(value = "获取侧拉栏状态", notes = "获取侧拉栏状态")
     @RequestMapping(value ="getState" , method = RequestMethod.GET)
@@ -142,7 +144,7 @@ public class UserController {
         foreUser.setName(user.getName());
         foreUser.setHeadImg(user.getHeadImg());
         foreUser.setBackGround(user.getBgImg());
-        foreUser.setTitleId(user.getTitleId());
+        foreUser.setTitle(titleService.get(user.getTitleId()).getName());
         foreUser.setArea(user.getArea());
         foreUser.setSignature(user.getSignature());
         foreUser.setlevel(user.getLevel());
@@ -179,7 +181,7 @@ public class UserController {
         foreUser.setName(user.getName());
         foreUser.setHeadImg(user.getHeadImg());
         foreUser.setBackGround(user.getBgImg());
-        foreUser.setTitleId(user.getTitleId());
+        foreUser.setTitle(titleService.get(user.getTitleId()).getName());
         foreUser.setArea(user.getArea());
         foreUser.setSignature(user.getSignature());
         foreUser.setlevel(user.getLevel());
@@ -230,8 +232,22 @@ public class UserController {
         return MapHelper.success();
     }
 
+    @ApiOperation(value = "获取当前用户拥有称号(默认拥有一个id为1，名字是等级的lv.1的称号)",notes = "获取当前用户拥有称号")
+    @RequestMapping(value = "userTitle",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> updateUserTitle(
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token
+    ) throws SAException{
+        int userId = redisService.getUserId(token);
+        List<Title> byUserId = titleService.getByUserId(userId);
+        Map success = MapHelper.success();
+        success.put("data",byUserId);
+        return success;
+    }
+
+
     @ApiOperation(value = "更改用户资料-称号",notes = "更改用户资料-称号")
-    @RequestMapping(value = "updateUserTitle",method = RequestMethod.PUT)
+    @RequestMapping(value = "userTitle",method = RequestMethod.PUT)
     @ResponseBody
     public Map<String, Object> updateUserTitle(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
