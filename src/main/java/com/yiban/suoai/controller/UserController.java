@@ -44,8 +44,8 @@ public class UserController {
     AcademyService academyService;
    @Autowired
     DailySentenceService dailySentenceService;
-   @Autowired
-   InformService informService;
+//   @Autowired
+//   InformService informService;
    @Autowired
    CyinforService cyinforService;
 

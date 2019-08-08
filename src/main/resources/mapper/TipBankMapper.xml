@@ -234,8 +234,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="batchSaveOrUpdate" parameterType="java.util.list">
-    insert into tip_bank (source, source_id, type,
+  <insert id="batchSaveOrUpdate" parameterType="java.util.List">
+    insert into tip_bank (id,source, source_id, type,
       content, status, ans)
     values
     <foreach collection="list" item="item" index="index" separator=",">

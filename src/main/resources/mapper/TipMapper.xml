@@ -219,7 +219,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id = "updateBatch" parameterType="java.util.list">
+  <update id = "updateBatch" parameterType="java.util.List">
     <foreach collection="list" item="item" index = "index"  separator=";">
         update tip set
         source = #{item.source,jdbcType=INTEGER},
@@ -231,7 +231,7 @@
     </foreach>
   </update>
 
-  <update id = "updateFlagBatch" parameterType="java.util.list">
+  <update id = "updateFlagBatch" parameterType="java.util.List">
     <foreach collection="list" item="item" index = "index" separator=";">
       update ${item.name} set
       is_delete = #{item.isDelete,jdbcType=BIT}

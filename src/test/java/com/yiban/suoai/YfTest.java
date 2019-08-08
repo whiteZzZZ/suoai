@@ -1,7 +1,12 @@
 package com.yiban.suoai;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yiban.suoai.mapper.TipBankMapper;
+import com.yiban.suoai.mapper.TipMapper;
 import com.yiban.suoai.pojo.Chat;
+import com.yiban.suoai.pojo.Tip;
+import com.yiban.suoai.pojo.TipBank;
+import com.yiban.suoai.pojo.TipModel;
 import com.yiban.suoai.scheduler.ChatScheduler;
 import com.yiban.suoai.util.RedisUtil;
 import org.junit.Test;
@@ -32,6 +37,10 @@ public class YfTest {
     RedisUtil redisUtil;
     @Autowired
     ChatScheduler chatScheduler;
+    @Autowired
+    TipMapper tipMapper;
+    @Autowired
+    TipBankMapper tipBankMapper;
 
     @Test
     public void testRedis()throws Exception{
@@ -107,6 +116,24 @@ public class YfTest {
     @Test
     public void upgradeTest(){
 
+    }
+
+    @Test
+    public void addTip(){
+        Tip p ;
+        TipBank tb;
+        for(int i = 0 ;i<20;i++){
+            tb=new TipBank();
+            tb.setStatus(1);
+            tb.setSource(1);
+            tb.setSourceId(104);
+            tb.setType(1);
+            tb.setAns(true);
+            tb.setContent("tiptest");
+            tb.setId(i);
+            tipBankMapper.insert(tb);
+            tipMapper.insert((Tip)tb);
+        }
     }
 
 }

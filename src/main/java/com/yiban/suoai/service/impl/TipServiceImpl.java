@@ -49,9 +49,14 @@ public class TipServiceImpl implements TipService {
         int count = 0;
         ListIterator<TipBank> iterator = list.listIterator(list.size());
         for(int i = trueAns.size()-1;i>=0;i--){
-            if(trueAns.get(i) == iterator.previous().getAns())count++;
+            TipBank tt = iterator.previous();
+            System.out.println("ans="+tt.getAns());
+            if(trueAns.get(i) == tt.getAns()){
+                count++;
+                System.out.println("match ++");
+            }
         }
-        if (count>(list.size()*0.8)){
+        if (count>(trueAns.size()*0.8)){
             redisUtil.delObject("ans:"+userId);
             list.forEach((n)->n.setStatus(1)); //审核通过
             tipMapper.updateBatch(list);
@@ -64,7 +69,8 @@ public class TipServiceImpl implements TipService {
             List<TipModel> tipModelList = new ArrayList<>();
             TipModel tm = null;
             //更改被举报用户状态为违规
-            for(Tip tip:list) {
+            for(int i = 0;i<list.size()-trueAns.size();i++) {
+                Tip tip = list.get(i);
                 userId = 0;
                 switch (tip.getSource()) {
                     case 1:
@@ -99,6 +105,11 @@ public class TipServiceImpl implements TipService {
                 u.setId(userId);
                 u.setViolator(true);
                 userMapper.updateByPrimaryKeySelective(user);
+                int tn = tipUserMapper.selectByPrimaryKey(userId).getNum();
+                TipUser tu = new TipUser();
+                tu.setId(userId);
+                tu.setNum(tn+1);
+                tipUserMapper.updateByPrimaryKeySelective(tu);
             }
 
             tipMapper.updateFlagBatch(tipModelList);  //更新被举报事件的删除标记
@@ -120,19 +131,26 @@ public class TipServiceImpl implements TipService {
         int count = tipUser.getNum()*5;    //总题数
         int tipCount = count/2;          //真实举报题数
         if(tipCount>acturalCount)tipCount = acturalCount;
+        System.out.println("tipCount="+tipCount);
+        System.out.println("acturalCount="+acturalCount);
         int bankCount = count-tipCount;  //题库题数
 
         int i = (int)(Math.random()*acturalBankCount);
         if(i+bankCount>acturalBankCount)i-=bankCount;
         if(i<0)i=0;
 
-        PageHelper.offsetPage(i,  acturalBankCount);
+        PageHelper.offsetPage(i,  bankCount);
         List<TipBank> ltb = tipBankMapper.selectByExample(new TipBankExample());
         List<Boolean> ans = ltb.stream().map(p->p.getAns()).collect(Collectors.toList());
         redisUtil.setObject("ans:"+userId,ans);
 
         PageHelper.offsetPage(0,tipCount);
         List<Tip> lt = tipMapper.selectByExample(te);
+        System.out.println("acNum="+acturalBankCount);
+        System.out.println("lt==");
+        lt.forEach(n->System.out.println(n.getId()));
+        System.out.println("ltb==");
+        ltb.forEach(n->n.setAns(null));
         lt.addAll(ltb);
         return lt;
     }

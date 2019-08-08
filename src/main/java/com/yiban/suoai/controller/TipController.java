@@ -1,5 +1,6 @@
 package com.yiban.suoai.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.pojo.Tip;
 import com.yiban.suoai.pojo.TipBank;
@@ -7,29 +8,30 @@ import com.yiban.suoai.service.TipService;
 import com.yiban.suoai.util.ErrorCode;
 import com.yiban.suoai.util.MapHelper;
 import com.yiban.suoai.util.RedisUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("tip")
+@Api("举报")
 public class TipController {
 
     @Autowired
     TipService tipService;
     @Autowired
     RedisUtil redisUtil;
-
+    @ApiOperation(value = "添加一条举报", notes = "添加一条举报")
     @RequestMapping("addTip")
-    public Map<String,Object> addTip(@RequestParam("source")Integer source,
-                                     @RequestParam("sourceId")Integer sourceId,
-                                     @RequestParam("type")Integer type,
-                                     @RequestParam("content")String content){
+    public Map<String,Object> addTip( @ApiParam(value = "资源类型 1传阅 2评论 3每日一话评论")@RequestParam("source")Integer source,
+                                      @ApiParam(value = "资源id")@RequestParam("sourceId")Integer sourceId,
+                                      @ApiParam(value = "举报类型")@RequestParam("type")Integer type,
+                                      @ApiParam(value = "举报内容")@RequestParam("content")String content){
         Tip t = new Tip();
         t.setSource(source);
         t.setSourceId(sourceId);
@@ -45,11 +47,31 @@ public class TipController {
 //        if(tipService.deleteTip(id)>0)return MapHelper.success();
 //        else return MapHelper.error();
 //    }
-
+    @ApiOperation(value = "检查考试答案", notes = "检查考试答案")
     @RequestMapping("checkTip")
-    public Map<String,Object> checkTip(@RequestParam("tipList")List<TipBank> list,
-                                       @RequestHeader("token")String token){
+    public Map<String,Object> checkTip(@ApiParam(value = "考试答案json，举例{\n" +
+            "   \"tipList\":[{\n" +
+            "                \"id\": 1,\n" +
+            "                \"source\": 1,\n" +
+            "                \"sourceId\": 104,\n" +
+            "                \"type\": 1,\n" +
+            "                \"status\": 1,\n" +
+            "                \"content\": \"tiptest\",\n" +
+            "                \"ans\": true\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"id\": 2,\n" +
+            "                \"source\": 1,\n" +
+            "                \"sourceId\": 104,\n" +
+            "                \"type\": 1,\n" +
+            "                \"status\": 1,\n" +
+            "                \"content\": \"tiptest\",\n" +
+            "                \"ans\":true\n" +
+            "            }]}")@RequestBody JSONObject js,
+                                       @ApiParam(value = "token")@RequestHeader("token")String token){
         try {
+            List<TipBank> list = js.getJSONArray("tipList").toJavaList(TipBank.class);
+            list.forEach(n-> System.out.println(n.getAns()));
             Map<String,Object> map =MapHelper.success();
             int userId = redisUtil.getUserId(token);
             int flag = tipService.checkTip(userId,list);
@@ -65,9 +87,9 @@ public class TipController {
             return MapHelper.error(e.getCode().getMsg());
         }
     }
-
+    @ApiOperation(value = "获取考试", notes = "获取考试")
     @RequestMapping("getExam")
-    public Map<String,Object> getExam(@RequestHeader("token")String token){
+    public Map<String,Object> getExam(@ApiParam(value = "token")@RequestHeader("token")String token){
         try {
             int userId = redisUtil.getUserId(token);
             List<Tip> list = tipService.getExam(userId);
