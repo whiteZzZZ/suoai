@@ -27,7 +27,7 @@ public class TipController {
     @Autowired
     RedisUtil redisUtil;
     @ApiOperation(value = "添加一条举报", notes = "添加一条举报")
-    @RequestMapping("addTip")
+    @RequestMapping(value="addTip",method = RequestMethod.PUT)
     public Map<String,Object> addTip( @ApiParam(value = "资源类型 1传阅 2评论 3每日一话评论")@RequestParam("source")Integer source,
                                       @ApiParam(value = "资源id")@RequestParam("sourceId")Integer sourceId,
                                       @ApiParam(value = "举报类型")@RequestParam("type")Integer type,
@@ -48,7 +48,7 @@ public class TipController {
 //        else return MapHelper.error();
 //    }
     @ApiOperation(value = "检查考试答案", notes = "检查考试答案")
-    @RequestMapping("checkTip")
+    @RequestMapping(value="checkTip",method = RequestMethod.POST)
     public Map<String,Object> checkTip(@ApiParam(value = "考试答案json，举例{\n" +
             "   \"tipList\":[{\n" +
             "                \"id\": 1,\n" +
@@ -88,7 +88,7 @@ public class TipController {
         }
     }
     @ApiOperation(value = "获取考试", notes = "获取考试")
-    @RequestMapping("getExam")
+    @RequestMapping(value="getExam",method = RequestMethod.GET)
     public Map<String,Object> getExam(@ApiParam(value = "token")@RequestHeader("token")String token){
         try {
             int userId = redisUtil.getUserId(token);
