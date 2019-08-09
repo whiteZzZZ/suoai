@@ -5,7 +5,7 @@ import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.forepojo.ForeImform;
 import com.yiban.suoai.pojo.Message;
 import com.yiban.suoai.pojo.Notice;
-import com.yiban.suoai.service.InformService;
+//import com.yiban.suoai.service.InformService;
 import com.yiban.suoai.service.MessageService;
 import com.yiban.suoai.service.NoticeService;
 import com.yiban.suoai.service.RedisService;

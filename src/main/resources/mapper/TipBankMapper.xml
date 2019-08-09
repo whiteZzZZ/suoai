@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yiban.suoai.mapper.InformMapper" >
-  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.Inform" >
+<mapper namespace="com.yiban.suoai.mapper.TipBankMapper" >
+  <resultMap id="BaseResultMap" type="com.yiban.suoai.pojo.TipBank" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="num" property="num" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="source" property="source" jdbcType="INTEGER" />
+    <result column="source_id" property="sourceId" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="check" property="check" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="ans" property="ans" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,16 +69,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, num, user_id, type, `check`, content
+    id, source, source_id, type, content, status, ans
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yiban.suoai.pojo.InformExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yiban.suoai.pojo.TipBankExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from inform
+    from tip_bank
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,88 +89,97 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from inform
+    from tip_bank
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from inform
+    delete from tip_bank
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.yiban.suoai.pojo.InformExample" >
-    delete from inform
+  <delete id="deleteByExample" parameterType="com.yiban.suoai.pojo.TipBankExample" >
+    delete from tip_bank
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.yiban.suoai.pojo.Inform" useGeneratedKeys="true" keyProperty="id" >
-    insert into inform (num, user_id, type, 
-      `check`, content)
-    values (#{num,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{check,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.yiban.suoai.pojo.TipBank" useGeneratedKeys="true" keyProperty="id" >
+    insert into tip_bank (source, source_id, type, 
+      content, status, ans)
+    values (#{source,jdbcType=INTEGER}, #{sourceId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{ans,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.yiban.suoai.pojo.Inform" useGeneratedKeys="true" keyProperty="id" >
-    insert into inform
+  <insert id="insertSelective" parameterType="com.yiban.suoai.pojo.TipBank" useGeneratedKeys="true" keyProperty="id" >
+    insert into tip_bank
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="num != null" >
-        num,
+      <if test="source != null" >
+        source,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="sourceId != null" >
+        source_id,
       </if>
       <if test="type != null" >
         type,
       </if>
-      <if test="check != null" >
-        `check`,
-      </if>
       <if test="content != null" >
         content,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="ans != null" >
+        ans,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="num != null" >
-        #{num,jdbcType=INTEGER},
+      <if test="source != null" >
+        #{source,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="check != null" >
-        #{check,jdbcType=INTEGER},
-      </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="ans != null" >
+        #{ans,jdbcType=BIT},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yiban.suoai.pojo.InformExample" resultType="java.lang.Integer" >
-    select count(*) from inform
+  <select id="countByExample" parameterType="com.yiban.suoai.pojo.TipBankExample" resultType="java.lang.Integer" >
+    select count(*) from tip_bank
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update inform
+    update tip_bank
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.num != null" >
-        num = #{record.num,jdbcType=INTEGER},
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.sourceId != null" >
+        source_id = #{record.sourceId,jdbcType=INTEGER},
       </if>
       <if test="record.type != null" >
         type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.check != null" >
-        `check` = #{record.check,jdbcType=INTEGER},
-      </if>
       <if test="record.content != null" >
         content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.ans != null" >
+        ans = #{record.ans,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -177,45 +187,74 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update inform
+    update tip_bank
     set id = #{record.id,jdbcType=INTEGER},
-      num = #{record.num,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
+      source = #{record.source,jdbcType=INTEGER},
+      source_id = #{record.sourceId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
-      `check` = #{record.check,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=VARCHAR}
+      content = #{record.content,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      ans = #{record.ans,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.Inform" >
-    update inform
+  <update id="updateByPrimaryKeySelective" parameterType="com.yiban.suoai.pojo.TipBank" >
+    update tip_bank
     <set >
-      <if test="num != null" >
-        num = #{num,jdbcType=INTEGER},
+      <if test="source != null" >
+        source = #{source,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="check != null" >
-        `check` = #{check,jdbcType=INTEGER},
-      </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="ans != null" >
+        ans = #{ans,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.Inform" >
-    update inform
-    set num = #{num,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.yiban.suoai.pojo.TipBank" >
+    update tip_bank
+    set source = #{source,jdbcType=INTEGER},
+      source_id = #{sourceId,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
-        `check` = #{check,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR}
+      content = #{content,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      ans = #{ans,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="batchSaveOrUpdate" parameterType="java.util.List">
+    insert into tip_bank (id,source, source_id, type,
+      content, status, ans)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+        #{item.id,jdbcType=INTEGER},
+        #{item.source,jdbcType=INTEGER},
+        #{item.sourceId,jdbcType=INTEGER},
+        #{item.type,jdbcType=INTEGER},
+        #{item.content,jdbcType=VARCHAR},
+        #{item.status,jdbcType=INTEGER},
+        #{item.ans,jdbcType=BIT}
+      )
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+    source = VALUES(source),
+    source_id = VALUES(source_id),
+    type = VALUES(type),
+    content = VALUES(content),
+    status = VALUES(status),
+    ans = VALUES(ans)
+  </insert>
 </mapper>

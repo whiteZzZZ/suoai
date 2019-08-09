@@ -44,10 +44,12 @@ public class UserController {
     AcademyService academyService;
    @Autowired
     DailySentenceService dailySentenceService;
-   @Autowired
-   InformService informService;
+//   @Autowired
+//   InformService informService;
    @Autowired
    CyinforService cyinforService;
+   @Autowired
+   TitleService titleService;
 
     @ApiOperation(value = "获取侧拉栏状态", notes = "获取侧拉栏状态")
     @RequestMapping(value ="getState" , method = RequestMethod.GET)
@@ -142,7 +144,7 @@ public class UserController {
         foreUser.setName(user.getName());
         foreUser.setHeadImg(user.getHeadImg());
         foreUser.setBackGround(user.getBgImg());
-        foreUser.setTitleId(user.getTitleId());
+        foreUser.setTitle(titleService.get(user.getTitleId()).getName());
         foreUser.setArea(user.getArea());
         foreUser.setSignature(user.getSignature());
         foreUser.setlevel(user.getLevel());
@@ -179,7 +181,7 @@ public class UserController {
         foreUser.setName(user.getName());
         foreUser.setHeadImg(user.getHeadImg());
         foreUser.setBackGround(user.getBgImg());
-        foreUser.setTitleId(user.getTitleId());
+        foreUser.setTitle(titleService.get(user.getTitleId()).getName());
         foreUser.setArea(user.getArea());
         foreUser.setSignature(user.getSignature());
         foreUser.setlevel(user.getLevel());
@@ -230,8 +232,22 @@ public class UserController {
         return MapHelper.success();
     }
 
+    @ApiOperation(value = "获取当前用户拥有称号(默认拥有一个id为1，名字是等级的lv.1的称号)",notes = "获取当前用户拥有称号")
+    @RequestMapping(value = "userTitle",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> updateUserTitle(
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token
+    ) throws SAException{
+        int userId = redisService.getUserId(token);
+        List<Title> byUserId = titleService.getByUserId(userId);
+        Map success = MapHelper.success();
+        success.put("data",byUserId);
+        return success;
+    }
+
+
     @ApiOperation(value = "更改用户资料-称号",notes = "更改用户资料-称号")
-    @RequestMapping(value = "updateUserTitle",method = RequestMethod.PUT)
+    @RequestMapping(value = "userTitle",method = RequestMethod.PUT)
     @ResponseBody
     public Map<String, Object> updateUserTitle(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
@@ -403,39 +419,39 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "发送举报信息",notes = "发送举报信息")
-    @RequestMapping(value = "inform",method = RequestMethod.PUT)
-    @ResponseBody
-    public Map<String, Object> inform(
-            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("typeId") @ApiParam(value = "类型") Integer typeId,
-            @RequestParam(value = "cyId") @ApiParam(value = "创阅Id") Integer cyId,
-            @RequestParam(value = "text") @ApiParam(value = "内容") String text
-            ) throws SAException{
-        int userId = redisService.getUserId(token);
-        Inform inform = informService.get(cyId);
-        if(inform == null){
-            Inform inform1 = new Inform();
-            inform1.setId(cyId);
-            inform1.setCheck(0);
-            if(text!=null) {
-                inform1.setContent(text);
-            }
-            inform1.setNum(1);
-            inform1.setUserId(userId);
-            inform1.setType(typeId);
-            inform1.setContent(text);
-            informService.add(inform1);
-        }else {
-            inform.setNum(inform.getNum()+1);
-            if(inform.getNum()>=3){
-                Cyinfor cyinfor = cyinforService.get(cyId);
-                cyinfor.setIsDelete(true);
-                cyinforService.update(cyinfor);
-            }
-            informService.update(inform);
-        }
-        return MapHelper.success();
-    }
+//    @ApiOperation(value = "发送举报信息",notes = "发送举报信息")
+//    @RequestMapping(value = "inform",method = RequestMethod.PUT)
+//    @ResponseBody
+//    public Map<String, Object> inform(
+//            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
+//            @RequestParam("typeId") @ApiParam(value = "类型") Integer typeId,
+//            @RequestParam(value = "cyId") @ApiParam(value = "创阅Id") Integer cyId,
+//            @RequestParam(value = "text") @ApiParam(value = "内容") String text
+//            ) throws SAException{
+//        int userId = redisService.getUserId(token);
+//        Inform inform = informService.get(cyId);
+//        if(inform == null){
+//            Inform inform1 = new Inform();
+//            inform1.setId(cyId);
+//            inform1.setCheck(0);
+//            if(text!=null) {
+//                inform1.setContent(text);
+//            }
+//            inform1.setNum(1);
+//            inform1.setUserId(userId);
+//            inform1.setType(typeId);
+//            inform1.setContent(text);
+//            informService.add(inform1);
+//        }else {
+//            inform.setNum(inform.getNum()+1);
+//            if(inform.getNum()>=3){
+//                Cyinfor cyinfor = cyinforService.get(cyId);
+//                cyinfor.setIsDelete(true);
+//                cyinforService.update(cyinfor);
+//            }
+//            informService.update(inform);
+//        }
+//        return MapHelper.success();
+//    }
 
 }

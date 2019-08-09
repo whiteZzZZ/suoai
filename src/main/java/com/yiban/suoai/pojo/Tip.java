@@ -1,15 +1,15 @@
 package com.yiban.suoai.pojo;
 
-public class Inform {
+public class Tip {
     private Integer id;
 
-    private Integer num;
+    private Integer source;
 
-    private Integer userId;
+    private Integer sourceId;
 
     private Integer type;
 
-    private Integer check;
+    private Integer status;
 
     private String content;
 
@@ -21,20 +21,20 @@ public class Inform {
         this.id = id;
     }
 
-    public Integer getNum() {
-        return num;
+    public Integer getSource() {
+        return source;
     }
 
-    public void setNum(Integer num) {
-        this.num = num;
+    public void setSource(Integer source) {
+        this.source = source;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getSourceId() {
+        return sourceId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setSourceId(Integer sourceId) {
+        this.sourceId = sourceId;
     }
 
     public Integer getType() {
@@ -45,12 +45,12 @@ public class Inform {
         this.type = type;
     }
 
-    public Integer getCheck() {
-        return check;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCheck(Integer check) {
-        this.check = check;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getContent() {

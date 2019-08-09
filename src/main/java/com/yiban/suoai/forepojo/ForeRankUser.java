@@ -4,18 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class ForeUser {
+public class ForeRankUser {
     private Integer userId;
 
     private String name;
 
-    private String sex;
+    private Boolean sex;
 
     private String area;
-
-    private String phone;
-
-    private String stu_Num;
 
     private String headImg;
 
@@ -31,51 +27,24 @@ public class ForeUser {
 
     private String signature;
 
-    private Integer paperId;
-
     private Integer experience;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")//格式化时间
-    private Date birthday;
+    private Integer express_time;
 
-    public Integer getExperience() {
-        return experience;
+    public String getTitle() {
+        return title;
     }
 
-    public void setExperience(Integer experience) {
-        this.experience = experience;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Integer getPaperId() {
-        return paperId;
+    public Integer getExpress_time() {
+        return express_time;
     }
 
-    public void setPaperId(Integer paperId) {
-        this.paperId = paperId;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getStu_Num() {
-        return stu_Num;
-    }
-
-    public void setStu_Num(String stu_Num) {
-        this.stu_Num = stu_Num;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setExpress_time(Integer express_time) {
+        this.express_time = express_time;
     }
 
     public Integer getUserId() {
@@ -94,11 +63,11 @@ public class ForeUser {
         this.name = name;
     }
 
-    public String getSex() {
+    public Boolean getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Boolean sex) {
         this.sex = sex;
     }
 
@@ -142,19 +111,11 @@ public class ForeUser {
         this.academy = academy;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String titleId) {
-        this.title = titleId;
-    }
-
-    public Integer getlevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setlevel(Integer level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
@@ -164,5 +125,13 @@ public class ForeUser {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public Integer getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Integer experience) {
+        this.experience = experience;
     }
 }
