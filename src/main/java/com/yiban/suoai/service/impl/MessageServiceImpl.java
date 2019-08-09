@@ -54,6 +54,7 @@ public class MessageServiceImpl implements MessageService {
         MessageExample example=new MessageExample();
         if(type.length==1){
             example.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(type[0]);
+
         }else if(type.length==3){
             List<Integer> list= new ArrayList<>();
             list.add(type[0]);
@@ -88,6 +89,7 @@ public class MessageServiceImpl implements MessageService {
                 foreImform.setHeadImg(user.getHeadImg());
                 foreImform.setName(user.getName());
             }
+
            /* if(1==message.getType()||0==message.getType()){
                 //如果收到的是表白
                 Cyinfor cyinfor= cyinforService.get(message.getCyId());
@@ -107,8 +109,11 @@ public class MessageServiceImpl implements MessageService {
                 }
             }
 */
+
+
+
            //如果是点赞和评论的话就要显示出内容出来
-           if(6==message.getType()){
+           if(6==message.getType()||0==message.getType()||1==message.getType()){
                Cyinfor cyinfor= cyinforService.get(message.getCyId());
                foreImform.setText(cyinfor.getText());
            }

@@ -62,6 +62,7 @@ public class WordReviewServiceImpl implements WordReviewService {
     public List<WordReview> getAll(int weekWordId) {
         WordReviewExample wordReviewExample = new WordReviewExample();
         wordReviewExample.createCriteria().andWordIdEqualTo(weekWordId).andIsDeleteEqualTo(false);
+        wordReviewExample.setOrderByClause("id desc");
         return wordReviewMapper.selectByExampleWithBLOBs(wordReviewExample);
     }
 
