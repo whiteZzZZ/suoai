@@ -2,8 +2,10 @@ package com.yiban.suoai.controller;
 
 import com.yiban.suoai.pojo.Cyinfor;
 import com.yiban.suoai.pojo.Image;
+import com.yiban.suoai.pojo.User;
 import com.yiban.suoai.service.CyinforService;
 import com.yiban.suoai.service.ImageService;
+import com.yiban.suoai.service.UserService;
 import com.yiban.suoai.util.FileHelper;
 import com.yiban.suoai.util.MapHelper;
 import com.yiban.suoai.util.UUIDUtil;
@@ -38,6 +40,8 @@ public class FileController {
     ImageService imageService;
     @Autowired
     CyinforService cyinforService;
+    @Autowired
+    UserService userService;
 
    /* @ApiOperation(value = "表白图片上传", notes = "表白图片上传")
     @RequestMapping(value ="cyImageUpload" , method = RequestMethod.PUT)
@@ -93,5 +97,55 @@ public class FileController {
 
     }
 
+    @ApiOperation(value = "头像图片上传", notes = "头像图片上传")
+    @RequestMapping(value ="headImageUpload" , method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> headImageUpload(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                             @RequestParam(value = "userId")  @ApiParam(value = "用户id  ") int userId,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //System.out.println("进入get方法！");
+        //获取从前台传过来得图片
+        MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
+        MultipartFile multipartFile =  req.getFile("file");
+        //获取图片的文件类型
+        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
+        String path=FileHelper.FileSave3(multipartFile,uuid,FileHelper.headImg);
+
+        User user = userService.get(userId);
+        user.setHeadImg(path);
+
+
+        //压缩图片
+        FileHelper.compressPicture(multipartFile,uuid,FileHelper.headImg);
+
+        return MapHelper.success();
+
+    }
+
+
+    @ApiOperation(value = "背景图片上传", notes = "背景图片上传")
+    @RequestMapping(value ="bgImageUpload" , method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> bgImageUpload(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                               @RequestParam(value = "userId")  @ApiParam(value = "用户id  ") int userId,
+                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //System.out.println("进入get方法！");
+        //获取从前台传过来得图片
+        MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
+        MultipartFile multipartFile =  req.getFile("file");
+        //获取图片的文件类型
+        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
+        String path=FileHelper.FileSave3(multipartFile,uuid,FileHelper.bgImg);
+
+        User user = userService.get(userId);
+        user.setBgImg(path);
+
+
+        //压缩图片
+        FileHelper.compressPicture(multipartFile,uuid,FileHelper.bgImg);
+
+        return MapHelper.success();
+
+    }
 
 }
