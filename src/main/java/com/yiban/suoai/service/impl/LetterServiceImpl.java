@@ -24,7 +24,7 @@ public class LetterServiceImpl implements LetterService {
     public List<Letter> getOrderByTime(int userId) {
         LetterExample letterExample = new LetterExample();
         letterExample.createCriteria().andUserIdEqualTo(userId).andIsDeleteEqualTo(false);
-        letterExample.setOrderByClause("`time` desc,id ASC");
+        letterExample.setOrderByClause("id desc");
         return letterMapper.selectByExampleWithBLOBs(letterExample);
     }
 
@@ -64,7 +64,7 @@ public class LetterServiceImpl implements LetterService {
     @Override
     public List<Letter> getSpaceLetter() {
         LetterExample letterExample = new LetterExample();
-        letterExample.setOrderByClause("id asc");
+        letterExample.setOrderByClause("id desc");
         letterExample.createCriteria().andIsDeleteEqualTo(false).andIsReadEqualTo(false).andMyselfEqualTo(false).andPublishEqualTo(true);
         return letterMapper.selectByExampleWithBLOBs(letterExample);
     }
