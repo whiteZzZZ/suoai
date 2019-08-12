@@ -176,6 +176,7 @@ public class YibanController {
             model.setViewName("redirect:/index.html");
             return model;*/
             res.sendRedirect("http://47.107.74.195:8080/h5/index.html#/pages/tabbar/home/home?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
+
         }else {
             redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
             map=MapHelper.success();
