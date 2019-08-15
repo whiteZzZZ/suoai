@@ -130,7 +130,7 @@ public class YibanController {
 
 
         int yibanId =userInfo.getInt("yb_userid");//获取用户id
-        com.yiban.suoai.pojo.User user = userService.get(yibanId);
+        com.yiban.suoai.pojo.User user = userService.getByYibanId(yibanId);
 
 
 
@@ -142,11 +142,11 @@ public class YibanController {
             String headImg = userInfo.getString("yb_userhead");//获取用户易班头像
 
             com.yiban.suoai.pojo.User user1 = new com.yiban.suoai.pojo.User();
-            user1.setId(yibanId);
+            user1.setYibanid(yibanId);
             user1.setName(name);
             user1.setTurename(trueName);
             user1.setHeadImg(headImg);
-            if(sex=="M") {
+            if("M".equals(sex)) {
                 user1.setSex(true);
             }else {
                 user1.setSex(false);
@@ -164,10 +164,11 @@ public class YibanController {
                 school1.setName(school);
                 schoolService.add(school1);
             }
-            redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
             userService.add(user1);
+            redisService.addTokenToRedis(user1.getId(),AppContext.ACCESS_TOKEN);
+
             map=MapHelper.success();
-            map.put("userId",yibanId);
+            map.put("userId",user1.getId());
             map.put("token",AppContext.ACCESS_TOKEN);
          /*  // resp.sendRedirect("/index?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
             attr.addAttribute("userId",yibanId);*/
@@ -178,9 +179,10 @@ public class YibanController {
             res.sendRedirect("http://47.107.74.195:8080/h5/index.html#/pages/tabbar/home/home?userId="+yibanId+"&token="+AppContext.ACCESS_TOKEN);
 
         }else {
-            redisService.addTokenToRedis(yibanId,AppContext.ACCESS_TOKEN);
+            com.yiban.suoai.pojo.User user2=userService.getByYibanId(yibanId);
+            redisService.addTokenToRedis(user2.getId(),AppContext.ACCESS_TOKEN);
             map=MapHelper.success();
-            map.put("userId",yibanId);
+            map.put("userId",user2.getId());
             map.put("token",AppContext.ACCESS_TOKEN);
            /* model.addObject("userId", yibanId);
             model.addObject("token", AppContext.ACCESS_TOKEN);

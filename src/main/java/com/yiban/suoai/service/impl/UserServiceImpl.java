@@ -78,6 +78,17 @@ public class UserServiceImpl  implements UserService {
     }
 
     @Override
+    public User getByYibanId(int yibanId) {
+        UserExample example=new UserExample();
+        example.createCriteria().andYibanidEqualTo(yibanId);
+        List<User> list=userMapper.selectByExample(example);
+        if(list.isEmpty()){
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @Override
     public List<ForeRankUser> topTen() throws SAException {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andIsRankEqualTo(true).andViolatorEqualTo(false);

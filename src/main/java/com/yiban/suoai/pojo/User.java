@@ -1,5 +1,7 @@
 package com.yiban.suoai.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class User {
@@ -23,6 +25,7 @@ public class User {
 
     private Boolean sex;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间
     private Date birthday;
 
     private String area;
@@ -52,6 +55,8 @@ public class User {
     private Integer paper=1;
 
     private Integer level=1;
+
+    private Integer yibanid;
 
     public Integer getId() {
         return id;
@@ -251,5 +256,13 @@ public class User {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Integer getYibanid() {
+        return yibanid;
+    }
+
+    public void setYibanid(Integer yibanid) {
+        this.yibanid = yibanid;
     }
 }
