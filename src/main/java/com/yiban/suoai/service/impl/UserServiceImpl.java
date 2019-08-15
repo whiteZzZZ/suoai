@@ -2,6 +2,7 @@ package com.yiban.suoai.service.impl;
 
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.forepojo.ForeRankUser;
+import com.yiban.suoai.forepojo.ForeUser;
 import com.yiban.suoai.mapper.UserMapper;
 import com.yiban.suoai.pojo.Academy;
 import com.yiban.suoai.pojo.School;
@@ -13,6 +14,8 @@ import com.yiban.suoai.service.TitleService;
 import com.yiban.suoai.service.UserService;
 
 import com.yiban.suoai.util.ErrorCode;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.NamedBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -139,5 +142,44 @@ public class UserServiceImpl  implements UserService {
             return foreRankUsers;
             }
 
+    }
+
+    @Override
+    public List<ForeUser> search(String name) {
+        UserExample userExample = new UserExample();
+        if(StringUtils.isNotBlank(name)) {
+            userExample.createCriteria().andNameLike("%" + name + "%");
+        }
+        List<User> users = userMapper.selectByExample(userExample);
+        List<ForeUser> foreUsers = new ArrayList<>();
+        for(User user : users){
+            ForeUser foreUser = new ForeUser();
+            foreUser.setUserId(user.getId());
+            foreUser.setName(user.getName());
+            foreUser.setHeadImg(user.getHeadImg());
+            foreUser.setBackGround(user.getBgImg());
+            foreUser.setTitle(titleService.get(user.getTitleId()).getName());
+            foreUser.setArea(user.getArea());
+            foreUser.setSignature(user.getSignature());
+            foreUser.setlevel(user.getLevel());
+            foreUser.setBirthday(user.getBirthday());
+            foreUser.setStu_Num(user.getStuNum());
+            foreUser.setPaperId(user.getPaper());
+            if(user.getSex()==true){
+                foreUser.setSex("男");
+            }else {
+                foreUser.setSex("女");
+            }
+            if(user.getSchoolId()!=null) {
+                School school = schoolService.get(user.getSchoolId());
+                foreUser.setSchool(school.getName());
+            }
+            if(user.getAcademyId()!=null) {
+                Academy academy = academyService.get(user.getAcademyId());
+                foreUser.setAcademy(academy.getName());
+            }
+            foreUsers.add(foreUser);
+        }
+        return foreUsers;
     }
 }

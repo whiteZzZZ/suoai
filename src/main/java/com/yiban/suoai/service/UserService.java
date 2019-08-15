@@ -3,6 +3,7 @@ package com.yiban.suoai.service;
 
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.forepojo.ForeRankUser;
+import com.yiban.suoai.forepojo.ForeUser;
 import com.yiban.suoai.pojo.User;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +29,6 @@ public interface UserService {
     int addExperience(int userId,int count);
 
     List<ForeRankUser> topTen() throws SAException;
+
+    List<ForeUser> search(String name);
 }
