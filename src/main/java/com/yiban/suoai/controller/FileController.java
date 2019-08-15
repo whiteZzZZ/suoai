@@ -113,12 +113,13 @@ public class FileController {
 
         User user = userService.get(userId);
         user.setHeadImg(path);
-
+        userService.update(user);
 
         //压缩图片
         FileHelper.compressPicture(multipartFile,uuid,FileHelper.headImg);
-
-        return MapHelper.success();
+        Map map = MapHelper.success();
+        map.put("path",path);
+        return map;
 
     }
 
@@ -139,12 +140,13 @@ public class FileController {
 
         User user = userService.get(userId);
         user.setBgImg(path);
-
+        userService.update(user);
 
         //压缩图片
         FileHelper.compressPicture(multipartFile,uuid,FileHelper.bgImg);
-
-        return MapHelper.success();
+        Map map = MapHelper.success();
+        map.put("path",path);
+        return map;
 
     }
 

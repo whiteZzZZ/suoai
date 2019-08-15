@@ -120,15 +120,14 @@ public class UserController {
 
 
     @ApiOperation(value = "通过学号和姓名查找用户",notes = "通过学号和姓名查找用户")
-    @RequestMapping(value = "showByNameNum",method = RequestMethod.GET)
+    @RequestMapping(value = "showByName",method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> findUser(
             @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("userName")  @ApiParam(value = "用户姓名") String userName,
-            @RequestParam("num")    @ApiParam(value = "学号") String num ){
-        User user = userService.selectByNameNum(userName, num);
+            @RequestParam("userName")  @ApiParam(value = "用户姓名") String userName){
+        List<ForeUser> search = userService.search(userName);
         Map map = MapHelper.success();
-        map.put("userId",user.getId());
+        map.put("data",search);
         return map;
     }
 
@@ -369,39 +368,6 @@ public class UserController {
     ) throws SAException{
         User user = userService.get(redisService.getUserId(token));
         user.setStuNum(num);
-        userService.update(user);
-        return MapHelper.success();
-    }
-
-    @ApiOperation(value = "更改用户资料-头像",notes = "更改用户资料-头像")
-    @RequestMapping(value = "updateUserHeadImg",method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> updateUserHeadImg(
-            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("Img") @ApiParam(value = "图片")MultipartFile file
-            ) throws SAException, IOException {
-        User user = userService.get(redisService.getUserId(token));
-        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
-        String path= FileHelper.FileSave3(file,uuid,FileHelper.headImg);
-        user.setHeadImg(path);
-        FileHelper.compressPicture(file,uuid,FileHelper.headImg);
-        userService.update(user);
-        Map map = MapHelper.success();
-        return map;
-    }
-
-    @ApiOperation(value = "更改用户资料-背景",notes = "更改用户资料-背景")
-    @RequestMapping(value = "updateUserBgImg",method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> updateUserBgImg(
-            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
-            @RequestParam("Img") @ApiParam(value = "背景")MultipartFile file
-    ) throws SAException, IOException {
-        User user = userService.get(redisService.getUserId(token));
-        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
-        String path= FileHelper.FileSave3(file,uuid,FileHelper.bgImg);
-        user.setBgImg(path);
-        FileHelper.compressPicture(file,uuid,FileHelper.bgImg);
         userService.update(user);
         return MapHelper.success();
     }
