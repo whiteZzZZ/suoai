@@ -81,6 +81,15 @@ public class CyinforServiceImpl  implements CyinforService {
     }
 
     @Override
+    public List<Cyinfor> getByUserId(int userId) {
+        CyinforExample example=new CyinforExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        example.setOrderByClause("id desc");
+        List<Cyinfor > list =cyinforMapper.selectByExampleWithBLOBs(example);
+        return list;
+    }
+
+    @Override
     public List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors,int userId) {
         List<ForeCyinfor> list=new ArrayList<>();
         for(Cyinfor cyinfor:cyinfors){
