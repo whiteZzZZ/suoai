@@ -136,7 +136,7 @@ public class SquareController {
         PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
         List<Cyinfor> cyinfors = cyinforService.getAll();
         int total = (int) new PageInfo<>(cyinfors).getTotal();
-        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);//里面方法有 对每个表白判断  当前的这个用户是不是点了赞的  也有图片的路径
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId,6);//里面方法有 对每个表白判断  当前的这个用户是不是点了赞的  也有图片的路径
 
         User user=userService.get(userId);
         Map<String, Object> map = MapHelper.success();
@@ -159,7 +159,7 @@ public class SquareController {
         Cyinfor cyinfor=cyinforService.get(cyid);
         List<Cyinfor> cyinfors = new ArrayList<>();
         cyinfors.add(cyinfor);
-        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);//里面方法有 对每个表白判断  当前的这个用户是不是点了赞的  也有图片的路径
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId,6);//里面方法有 对每个表白判断  当前的这个用户是不是点了赞的  也有图片的路径
 
 
         Map<String, Object> map = MapHelper.success();

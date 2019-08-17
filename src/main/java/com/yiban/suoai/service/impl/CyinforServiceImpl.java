@@ -123,6 +123,39 @@ public class CyinforServiceImpl  implements CyinforService {
     }
 
     @Override
+    public List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors, int userId, int type) {
+        List<ForeCyinfor> list=new ArrayList<>();
+        for(Cyinfor cyinfor:cyinfors){
+            ForeCyinfor foreCyinfor = new ForeCyinfor();
+            User user=userService.get(cyinfor.getUserId());
+            foreCyinfor.setHead_img(user.getHeadImg());
+            foreCyinfor.setName(user.getName());
+            foreCyinfor.setTime(cyinfor.getTime());
+            foreCyinfor.setLike_time(cyinfor.getLikeTime());
+            foreCyinfor.setReviewTime(cyinfor.getReviewTime());
+            foreCyinfor.setText(cyinfor.getText());
+            foreCyinfor.setId(cyinfor.getId());
+            foreCyinfor.setUserId(user.getId());
+            List<Image>  images=imageService.getByCyid(cyinfor.getId());
+            if(null!=images){
+                if(1<=images.size()){
+                    foreCyinfor.setImage1(images.get(0).getUrl());
+                    if(2==images.size()){
+                        foreCyinfor.setImage2(images.get(1).getUrl());
+                    }
+                }
+            }
+            //判断当前登录的用户是否给这篇点过赞
+            LikeInfo likeInfo=likeInfoService.getByCyidAndUserIdAndType(foreCyinfor.getId(),userId,type);
+            if(null!=likeInfo){
+                foreCyinfor.setIfLike(true);
+            }
+            list.add(foreCyinfor);
+        }
+        return list;
+    }
+
+    @Override
     public List<Cyinfor> topTen() throws SAException {
         CyinforExample example=new CyinforExample();
         example.createCriteria().andTimeBetween(DateUtils.getBeginDayOfYesterday(),DateUtils.getEndDayOfYesterDay());//昨天的表白

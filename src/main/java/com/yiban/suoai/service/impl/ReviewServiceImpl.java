@@ -92,7 +92,7 @@ public class ReviewServiceImpl  implements ReviewService {
             foreReview.setHead_img(user.getHeadImg());
             foreReview.setName(user.getName());
 
-            LikeInfo likeInfo=likeInfoService.getByCyidAndUserIdAndType(review.getId(),userId,1);
+            LikeInfo likeInfo=likeInfoService.getByCyidAndUserIdAndType(review.getId(),userId,7);
             if(null!=likeInfo){
                 foreReview.setIfLike(true);
             }

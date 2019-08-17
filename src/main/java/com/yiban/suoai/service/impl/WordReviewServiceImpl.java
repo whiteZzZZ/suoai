@@ -82,7 +82,7 @@ public class WordReviewServiceImpl implements WordReviewService {
             foreReview.setHead_img(user.getHeadImg());
             foreReview.setName(user.getName());
 
-            LikeInfo likeInfo = likeInfoService.getByCyidAndUserIdAndType(review.getId(), userId, 2);
+            LikeInfo likeInfo = likeInfoService.getByCyidAndUserIdAndType(review.getId(), userId, 8);
             if (null != likeInfo) {
                 foreReview.setIfLike(true);//该用户是否对 这个评论点赞
             }
