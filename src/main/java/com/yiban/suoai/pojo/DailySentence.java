@@ -7,6 +7,8 @@ public class DailySentence {
 
     private String image;
 
+    private String author;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class DailySentence {
 
     public void setImage(String image) {
         this.image = image == null ? null : image.trim();
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author == null ? null : author.trim();
     }
 }

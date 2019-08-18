@@ -380,7 +380,10 @@ public class UserController {
             @RequestHeader("token") @ApiParam(value = "权限校验") String token
             ) throws SAException{
         Map map = MapHelper.success();
-        map.put("data",dailySentenceService.getByDay());
+        DailySentence byDay = dailySentenceService.getByDay();
+        map.put("word",byDay.getWord());
+        map.put("author",byDay.getAuthor());
+        map.put("img",byDay.getImage());
         return map;
     }
 
