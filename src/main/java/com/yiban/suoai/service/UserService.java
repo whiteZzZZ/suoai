@@ -18,6 +18,8 @@ public interface UserService {
 
     User get(int id);
 
+    User getByYibanId(int yibanId);
+
     User selectByNameNum(String name , String num);
 
     /**

@@ -1741,6 +1741,66 @@ public class UserExample {
             addCriterion("level not between", value1, value2, "level");
             return (Criteria) this;
         }
+
+        public Criteria andYibanidIsNull() {
+            addCriterion("yibanId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidIsNotNull() {
+            addCriterion("yibanId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidEqualTo(Integer value) {
+            addCriterion("yibanId =", value, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidNotEqualTo(Integer value) {
+            addCriterion("yibanId <>", value, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidGreaterThan(Integer value) {
+            addCriterion("yibanId >", value, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("yibanId >=", value, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidLessThan(Integer value) {
+            addCriterion("yibanId <", value, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidLessThanOrEqualTo(Integer value) {
+            addCriterion("yibanId <=", value, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidIn(List<Integer> values) {
+            addCriterion("yibanId in", values, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidNotIn(List<Integer> values) {
+            addCriterion("yibanId not in", values, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidBetween(Integer value1, Integer value2) {
+            addCriterion("yibanId between", value1, value2, "yibanid");
+            return (Criteria) this;
+        }
+
+        public Criteria andYibanidNotBetween(Integer value1, Integer value2) {
+            addCriterion("yibanId not between", value1, value2, "yibanid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

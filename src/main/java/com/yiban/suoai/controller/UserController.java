@@ -1,12 +1,16 @@
 package com.yiban.suoai.controller;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yiban.suoai.exception.SAException;
+import com.yiban.suoai.forepojo.ForeCyinfor;
 import com.yiban.suoai.forepojo.ForeUser;
 import com.yiban.suoai.pojo.*;
 import com.yiban.suoai.service.*;
 import com.yiban.suoai.util.FileHelper;
 import com.yiban.suoai.util.MapHelper;
+import com.yiban.suoai.util.PageUtil;
 import com.yiban.suoai.util.UUIDUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -386,6 +390,26 @@ public class UserController {
         map.put("img",byDay.getImage());
         return map;
     }
+
+    @ApiOperation(value = "获取我的表白",notes = "获取我的表白")
+    @RequestMapping(value = "MyExpression",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> MyExpressionGet(
+            @RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                @RequestParam("startPage") @ApiParam(value = "起始页") Integer start
+    ) throws SAException{
+        int userId=redisService.getUserId(token);
+        PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
+        List<Cyinfor> cyinfors = cyinforService.getByUserId(userId);
+        int total = (int) new PageInfo<>(cyinfors).getTotal();
+        List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);//里面方法有 对每个表白判断  当前的这个用户是不是点了赞的  也有图片的路径
+
+        Map<String, Object> map = MapHelper.success();
+        map.put("data", list);
+        map.put("page", PageUtil.getPage(total, cyinfors.size(), start));
+        return map;
+    }
+
 
 
 //    @ApiOperation(value = "发送举报信息",notes = "发送举报信息")

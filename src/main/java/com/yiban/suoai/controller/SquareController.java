@@ -115,7 +115,15 @@ public class SquareController {
         return map;
     }
 
-
+    /**
+     * 进入程序后 调用的第一个接口，  要判断用户没有违规，如果有违规 要跳转到 志愿服务
+     * @param token
+     * @param schoolId
+     * @param academyId
+     * @param start
+     * @return
+     * @throws SAException
+     */
     @ApiOperation(value = "获取广场表白内容", notes = "获取广场表白内容  原图在缩略图的名称基础上加-y")
     @RequestMapping(value ="expression" , method = RequestMethod.GET)
     @ResponseBody
@@ -130,8 +138,9 @@ public class SquareController {
         int total = (int) new PageInfo<>(cyinfors).getTotal();
         List<ForeCyinfor>  list=cyinforService.foreFull(cyinfors,userId);//里面方法有 对每个表白判断  当前的这个用户是不是点了赞的  也有图片的路径
 
-
+        User user=userService.get(userId);
         Map<String, Object> map = MapHelper.success();
+        map.put("violator",user.getViolator());
         map.put("data", list);
         map.put("page", PageUtil.getPage(total, cyinfors.size(), start));
         return map;

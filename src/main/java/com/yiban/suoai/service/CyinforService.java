@@ -30,6 +30,13 @@ public interface CyinforService {
 
     List<Cyinfor> getAll();
 
+    /**
+     * 获取自己发布的表白
+     * @param userId
+     * @return
+     */
+    List<Cyinfor> getByUserId(int userId);
+
     List<ForeCyinfor> foreFull(List<Cyinfor> cyinfors,int userId);
 
     /**
