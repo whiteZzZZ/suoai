@@ -16,7 +16,7 @@ public class Letter {
 
     private Boolean hide;
 
-    private Boolean publish;
+    private Boolean publish=false;
 
     private Integer userId;
 

@@ -65,7 +65,7 @@ public class LetterServiceImpl implements LetterService {
     public List<Letter> getSpaceLetter() {
         LetterExample letterExample = new LetterExample();
         letterExample.setOrderByClause("id asc");
-        letterExample.createCriteria().andIsDeleteEqualTo(false).andIsReadEqualTo(false).andMyselfEqualTo(false).andPublishEqualTo(true);
+        letterExample.createCriteria().andIsDeleteEqualTo(false).andIsReadEqualTo(false).andMyselfEqualTo(false);
         return letterMapper.selectByExampleWithBLOBs(letterExample);
     }
 

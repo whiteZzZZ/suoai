@@ -67,8 +67,7 @@ public class PaperController {
             @RequestParam(value = "headLine") @ApiParam(value = "标题") String headLine,
             @RequestParam(value = "content") @ApiParam(value = "内容") String content,
             @RequestParam(value = "myself") @ApiParam(value = "1为仅自己可见  0为放进时空邮局") boolean myself,
-            @RequestParam(value = "hide") @ApiParam(value = "1为身份隐藏  0为不隐藏") boolean hide,
-            @RequestParam(value = "publish") @ApiParam(value = "1为发布（不能再修改）  0为保留编辑不发布（可再修改）") boolean publish
+            @RequestParam(value = "hide") @ApiParam(value = "1为身份隐藏  0为不隐藏") boolean hide
     ) throws SAException {
         int userId = redisService.getUserId(token);
         Letter letter = new Letter();
@@ -78,7 +77,6 @@ public class PaperController {
         letter.setTime(new Date());
         letter.setHide(hide);
         letter.setMyself(myself);
-        letter.setPublish(publish);
         letterService.insert(letter);
         Map map = MapHelper.success();
         map.put("letterId",letter.getId());
@@ -94,8 +92,7 @@ public class PaperController {
             @RequestParam(value = "headLine") @ApiParam(value = "标题") String headLine,
             @RequestParam(value = "content") @ApiParam(value = "内容") String content,
             @RequestParam(value = "myself") @ApiParam(value = "1为仅自己可见  0为放进时空邮局") boolean myself,
-            @RequestParam(value = "hide") @ApiParam(value = "1为身份隐藏  0为不隐藏") boolean hide,
-            @RequestParam(value = "publish") @ApiParam(value = "1为发布（不能再修改）  0为保留编辑不发布（可再修改）") boolean publish
+            @RequestParam(value = "hide") @ApiParam(value = "1为身份隐藏  0为不隐藏") boolean hide
     ) throws SAException {
         int userId = redisService.getUserId(token);
         Letter letter = letterService.get(letterId);
@@ -103,7 +100,6 @@ public class PaperController {
         letter.setContent(content);
         letter.setMyself(myself);
         letter.setMyself(hide);
-        letter.setPublish(publish);
         letterService.update(letter);
         Map map = MapHelper.success();
         return map;
