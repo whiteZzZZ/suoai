@@ -132,7 +132,7 @@ public class PaperController {
             @RequestHeader(value = "token") @ApiParam(value = "验证") String token
     ) throws SAException {
         int userId = redisService.getUserId(token);
-        if(!redisService.getSpaceLimit(userId)) {//判断今天是否已经获取过时空邮局信笺
+//        if(!redisService.getSpaceLimit(userId)) {//判断今天是否已经获取过时空邮局信笺 @todo 上线更改
             List<Letter> spaceLetter = letterService.getSpaceLetter();
             if (spaceLetter == null) {//如果当前时空邮局没信
                 return MapHelper.error("时空邮局的信被领光啦");
@@ -157,9 +157,9 @@ public class PaperController {
                     return map;
                 }
             }
-        }else {
-            return MapHelper.error("今天已获取过信笺了");
-        }
+//        }else {
+//            return MapHelper.error("今天已获取过信笺了");
+//        }
     }
 
 
