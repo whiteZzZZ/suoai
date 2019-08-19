@@ -53,6 +53,10 @@ public class RedisServiceImpl implements RedisService {
 
     public static final String DeleteOrdinaryMatching="deleteOrdinaryMatching:";//收到取消匹配的前缀
 
+    public static final String SendinvitationTime="sendinvitationTime:";//用户今日是否灵魂匹配过
+
+
+
     @Autowired
     RedisTemplate redisTemplate;
     @Autowired
@@ -210,6 +214,27 @@ public class RedisServiceImpl implements RedisService {
             return 1;
             }
         return 0;
+    }
+
+    @Override
+    public int setSendinvitationTime(int userId) {
+        redisUtil.set(SendinvitationTime+userId, "1");
+        return 0;
+    }
+
+    @Override
+    public int getSendinvitationTime(int userId) {
+        if(redisUtil.hasKey(SendinvitationTime+userId)){
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public int deleteSendinvitationTime() {
+        Set<String> keys = redisTemplate.keys(SendinvitationTime + "*");
+        redisTemplate.delete(keys);
+        return 1;
     }
 
     @Override

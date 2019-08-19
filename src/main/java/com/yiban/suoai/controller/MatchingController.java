@@ -250,6 +250,12 @@ public class MatchingController {
     public Map<String, Object> sendinvitation(@RequestHeader("token") @ApiParam(value = "权限校验") String token) throws SAException {
         Map<String, Object> map =new HashMap<>();
         int userId=redisService.getUserId(token);
+        //判断他今天匹配了没有
+        if(1==redisService.getSendinvitationTime(userId)){
+            map=MapHelper.error("每天只能匹配一次哦~~");
+            return map;
+        }
+
         List<Integer> users=new ArrayList<>();//找到所有的可以被匹配的用户
         List<Integer> usersLike=new ArrayList<>();//从点赞中找到的用户
         List<Integer> usersReview=new ArrayList<>();//从评论中找到的用户
@@ -283,6 +289,11 @@ public class MatchingController {
 
         if(!users.isEmpty()){
             //找出现次数最多的用户
+
+            //用户每天只能匹配一次  把用户存进redis  每天定时删除
+           redisService.setSendinvitationTime(userId);
+
+
 
             users.sort((Integer a,Integer b)->a.compareTo(b));//
 

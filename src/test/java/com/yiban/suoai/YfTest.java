@@ -42,6 +42,9 @@ public class YfTest {
     @Autowired
     TipBankMapper tipBankMapper;
 
+    public static final String SendinvitationTime="sendinvitationTime:";//用户今日是否灵魂匹配过
+
+
     @Test
     public void testRedis()throws Exception{
         //stringRedisTemplate.opsForValue().set("test1","112");
@@ -134,6 +137,15 @@ public class YfTest {
             tipBankMapper.insert(tb);
             tipMapper.insert((Tip)tb);
         }
+    }
+
+
+
+    @Test
+    public void  deleteRedisAll(){
+        Set<String> keys = redisTemplate.keys(SendinvitationTime + "*");
+        redisTemplate.delete(keys);
+
     }
 
 }

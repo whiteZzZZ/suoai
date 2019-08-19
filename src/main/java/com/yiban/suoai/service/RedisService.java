@@ -126,6 +126,23 @@ public interface RedisService {
      */
     int getDeleteOrdinaryMatchImform(int userId);
 
+    /**
+     * 用户每天只能灵魂匹配一次  匹配后就加入redis
+     * @param userId
+     * @return
+     */
+    int setSendinvitationTime(int userId);
 
+    /**
+     * 看看用户是否匹配过  这里不能删除掉
+     * @param userId
+     * @return
+     */
+    int getSendinvitationTime(int userId);
 
+    /**
+     * 用定时器 删除所有用户灵魂匹配的次数 每天0点
+     * @return
+     */
+    int deleteSendinvitationTime();
 }

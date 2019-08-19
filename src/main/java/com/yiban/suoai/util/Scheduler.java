@@ -48,6 +48,7 @@ public class Scheduler{
         wallService.updateWall();
         dailySentenceService.updateByDay();
         redisService.resetSpaceLimit();
+        redisService.deleteSendinvitationTime();//灵魂匹配次数 删除
     }
 
 
