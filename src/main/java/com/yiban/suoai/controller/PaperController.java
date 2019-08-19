@@ -113,7 +113,7 @@ public class PaperController {
             @RequestParam(value = "letterId") @ApiParam(value = "信笺Id") int letterId
     ) throws SAException {
         int userId = redisService.getUserId(token);
-        Letter letter = letterService.get(userId);
+        Letter letter = letterService.get(letterId);
         letter.setIsDelete(true);
         letterService.update(letter);
         Map map = MapHelper.success();
