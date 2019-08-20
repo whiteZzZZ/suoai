@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yiban.suoai.exception.SAException;
 import com.yiban.suoai.forepojo.ForeLetter;
+import com.yiban.suoai.forepojo.ForeLetterMessage;
 import com.yiban.suoai.forepojo.ForeSpaceLetter;
 import com.yiban.suoai.pojo.Letter;
 import com.yiban.suoai.pojo.LetterMessage;
@@ -99,7 +100,7 @@ public class PaperController {
         letter.setHeadline(headLine);
         letter.setContent(content);
         letter.setMyself(myself);
-        letter.setMyself(hide);
+        letter.setHide(hide);
         letterService.update(letter);
         Map map = MapHelper.success();
         return map;
@@ -162,7 +163,7 @@ public class PaperController {
     @RequestMapping(value = "lettermessage",method = RequestMethod.PUT)
     @ApiOperation(value = "时空邮局留言",notes = "时空邮局留言")
     @ResponseBody
-    public Map<String,Object> comment(
+    public Map<String,Object> putComment(
             @RequestHeader(value = "token") @ApiParam(value = "验证") String token,
             @RequestParam(value = "letterId") @ApiParam(value = "信笺Id") int letterId,
             @RequestParam(value = "content") @ApiParam(value = "留言内容") String content) throws SAException {
@@ -187,5 +188,23 @@ public class PaperController {
         return map;
     }
 
+    @RequestMapping(value = "lettermessage",method = RequestMethod.GET)
+    @ApiOperation(value = "获取留言",notes = "获取留言")
+    @ResponseBody
+    public Map<String,Object> getComment(
+            @RequestHeader(value = "token") @ApiParam(value = "验证") String token,
+            @RequestParam(value = "letterId") @ApiParam(value = "信笺Id") Integer letterId,
+            @RequestParam(value = "page") @ApiParam(value = "起始页") Integer start) throws SAException {
 
+        int userId = redisService.getUserId(token);
+
+        List<LetterMessage> letterMessages = letterMessageService.get(letterId);
+        int total = (int) new PageInfo<>(letterMessages).getTotal();
+        List<ForeLetterMessage> full = letterMessageService.full(letterMessages,userId);
+
+        Map map = MapHelper.success();
+        map.put("letterMessage",full);
+        map.put("page",PageUtil.getPage(total, letterMessages.size(), start));
+        return map;
+    }
 }
