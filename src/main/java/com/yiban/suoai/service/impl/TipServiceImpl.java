@@ -108,7 +108,9 @@ public class TipServiceImpl implements TipService {
                 int tn = tipUserMapper.selectByPrimaryKey(userId).getNum();
                 TipUser tu = new TipUser();
                 tu.setId(userId);
-                tu.setNum(tn+1);
+                //违规次数+1，先关闭，设置为一直为1
+                //tu.setNum(tn+1);
+                tu.setNum(1);
                 tipUserMapper.updateByPrimaryKeySelective(tu);
             }
 
@@ -122,6 +124,10 @@ public class TipServiceImpl implements TipService {
     @Override
     public List<Tip> getExam(int userId) {
         TipUser tipUser = tipUserMapper.selectByPrimaryKey(userId);
+        if(tipUser == null){
+            List<Tip> tipList = new ArrayList<>();
+            return tipList;
+        }
         TipExample te = new TipExample();
         TipExample.Criteria tec = te.createCriteria();
         tec.andStatusEqualTo(0); //未审核
