@@ -1,6 +1,7 @@
 package com.yiban.suoai.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.yiban.suoai.forepojo.ForeTip;
 import com.yiban.suoai.mapper.*;
 import com.yiban.suoai.pojo.*;
 import com.yiban.suoai.service.TipService;
@@ -32,6 +33,8 @@ public class TipServiceImpl implements TipService {
     ReviewMapper reviewMapper;
     @Autowired
     WordReviewMapper wordReviewMapper;
+    @Autowired
+    ImageMapper imageMapper;
 
     @Override
     public int addTip(Tip tip) {
@@ -51,7 +54,7 @@ public class TipServiceImpl implements TipService {
         for(int i = trueAns.size()-1;i>=0;i--){
             TipBank tt = iterator.previous();
             System.out.println("ans="+tt.getAns());
-            if(trueAns.get(i) == tt.getAns()){
+            if(trueAns.get(i).equals(tt.getAns())){
                 count++;
                 System.out.println("match ++");
             }
@@ -122,10 +125,10 @@ public class TipServiceImpl implements TipService {
     }
 
     @Override
-    public List<Tip> getExam(int userId) {
+    public List<ForeTip> getExam(int userId) {
         TipUser tipUser = tipUserMapper.selectByPrimaryKey(userId);
         if(tipUser == null){
-            List<Tip> tipList = new ArrayList<>();
+            List<ForeTip> tipList = new ArrayList<>();
             return tipList;
         }
         TipExample te = new TipExample();
@@ -158,7 +161,30 @@ public class TipServiceImpl implements TipService {
         System.out.println("ltb==");
         ltb.forEach(n->n.setAns(null));
         lt.addAll(ltb);
-        return lt;
+        return addImage(lt);
+
+    }
+
+    private List<ForeTip> addImage(List<Tip> lt){
+        List<ForeTip> list = new ArrayList<>();
+        for(Tip p : lt){
+            if(p.getSource().equals(1)){
+                //是传阅
+                Cyinfor c = cyinforMapper.selectByPrimaryKey(p.getSourceId());
+                if(c != null){
+                    //如果传阅不为空，检查是否有图片
+                    if(c.getHasImage()>0){
+                        ImageExample ie = new ImageExample();
+                        ImageExample.Criteria iec = ie.createCriteria();
+                        iec.andCyIdEqualTo(c.getId());
+                        List<Image> imgList = imageMapper.selectByExample(ie);
+                        ForeTip fp = new ForeTip(p,imgList.get(0).getUrl());
+                        list.add(fp);
+                    }
+                }
+            }
+        }
+        return list;
     }
 
 }

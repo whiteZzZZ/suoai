@@ -2,6 +2,7 @@ package com.yiban.suoai.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yiban.suoai.exception.SAException;
+import com.yiban.suoai.forepojo.ForeTip;
 import com.yiban.suoai.pojo.Tip;
 import com.yiban.suoai.pojo.TipBank;
 import com.yiban.suoai.pojo.User;
@@ -99,7 +100,7 @@ public class TipController {
     public Map<String,Object> getExam(@ApiParam(value = "token")@RequestHeader("token")String token){
         try {
             int userId = redisUtil.getUserId(token);
-            List<Tip> list = tipService.getExam(userId);
+            List<ForeTip> list = tipService.getExam(userId);
             Map<String,Object> map = MapHelper.success();
             map.put("exam",list);
             return map;
