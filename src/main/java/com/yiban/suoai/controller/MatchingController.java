@@ -251,10 +251,10 @@ public class MatchingController {
         Map<String, Object> map =new HashMap<>();
         int userId=redisService.getUserId(token);
         //判断他今天匹配了没有
-        if(1==redisService.getSendinvitationTime(userId)){
+        /*if(1==redisService.getSendinvitationTime(userId)){
             map=MapHelper.error("每天只能匹配一次哦~~");
             return map;
-        }
+        }*/
 
         List<Integer> users=new ArrayList<>();//找到所有的可以被匹配的用户
         List<Integer> usersLike=new ArrayList<>();//从点赞中找到的用户
