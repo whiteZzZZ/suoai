@@ -323,6 +323,7 @@ public class MatchingController {
             message.setTime(new Date());
             messageService.add(message);
             User matchUser=userService.get(currentUserId);
+            map=MapHelper.success();
             map.put("matchUserId",currentUserId);
             map.put("matchUserName",matchUser.getName());
             map.put("matchUserHeadImg",matchUser.getHeadImg());
