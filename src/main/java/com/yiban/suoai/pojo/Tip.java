@@ -1,5 +1,7 @@
 package com.yiban.suoai.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Tip {
     private Integer id;
 
@@ -12,6 +14,7 @@ public class Tip {
     private Integer status;
 
     private String content;
+
 
     public Integer getId() {
         return id;
@@ -60,4 +63,5 @@ public class Tip {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
 }
