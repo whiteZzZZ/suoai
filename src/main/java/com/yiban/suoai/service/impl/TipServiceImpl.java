@@ -50,6 +50,9 @@ public class TipServiceImpl implements TipService {
     public int checkTip(int userId,List<TipBank> list) {
         List<Boolean> trueAns = (List)redisUtil.getObject("ans:"+userId);
         int count = 0;
+        if(trueAns == null){
+            return -2;
+        }
         ListIterator<TipBank> iterator = list.listIterator(list.size());
         for(int i = trueAns.size()-1;i>=0;i--){
             TipBank tt = iterator.previous();
@@ -75,8 +78,11 @@ public class TipServiceImpl implements TipService {
             for(int i = 0;i<list.size()-trueAns.size();i++) {
                 Tip tip = list.get(i);
                 userId = 0;
+                System.out.println("tipList=");
+                list.forEach(n-> System.out.println(n.getId()));
                 switch (tip.getSource()) {
                     case 1:
+                        System.out.println("in cyinfor tip");
                         Cyinfor cyinfor = cyinforMapper.selectByPrimaryKey(tip.getSourceId());
                         userId = cyinfor.getUserId();
                         tm = new TipModel();
@@ -116,8 +122,8 @@ public class TipServiceImpl implements TipService {
                 tu.setNum(1);
                 tipUserMapper.updateByPrimaryKeySelective(tu);
             }
-
-            tipMapper.updateFlagBatch(tipModelList);  //更新被举报事件的删除标记
+            if(!tipModelList.isEmpty())
+                tipMapper.updateFlagBatch(tipModelList);  //更新被举报事件的删除标记(如果有不是题库的题）
 
             return tipBankMapper.batchSaveOrUpdate(list);  //将题目添加进题库
         }

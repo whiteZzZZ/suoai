@@ -53,7 +53,7 @@ public class LoginFilter implements Filter {
 		banPages.add("/matching");
 		banPages.add("/word");
 		banPages.add("/inform");
-		banPages.add("/chat");
+		//banPages.add("/chat");
 		banPages.add("/file");
 		banPages.add("/paper");
 		banPages.add("/weekWord");
