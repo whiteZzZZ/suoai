@@ -82,7 +82,7 @@ public class TipController {
             Map<String,Object> map =MapHelper.success();
             int userId = redisUtil.getUserId(token);
             int flag = tipService.checkTip(userId,list);
-            if(flag!=-1){
+            if(flag!=-1 && flag!= -2){
                 map.put("result",1);
                 return map;
             } else {
