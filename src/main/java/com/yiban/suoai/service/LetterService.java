@@ -17,7 +17,7 @@ public interface LetterService {
 
     void insert(Letter letter);
 
-    List<Letter> getSpaceLetter();
+    List<Letter> getSpaceLetter(int userId);
 
     List<ForeSpaceLetter> full2(List<Letter> letters);
 }
