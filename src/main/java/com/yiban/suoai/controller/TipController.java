@@ -77,6 +77,7 @@ public class TipController {
             "            }]}")@RequestBody JSONObject js,
                                        @ApiParam(value = "token")@RequestHeader("token")String token){
         try {
+            js = js.getJSONObject("js");
             List<TipBank> list = js.getJSONArray("tipList").toJavaList(TipBank.class);
             list.forEach(n-> System.out.println(n.getAns()));
             Map<String,Object> map =MapHelper.success();
