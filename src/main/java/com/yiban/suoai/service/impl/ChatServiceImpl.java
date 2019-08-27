@@ -1,16 +1,16 @@
 package com.yiban.suoai.service.impl;
 
+import com.yiban.suoai.forepojo.ForeChatList;
 import com.yiban.suoai.mapper.ChatListMapper;
 import com.yiban.suoai.mapper.ChatMapper;
-import com.yiban.suoai.pojo.Chat;
-import com.yiban.suoai.pojo.ChatExample;
-import com.yiban.suoai.pojo.ChatList;
-import com.yiban.suoai.pojo.ChatListExample;
+import com.yiban.suoai.mapper.UserMapper;
+import com.yiban.suoai.pojo.*;
 import com.yiban.suoai.service.ChatService;
 import com.yiban.suoai.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +22,8 @@ public class ChatServiceImpl implements ChatService {
     ChatMapper chatMapper;
     @Autowired
     RedisUtil redisUtil;
+    @Autowired
+    UserMapper userMapper;
 
     static final int timeout = 10800; //3小时
 
@@ -82,5 +84,45 @@ public class ChatServiceImpl implements ChatService {
         }else{
             return addChatRoom(userId1,userId2);
         }
+    }
+
+    @Override
+    public List<ForeChatList> getFore(List<ChatList> list) {
+        List<ForeChatList> result = new ArrayList<>();
+        for(ChatList cl : list){
+            ForeChatList fcl = new ForeChatList(cl);
+            User u  = userMapper.selectByPrimaryKey(cl.getUserId2());
+            if(u != null){
+                fcl.setUrl(u.getHeadImg());
+            }
+            ChatExample ce = new ChatExample();
+            ChatExample.Criteria cec = ce.createCriteria();
+            cec.andCuIdEqualTo(cl.getId());
+            ce.setOrderByClause("time DESC");
+            List<Chat> rr = chatMapper.selectByExample(ce);
+            if(!rr.isEmpty()){
+                Chat chat = rr.get(0);
+                fcl.setMessage(chat.getContent());
+                fcl.setTime(chat.getTime());
+            }
+            result.add(fcl);
+        }
+        return result;
+    }
+
+    @Override
+    public int deleteRecord(int cuId) {
+        if(redisUtil.hasObjectKey("room:"+cuId)){
+            redisUtil.delObject("room:"+cuId);
+        }
+        ChatExample ce = new ChatExample();
+        ChatExample.Criteria cec = ce.createCriteria();
+        cec.andCuIdEqualTo(cuId);
+        return chatMapper.deleteByExample(ce);
+    }
+
+    @Override
+    public int deleteChatList(int id) {
+        return chatListMapper.deleteByPrimaryKey(id);
     }
 }

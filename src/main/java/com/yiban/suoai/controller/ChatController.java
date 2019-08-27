@@ -1,6 +1,7 @@
 package com.yiban.suoai.controller;
 
 import com.yiban.suoai.exception.SAException;
+import com.yiban.suoai.forepojo.ForeChatList;
 import com.yiban.suoai.pojo.Chat;
 import com.yiban.suoai.pojo.ChatList;
 import com.yiban.suoai.service.ChatService;
@@ -33,7 +34,8 @@ public class ChatController {
         try {
             int userId = redisUtil.getUserId(token);
             List<ChatList> list = chatService.getChatList(userId);
-            map.put("list",list);
+            List<ForeChatList> cl = chatService.getFore(list);
+            map.put("list",cl);
             return map;
         } catch (SAException e) {
             e.printStackTrace();
@@ -68,5 +70,21 @@ public class ChatController {
             e.printStackTrace();
         }
         return map;
+    }
+
+    @ApiOperation(value = "删除聊天记录")
+    @DeleteMapping("deleteRecord")
+    public Map<String,Object> deleteRecord(@RequestParam("cuId")@ApiParam("房间号") int cuId,@RequestHeader("token")@ApiParam(value = "权限校验")String token) throws SAException {
+        int userId = redisUtil.getUserId(token);
+        chatService.deleteRecord(cuId);
+        return MapHelper.success();
+    }
+
+    @ApiOperation("删除聊天列表")
+    @DeleteMapping("deleteChatList")
+    public Map<String,Object> deleteChatList(@RequestParam("id")@ApiParam("房间id") int id,@RequestHeader("token")@ApiParam(value = "权限校验")String token) throws SAException {
+        int userId = redisUtil.getUserId(token);
+        chatService.deleteChatList(id);
+        return MapHelper.success();
     }
 }
