@@ -31,7 +31,7 @@ public class LetterMessageServiceImpl implements LetterMessageService {
     }
 
     @Override
-    public List<ForeLetterMessage> full(List<LetterMessage> letterMessages, int userId) {
+    public List<ForeLetterMessage> full(List<LetterMessage> letterMessages) {
         List<ForeLetterMessage> letterMessageList = new ArrayList<>();
         for(LetterMessage o : letterMessages){
             ForeLetterMessage foreLetterMessage = new ForeLetterMessage();

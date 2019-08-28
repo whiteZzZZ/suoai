@@ -10,5 +10,5 @@ public interface LetterMessageService {
 
     List<LetterMessage> get(int letterId);
 
-    List<ForeLetterMessage> full(List<LetterMessage> letterMessages,int userId);
+    List<ForeLetterMessage> full(List<LetterMessage> letterMessages);
 }

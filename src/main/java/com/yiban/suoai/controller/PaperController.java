@@ -197,10 +197,10 @@ public class PaperController {
             @RequestParam(value = "page") @ApiParam(value = "起始页") Integer start) throws SAException {
 
         int userId = redisService.getUserId(token);
-
+        PageHelper.offsetPage(start * PageUtil.pageSize,  PageUtil.pageSize);
         List<LetterMessage> letterMessages = letterMessageService.get(letterId);
         int total = (int) new PageInfo<>(letterMessages).getTotal();
-        List<ForeLetterMessage> full = letterMessageService.full(letterMessages,userId);
+        List<ForeLetterMessage> full = letterMessageService.full(letterMessages);
 
         Map map = MapHelper.success();
         map.put("letterMessage",full);
