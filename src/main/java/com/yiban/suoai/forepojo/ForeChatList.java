@@ -1,6 +1,7 @@
 package com.yiban.suoai.forepojo;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yiban.suoai.pojo.ChatList;
 
 import java.util.Date;
@@ -17,7 +18,10 @@ public class ForeChatList  {
     private String message;
 
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间//格式化时间
     private Date time;
+
+    private String name;
 
     public ForeChatList(ChatList cl){
         this.id = cl.getId();
@@ -71,5 +75,13 @@ public class ForeChatList  {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

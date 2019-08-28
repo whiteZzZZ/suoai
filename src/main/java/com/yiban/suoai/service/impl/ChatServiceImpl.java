@@ -94,6 +94,7 @@ public class ChatServiceImpl implements ChatService {
             User u  = userMapper.selectByPrimaryKey(cl.getUserId2());
             if(u != null){
                 fcl.setUrl(u.getHeadImg());
+                fcl.setName(u.getName());
             }
             ChatExample ce = new ChatExample();
             ChatExample.Criteria cec = ce.createCriteria();
