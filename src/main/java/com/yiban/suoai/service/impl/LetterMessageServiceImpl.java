@@ -56,7 +56,7 @@ public class LetterMessageServiceImpl implements LetterMessageService {
     public LetterMessage getTheFirth(int letterId) {
         LetterMessageExample letterMessageExample = new LetterMessageExample();
         letterMessageExample.createCriteria().andLetterIdEqualTo(letterId);
-        letterMessageExample.setOrderByClause("id inc");
+        letterMessageExample.setOrderByClause("id asc");
         List<LetterMessage> list=letterMessageMapper.selectByExample(letterMessageExample);
         if(list.isEmpty()){
             return null;

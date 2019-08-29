@@ -178,8 +178,11 @@ public class PaperController {
         letterMessageService.insert(letterMessage);
         //修改信笺已读
         Letter letter = letterService.get(letterId);
-        letter.setIsRead(true);
-        letterService.update(letter);
+        if(true!=letter.getIsRead()){
+            letter.setIsRead(true);
+            letterService.update(letter);
+        }
+
 
 
         Message message=new Message();

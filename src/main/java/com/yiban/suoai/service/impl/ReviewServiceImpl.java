@@ -119,7 +119,7 @@ public class ReviewServiceImpl  implements ReviewService {
         ReviewExample example=new ReviewExample();
         example.createCriteria().andReplyIdEqualTo(reviewId);
         example.setOrderByClause("id desc");
-        reviews=reviewMapper.selectByExample(example);
+        reviews=reviewMapper.selectByExampleWithBLOBs(example);
         if(reviews.isEmpty()){
             return null;
         }

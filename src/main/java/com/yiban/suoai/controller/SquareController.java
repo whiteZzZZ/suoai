@@ -184,6 +184,11 @@ public class SquareController {
         Review review= reviewService.full(cyid,userId,text,replyId);
         reviewService.add(review);
 
+        //如果是评论的评论还要增加评论的评论次数
+        Review replyReview=reviewService.get(replyId);
+        replyReview.setReviewTime(replyReview.getReviewTime()+1);
+        reviewService.update(review);
+
         //给对方通知
         Cyinfor cyinfor=cyinforService.get(cyid);
         cyinfor.setReviewTime(cyinfor.getReviewTime()+1);//增加评论数量
@@ -204,7 +209,7 @@ public class SquareController {
 
 
 
-       // userService.addExperience(userId,1);
+
         map=MapHelper.success();
         return map;
     }
@@ -248,7 +253,6 @@ public class SquareController {
         List<ForeReview> subForeReview1=reviewService.foreFullSecondaryComments(reviews,userId);//二级评论 转前端需要的格式
         //通过二级评论获得三级评论
         List<Review>  threeReview=new ArrayList<>();//三级评论
-        //for(Review review:reviews){
         int size=reviews.size();
         for(int i=0;i<size;i++){
             int replyId=reviews.get(i).getReplyId();
@@ -269,6 +273,7 @@ public class SquareController {
         List<ForeReview> list=new ArrayList<>();//把格式化好的二三级评论加进去
         list.addAll(subForeReview1);
         list.addAll(foreReviews3);
+        //时间排序
         Collections.sort(list, new Comparator<ForeReview>() {
             @Override
             public int compare(ForeReview o1, ForeReview o2) {
