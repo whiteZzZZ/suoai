@@ -46,4 +46,21 @@ public class LetterMessageServiceImpl implements LetterMessageService {
         }
         return letterMessageList;
     }
+
+    @Override
+    public LetterMessage getById(int letterId) {
+        return letterMessageMapper.selectByPrimaryKey(letterId);
+    }
+
+    @Override
+    public LetterMessage getTheFirth(int letterId) {
+        LetterMessageExample letterMessageExample = new LetterMessageExample();
+        letterMessageExample.createCriteria().andLetterIdEqualTo(letterId);
+        letterMessageExample.setOrderByClause("id inc");
+        List<LetterMessage> list=letterMessageMapper.selectByExample(letterMessageExample);
+        if(list.isEmpty()){
+            return null;
+        }
+        return list.get(0);
+    }
 }

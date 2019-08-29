@@ -8,10 +8,8 @@ import com.yiban.suoai.forepojo.ForeLetterMessage;
 import com.yiban.suoai.forepojo.ForeSpaceLetter;
 import com.yiban.suoai.pojo.Letter;
 import com.yiban.suoai.pojo.LetterMessage;
-import com.yiban.suoai.service.LetterMessageService;
-import com.yiban.suoai.service.LetterService;
-import com.yiban.suoai.service.RedisService;
-import com.yiban.suoai.service.UserService;
+import com.yiban.suoai.pojo.Message;
+import com.yiban.suoai.service.*;
 import com.yiban.suoai.service.impl.RedisServiceImpl;
 import com.yiban.suoai.util.MapHelper;
 import com.yiban.suoai.util.PageUtil;
@@ -39,6 +37,8 @@ public class PaperController {
     LetterMessageService letterMessageService;
     @Autowired
     UserService userService;
+    @Autowired
+    MessageService messageService;
 
     @RequestMapping(value = "letter",method = RequestMethod.GET)
     @ApiOperation(value = "获取自己信笺",notes = "获取自己信笺")
@@ -181,8 +181,27 @@ public class PaperController {
         letter.setIsRead(true);
         letterService.update(letter);
 
+
+        Message message=new Message();
+        message.setType(5);//评论
+        message.setCyId(letterMessage.getId());
+        message.setTime(new Date());
         //redis通知他
-        redisService.addImformToRedis(letter.getUserId(), RedisServiceImpl.LetterMessage);//对方的userId
+        if(userId!=letter.getUserId()){
+            //说明是对方给自己的留言 通知要给自己 自己只这条空间邮局是自己的
+            redisService.addImformToRedis(letter.getUserId(), RedisServiceImpl.LetterMessage);//对方的userId
+            message.setSponsorId(userId);//发起者
+            message.setUserId(letter.getUserId());
+        }else {
+            //通知要给 不是这条空间邮局 的留言者
+            //通过这条空间邮局的第一个留言获取用户id
+            int userId2=letterMessageService.getTheFirth(letterId).getUserId();
+            redisService.addImformToRedis(userId2, RedisServiceImpl.LetterMessage);//对方的userId
+            message.setSponsorId(letter.getUserId());//发起者
+            message.setUserId(userId2);
+        }
+
+        messageService.add(message);
         Map map = MapHelper.success();
         map.put("letterMessage",letterMessage.getId());
         return map;

@@ -11,4 +11,14 @@ public interface LetterMessageService {
     List<LetterMessage> get(int letterId);
 
     List<ForeLetterMessage> full(List<LetterMessage> letterMessages);
+
+    LetterMessage getById(int letterId);
+
+    /**
+     * 获取该空间邮局 的第一条留言
+     * @param letterId
+     * @return
+     */
+    LetterMessage getTheFirth(int letterId);
+
 }

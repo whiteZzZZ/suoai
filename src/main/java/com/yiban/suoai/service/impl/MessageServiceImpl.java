@@ -28,6 +28,10 @@ public class MessageServiceImpl implements MessageService {
     ReviewService reviewService;
     @Autowired
     WordReviewService wordReviewService;
+    @Autowired
+    LetterMessageService letterMessageService;
+    @Autowired
+    LetterService letterService;
 
     @Override
     public int add(Message message) {
@@ -130,6 +134,14 @@ public class MessageServiceImpl implements MessageService {
                 WordReview wordReview=wordReviewService.get(message.getCyId());
                 foreImform.setText(wordReview.getContent());
            }
+            if(5==message.getType()){
+                //时空邮局留言
+                LetterMessage letterMessage=letterMessageService.getById(message.getId());
+                foreImform.setText(letterMessage.getMessage());
+               // Letter letter=letterService.get(letterMessage.getLetterId());
+                foreImform.setTrueCyid(letterMessage.getLetterId());
+
+            }
 
             list.add(foreImform);
         }
