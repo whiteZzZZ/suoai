@@ -185,9 +185,12 @@ public class SquareController {
         reviewService.add(review);
 
         //如果是评论的评论还要增加评论的评论次数
-        Review replyReview=reviewService.get(replyId);
-        replyReview.setReviewTime(replyReview.getReviewTime()+1);
-        reviewService.update(review);
+        if(0!=replyId){
+            Review replyReview=reviewService.get(replyId);
+            replyReview.setReviewTime(replyReview.getReviewTime()+1);
+            reviewService.update(review);
+        }
+
 
         //给对方通知
         Cyinfor cyinfor=cyinforService.get(cyid);
