@@ -45,7 +45,7 @@ public class Scheduler{
     @Scheduled(cron = "0 00 00 * * ?")
     public void testTasks() throws SAException {
         //System.out.println("定时任务执行时间：" + dateFormat.format(new Date()));
-        wallService.updateWall();
+        //wallService.updateWall();
         dailySentenceService.updateByDay();
         redisService.resetSpaceLimit();
         redisService.deleteSendinvitationTime();//灵魂匹配次数 删除

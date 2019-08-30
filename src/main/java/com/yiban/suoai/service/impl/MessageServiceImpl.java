@@ -138,9 +138,10 @@ public class MessageServiceImpl implements MessageService {
                 //时空邮局留言
                 LetterMessage letterMessage=letterMessageService.getById(message.getCyId());
                 foreImform.setText(letterMessage.getMessage());
-               // Letter letter=letterService.get(letterMessage.getLetterId());
+                Letter letter=letterService.get(letterMessage.getLetterId());
                 foreImform.setTrueCyid(letterMessage.getLetterId());
-
+                foreImform.setLetterContent(letter.getContent());
+                foreImform.setLetterDeadline(letter.getHeadline());
             }
 
             list.add(foreImform);

@@ -19,12 +19,31 @@ public class ForeImform {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间
     private Date time;
 
-
     private Integer sponsorId;
 
     private Integer type;
 
     private int trueCyid;
+
+    private String letterDeadline;
+
+    private String letterContent;
+
+    public String getLetterDeadline() {
+        return letterDeadline;
+    }
+
+    public void setLetterDeadline(String letterDeadline) {
+        this.letterDeadline = letterDeadline;
+    }
+
+    public String getLetterContent() {
+        return letterContent;
+    }
+
+    public void setLetterContent(String letterContent) {
+        this.letterContent = letterContent;
+    }
 
     public int getTrueCyid() {
         return trueCyid;
