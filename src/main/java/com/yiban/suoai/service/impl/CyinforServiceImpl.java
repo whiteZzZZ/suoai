@@ -103,6 +103,7 @@ public class CyinforServiceImpl  implements CyinforService {
             foreCyinfor.setText(cyinfor.getText());
             foreCyinfor.setId(cyinfor.getId());
             foreCyinfor.setUserId(user.getId());
+            foreCyinfor.setHide(cyinfor.getHide());
             List<Image>  images=imageService.getByCyid(cyinfor.getId());
             if(null!=images){
                 if(1<=images.size()){
@@ -136,6 +137,7 @@ public class CyinforServiceImpl  implements CyinforService {
             foreCyinfor.setText(cyinfor.getText());
             foreCyinfor.setId(cyinfor.getId());
             foreCyinfor.setUserId(user.getId());
+            foreCyinfor.setHide(cyinfor.getHide());
             List<Image>  images=imageService.getByCyid(cyinfor.getId());
             if(null!=images){
                 if(1<=images.size()){

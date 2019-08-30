@@ -67,7 +67,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public void addTokenToRedis(int userId, String token) {
 
-        redisUtil.set(Token+token, String.valueOf(userId),saveState);
+        redisUtil.set(Token+token, String.valueOf(userId));
 
     }
 
@@ -91,7 +91,7 @@ public class RedisServiceImpl implements RedisService {
 
         int userId=Integer.parseInt(s);
 
-        redisUtil.expire(Token+token,saveState);
+      //  redisUtil.expire(Token+token,saveState);
 
        return userId;
 

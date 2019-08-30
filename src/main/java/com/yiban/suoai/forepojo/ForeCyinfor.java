@@ -27,7 +27,17 @@ public class ForeCyinfor {
 
     private String image2;
 
+    private Boolean hide;
+
     private Boolean ifLike=false;
+
+    public Boolean getHide() {
+        return hide;
+    }
+
+    public void setHide(Boolean hide) {
+        this.hide = hide;
+    }
 
     public Integer getReviewTime() {
         return reviewTime;

@@ -188,7 +188,7 @@ public class SquareController {
         if(0!=replyId){
             Review replyReview=reviewService.get(replyId);
             replyReview.setReviewTime(replyReview.getReviewTime()+1);
-            reviewService.update(review);
+            reviewService.update(replyReview);
         }
 
 
