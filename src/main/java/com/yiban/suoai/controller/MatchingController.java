@@ -251,10 +251,10 @@ public class MatchingController {
         Map<String, Object> map =new HashMap<>();
         int userId=redisService.getUserId(token);
         //判断他今天匹配了没有
-        /*if(1==redisService.getSendinvitationTime(userId)){
+        if(1==redisService.getSendinvitationTime(userId)){
             map=MapHelper.error("每天只能匹配一次哦~~");
             return map;
-        }*/
+        }
 
         List<Integer> users=new ArrayList<>();//找到所有的可以被匹配的用户
         List<Integer> usersLike=new ArrayList<>();//从点赞中找到的用户
@@ -268,18 +268,21 @@ public class MatchingController {
         }
         //注意 如果一个用户评论 多个cyid  会有bug 这要用 set
         List<Review>  reviews=reviewService.getAllByuserId(userId);
-        int nowReviewCyid=0;
-       for(int i=0;i<reviews.size();i++){
-           //如果该用户  对一表白多次评论 会造成 有多条这匹配 要筛选
-            if(nowReviewCyid!=reviews.get(i).getCyId()){
-                nowReviewCyid=reviews.get(i).getCyId();
-                List<Integer> temp=reviewService.getAllbyCyid(reviews.get(i).getCyId(),userId);//要用set
-                if(null!=temp){
-                    usersReview.addAll(temp);
+        if(null!=reviews){
+            int nowReviewCyid=0;
+            for(int i=0;i<reviews.size();i++){
+                //如果该用户  对一表白多次评论 会造成 有多条这匹配 要筛选
+                if(nowReviewCyid!=reviews.get(i).getCyId()){
+                    nowReviewCyid=reviews.get(i).getCyId();
+                    List<Integer> temp=reviewService.getAllbyCyid(reviews.get(i).getCyId(),userId);//要用set
+                    if(null!=temp){
+                        usersReview.addAll(temp);
+                    }
                 }
-            }
 
+            }
         }
+
          if(!usersLike.isEmpty()){
         users.addAll(usersLike);
          }

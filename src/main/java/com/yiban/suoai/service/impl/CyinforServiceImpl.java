@@ -160,7 +160,7 @@ public class CyinforServiceImpl  implements CyinforService {
     @Override
     public List<Cyinfor> topTen() throws SAException {
         CyinforExample example=new CyinforExample();
-        example.createCriteria().andTimeBetween(DateUtils.getBeginDayOfYesterday(),DateUtils.getEndDayOfYesterDay());//昨天的表白
+       // example.createCriteria().andTimeBetween(DateUtils.getBeginDayOfYesterday(),DateUtils.getEndDayOfYesterDay());//昨天的表白
         example.setOrderByClause("like_time desc,review_time desc");
         List<Cyinfor> list = null;
         list= cyinforMapper.selectByExampleWithBLOBs(example);
