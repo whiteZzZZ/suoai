@@ -30,6 +30,15 @@ public class ForeTip extends TipBank {
         this.url = url;
     }
 
+    public ForeTip(Tip t){
+        this.id = t.getId();
+        this.source = t.getSource();
+        this.sourceId = t.getSourceId();
+        this.type = t.getType();
+        this.content = t.getContent();
+        this.status = t.getStatus();
+    }
+
 
     @Override
     public Integer getId() {
