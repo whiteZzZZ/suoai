@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Controller
 //@RequestMapping("test")
@@ -60,6 +61,19 @@ public class TestController {
     public  Map<String, Object>  exceptionTest(
             HttpServletRequest req, HttpServletResponse res) throws IOException, SAException {
         Map map=new HashMap();
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            synchronized (this){
+                String stampString= null;//如果获取不到里面会报错
+                try {
+
+                } catch (Exception e ){
+
+                }
+
+                return stampString;
+            }
+
+        });
         throw new SAException("eer","1");
 
 
