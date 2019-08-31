@@ -260,12 +260,15 @@ public class MatchingController {
         List<Integer> usersLike=new ArrayList<>();//从点赞中找到的用户
         List<Integer> usersReview=new ArrayList<>();//从评论中找到的用户
         List<LikeInfo> likeInfos=likeInfoService.getByUserId(userId);
-        for(LikeInfo likeInfo:likeInfos){
-            List<Integer> temp=likeInfoService.getByCyidAndType(likeInfo.getCyId(),likeInfo.getType(),userId);
-            if(null!=temp){
-                usersLike.addAll(temp);
+        if(null!=likeInfos){
+            for(LikeInfo likeInfo:likeInfos){
+                List<Integer> temp=likeInfoService.getByCyidAndType(likeInfo.getCyId(),likeInfo.getType(),userId);
+                if(null!=temp){
+                    usersLike.addAll(temp);
+                }
             }
         }
+
         //注意 如果一个用户评论 多个cyid  会有bug 这要用 set
         List<Review>  reviews=reviewService.getAllByuserId(userId);
         if(null!=reviews){
