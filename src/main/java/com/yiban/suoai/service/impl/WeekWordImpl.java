@@ -36,10 +36,10 @@ public class WeekWordImpl implements WeekWordService {
 //        return (WeekWord) redisUtil.getObject(RedisServiceImpl.weekWord);
         WeekWord weekWord = (WeekWord) redisUtil.getObject(RedisServiceImpl.weekWord);
         if(weekWord == null){
-            redisUtil.setObject(RedisServiceImpl.weekWord, weekWordMapper.selectByPrimaryKey(5));
+            redisUtil.setObject(RedisServiceImpl.weekWord, weekWordMapper.selectByPrimaryKey(6));
             return (WeekWord) redisUtil.getObject(RedisServiceImpl.weekWord);
-        }else if(weekWord.getId()!=5){
-            redisUtil.setObject(RedisServiceImpl.weekWord, weekWordMapper.selectByPrimaryKey(5));
+        }else if(weekWord.getId()!=6){
+            redisUtil.setObject(RedisServiceImpl.weekWord, weekWordMapper.selectByPrimaryKey(6));
             return (WeekWord) redisUtil.getObject(RedisServiceImpl.weekWord);
         }else {
             return weekWord;
