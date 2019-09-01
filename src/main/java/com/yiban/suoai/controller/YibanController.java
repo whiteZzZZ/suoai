@@ -146,6 +146,7 @@ public class YibanController {
             user1.setName(name);
             user1.setTurename(trueName);
             user1.setHeadImg(headImg);
+            user1.setBgImg("https://zhouzhi-gz.oss-cn-shenzhen.aliyuncs.com/xinzhi/Data/ads/me2-background.png");
             if("M".equals(sex)) {
                 user1.setSex(true);
             }else {

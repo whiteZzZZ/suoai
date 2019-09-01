@@ -134,8 +134,10 @@ public class TipServiceImpl implements TipService {
     public List<ForeTip> getExam(int userId) {
         TipUser tipUser = tipUserMapper.selectByPrimaryKey(userId);
         if(tipUser == null){
-            List<ForeTip> tipList = new ArrayList<>();
-            return tipList;
+            System.out.println("普通用户 getExam");
+            tipUser = new TipUser();
+            tipUser.setId(userId);
+            tipUser.setNum(1);  //普通人做题，5道
         }
         TipExample te = new TipExample();
         TipExample.Criteria tec = te.createCriteria();
@@ -171,24 +173,26 @@ public class TipServiceImpl implements TipService {
 
     }
 
-    private List<ForeTip> addImage(List<Tip> lt){
+    private List<ForeTip> addImage(List<Tip> lt) {
         List<ForeTip> list = new ArrayList<>();
-        for(Tip p : lt){
-            if(p.getSource().equals(1)){
+        for (Tip p : lt) {
+            ForeTip fp = new ForeTip(p);
+            if (p.getSource().equals(1)) {
                 //是传阅
                 Cyinfor c = cyinforMapper.selectByPrimaryKey(p.getSourceId());
-                if(c != null){
+                if (c != null) {
                     //如果传阅不为空，检查是否有图片
-                    if(c.getHasImage()>0){
+                    if (c.getHasImage() > 0) {
                         ImageExample ie = new ImageExample();
                         ImageExample.Criteria iec = ie.createCriteria();
                         iec.andCyIdEqualTo(c.getId());
                         List<Image> imgList = imageMapper.selectByExample(ie);
-                        ForeTip fp = new ForeTip(p,imgList.get(0).getUrl());
-                        list.add(fp);
+                        fp = new ForeTip(p, imgList.get(0).getUrl());
+
                     }
                 }
             }
+            list.add(fp);
         }
         return list;
     }

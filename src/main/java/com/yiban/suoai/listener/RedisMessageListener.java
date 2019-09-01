@@ -35,7 +35,8 @@ public class RedisMessageListener implements MessageListener {
     private void heartBeatTimeout(int userId){
         Session session = WebSocketChatServer.onlineSessions.get(userId);
         try {
-            session.close();
+            if(session!= null)
+                session.close();
             //WebSocketChatServer.onlineSessions.remove(userId);
         } catch (IOException e) {
             e.printStackTrace();
