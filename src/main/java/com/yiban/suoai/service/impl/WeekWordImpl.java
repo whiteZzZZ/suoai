@@ -33,6 +33,8 @@ public class WeekWordImpl implements WeekWordService {
 
     @Override
     public WeekWord getByWeek() {
-        return (WeekWord) redisUtil.getObject(RedisServiceImpl.weekWord);
+//        return (WeekWord) redisUtil.getObject(RedisServiceImpl.weekWord);
+        return weekWordMapper.selectByPrimaryKey(5);
+
     }
 }
