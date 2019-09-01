@@ -24,7 +24,7 @@ public class WeekWordImpl implements WeekWordService {
             num++;
             WeekWord newWeekWord = weekWordMapper.selectByPrimaryKey(num);
             if(newWeekWord==null){//判断是否到达最大
-
+                redisUtil.setObject(RedisServiceImpl.weekWord, weekWordMapper.selectByPrimaryKey(5));
             }else {
                 redisUtil.setObject(RedisServiceImpl.weekWord,newWeekWord);
             }
