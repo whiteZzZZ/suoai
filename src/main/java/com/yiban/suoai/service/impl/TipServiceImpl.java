@@ -114,13 +114,20 @@ public class TipServiceImpl implements TipService {
                 u.setId(userId);
                 u.setViolator(true);
                 userMapper.updateByPrimaryKeySelective(user);
-                int tn = tipUserMapper.selectByPrimaryKey(userId).getNum();
-                TipUser tu = new TipUser();
-                tu.setId(userId);
-                //违规次数+1，先关闭，设置为一直为1
-                //tu.setNum(tn+1);
-                tu.setNum(1);
-                tipUserMapper.updateByPrimaryKeySelective(tu);
+                int tn = 0;
+                TipUser tmodel = tipUserMapper.selectByPrimaryKey(userId);
+
+                if(tmodel != null) {  //如果是先前违规用户
+                    //违规次数+1，先关闭，设置为一直为1
+                    //tu.setNum(tn+1);
+                    tmodel.setNum(1);
+                    tipUserMapper.updateByPrimaryKeySelective(tmodel);
+                }else{ //第一次违规
+                    tmodel = new TipUser();
+                    tmodel.setId(userId);
+                    tmodel.setNum(1);
+                    tipUserMapper.insert(tmodel);
+                }
             }
             if(!tipModelList.isEmpty())
                 tipMapper.updateFlagBatch(tipModelList);  //更新被举报事件的删除标记(如果有不是题库的题）
