@@ -117,7 +117,7 @@ public class TipServiceImpl implements TipService {
                 User u = new User();
                 System.out.println("被举报用户id："+userId);
                 u.setId(userId);
-                u.setViolator(true);
+                u.setViolator(ans);
                 userMapper.updateByPrimaryKeySelective(user);
                 int tn = 0;
                 TipUser tmodel = tipUserMapper.selectByPrimaryKey(userId);
