@@ -80,13 +80,15 @@ public class TipServiceImpl implements TipService {
                 userId = 0;
                 System.out.println("tipList=");
                 list.forEach(n-> System.out.println(n.getId()));
+                boolean ans = false;
                 switch (tip.getSource()) {
                     case 1:
                         System.out.println("in cyinfor tip");
                         Cyinfor cyinfor = cyinforMapper.selectByPrimaryKey(tip.getSourceId());
                         userId = cyinfor.getUserId();
                         tm = new TipModel();
-                        tm.setDelete(true);
+                        ans = ((TipBank) tip).getAns();
+                        tm.setDelete(ans);
                         tm.setName("cyinfor");
                         tm.setId(tip.getSourceId());
                         tipModelList.add(tm);
@@ -95,7 +97,8 @@ public class TipServiceImpl implements TipService {
                         Review review = reviewMapper.selectByPrimaryKey(tip.getSourceId());
                         userId = review.getUserId();
                         tm = new TipModel();
-                        tm.setDelete(true);
+                        ans = ((TipBank) tip).getAns();
+                        tm.setDelete(ans);
                         tm.setName("review");
                         tm.setId(tip.getSourceId());
                         tipModelList.add(tm);
@@ -104,13 +107,15 @@ public class TipServiceImpl implements TipService {
                         WordReview wordReview = wordReviewMapper.selectByPrimaryKey(tip.getSourceId());
                         userId = wordReview.getUserId();
                         tm = new TipModel();
-                        tm.setDelete(true);
+                        ans = ((TipBank) tip).getAns();
+                        tm.setDelete(ans);
                         tm.setName("word_review");
                         tm.setId(tip.getSourceId());
                         tipModelList.add(tm);
                         break;
                 }
                 User u = new User();
+                System.out.println("被举报用户id："+userId);
                 u.setId(userId);
                 u.setViolator(true);
                 userMapper.updateByPrimaryKeySelective(user);
