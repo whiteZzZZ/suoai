@@ -38,7 +38,7 @@ public class Scheduler{
     @Scheduled(fixedRate = 604800000)
     public void testTasks2() {
         // System.out.println("定时任务执行时间：" + dateFormat.format(new Date()));
-        weekWordService.updateByWeek();
+//        weekWordService.updateByWeek();每周一话更新
     }
 
     //每天0点执行
