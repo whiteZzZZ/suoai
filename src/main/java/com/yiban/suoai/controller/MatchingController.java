@@ -185,7 +185,7 @@ public class MatchingController {
                 Message message=new Message();
                 message.setType(9);//
                 message.setCyId(0);
-                message.setSponsorId(matchUserId2);//发起者
+                message.setSponsorId(matchUserId);//发起者
                 message.setUserId(userId);
                 message.setTime(new Date());
                 messageService.add(message);
