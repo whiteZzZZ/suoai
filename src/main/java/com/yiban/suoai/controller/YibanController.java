@@ -35,10 +35,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import  net.sf.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,6 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -127,6 +125,31 @@ public class YibanController {
 
     }
 
+    @ApiOperation(value = "用户初始化 上传头像和name", notes = "头像图片上传")
+    @RequestMapping(value ="initialize" , method = RequestMethod.PUT)
+    @ResponseBody
+    public Map<String, Object> initialize(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                          @RequestParam(value = "name")  @ApiParam(value = "用户name  ") String name,
+                                          @RequestParam(value = "sex")  @ApiParam(value = "性别 true 男 false 女  ") boolean sex,
+                                          @RequestParam(value = "image")  @ApiParam(value = "图片") String image,
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //System.out.println("进入get方法！");
+        //获取从前台传过来得图片
+        int userId=redisService.getUserId(token);
+
+
+        com.yiban.suoai.pojo.User user = userService.get(userId);
+        user.setHeadImg(image);
+        user.setName(name);
+        user.setSex(sex);
+        userService.update(user);
+
+        //压缩图片
+
+        Map map = MapHelper.success();
+        return map;
+
+    }
 
 
 
