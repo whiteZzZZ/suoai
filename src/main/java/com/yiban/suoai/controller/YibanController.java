@@ -103,6 +103,7 @@ public class YibanController {
 //            userServices.add(user);
             user = new com.yiban.suoai.pojo.User();
             user.setOpenid(openId);
+            user.setBgImg("https://zhouzhi-gz.oss-cn-shenzhen.aliyuncs.com/xinzhi/Data/ads/me2-background.png");
             userService.add(user);
             String token = DigestUtils.md5Hex(openId + AppUtil.getDate());// 根据openid和当前时间生成随机token
             redisService.addTokenToRedis(user.getId(),token);
