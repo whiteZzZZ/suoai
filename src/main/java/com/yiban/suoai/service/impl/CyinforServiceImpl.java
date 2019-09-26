@@ -74,7 +74,7 @@ public class CyinforServiceImpl  implements CyinforService {
     @Override
     public List<Cyinfor> getAll() {
         CyinforExample example=new CyinforExample();
-        example.createCriteria().andIsDeleteEqualTo(false).andHideEqualTo(false);
+        example.createCriteria().andIsDeleteEqualTo(false).andPrivacyEqualTo(false);
         example.setOrderByClause("id desc");
         List<Cyinfor > list =cyinforMapper.selectByExampleWithBLOBs(example);
         return list;

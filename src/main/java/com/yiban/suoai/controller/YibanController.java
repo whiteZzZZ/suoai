@@ -144,8 +144,6 @@ public class YibanController {
         user.setSex(sex);
         userService.update(user);
 
-        //压缩图片
-
         Map map = MapHelper.success();
         return map;
 
