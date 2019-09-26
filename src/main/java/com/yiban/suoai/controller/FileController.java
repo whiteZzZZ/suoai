@@ -5,6 +5,7 @@ import com.yiban.suoai.pojo.Image;
 import com.yiban.suoai.pojo.User;
 import com.yiban.suoai.service.CyinforService;
 import com.yiban.suoai.service.ImageService;
+import com.yiban.suoai.service.RedisService;
 import com.yiban.suoai.service.UserService;
 import com.yiban.suoai.util.FileHelper;
 import com.yiban.suoai.util.MapHelper;
@@ -42,6 +43,8 @@ public class FileController {
     CyinforService cyinforService;
     @Autowired
     UserService userService;
+    @Autowired
+    RedisService redisService;
 
    /* @ApiOperation(value = "表白图片上传", notes = "表白图片上传")
     @RequestMapping(value ="cyImageUpload" , method = RequestMethod.PUT)
@@ -130,6 +133,7 @@ public class FileController {
     public Map<String, Object> bgImageUpload(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
                                                @RequestParam(value = "userId")  @ApiParam(value = "用户id  ") int userId,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         //System.out.println("进入get方法！");
         //获取从前台传过来得图片
         MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
@@ -144,6 +148,36 @@ public class FileController {
 
         //压缩图片
         FileHelper.compressPicture(multipartFile,uuid,FileHelper.bgImg);
+        Map map = MapHelper.success();
+        map.put("path",path);
+        return map;
+
+    }
+
+
+
+    @ApiOperation(value = "用户初始化 上传头像和name", notes = "头像图片上传")
+    @RequestMapping(value ="initialize" , method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> initialize(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
+                                          @RequestParam(value = "name")  @ApiParam(value = "用户name  ") String name,
+                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //System.out.println("进入get方法！");
+        //获取从前台传过来得图片
+        int userId=redisService.getUserId(token);
+        MultipartHttpServletRequest req =(MultipartHttpServletRequest)request;
+        MultipartFile multipartFile =  req.getFile("file");
+        //获取图片的文件类型
+        String uuid= UUIDUtil.getUUID();//使用uuid作为图片的名称
+        String path=FileHelper.FileSave3(multipartFile,uuid,FileHelper.headImg);
+
+        User user = userService.get(userId);
+        user.setHeadImg(path);
+        user.setName(name);
+        userService.update(user);
+
+        //压缩图片
+        FileHelper.compressPicture(multipartFile,uuid,FileHelper.headImg);
         Map map = MapHelper.success();
         map.put("path",path);
         return map;

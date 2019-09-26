@@ -28,6 +28,8 @@
     <result column="paper" jdbcType="INTEGER" property="paper" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="yibanId" jdbcType="INTEGER" property="yibanid" />
+    <result column="openId" jdbcType="CHAR" property="openid" />
+    <result column="unionId" jdbcType="CHAR" property="unionid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -61,7 +63,7 @@
   <sql id="Base_Column_List">
     id, tureName, name, head_img, bg_img, phone, password, sha, salt, sex, birthday, 
     area, school_id, academy_id, stu_num, signature, is_particular, is_match, is_rank, 
-    violator, express_time, experience, title_id, paper, level, yibanId
+    violator, express_time, experience, title_id, paper, level, yibanId, openId, unionId
   </sql>
   <select id="selectByExample" parameterType="com.yiban.suoai.pojo.UserExample" resultMap="BaseResultMap">
     select
@@ -105,7 +107,8 @@
       stu_num, signature, is_particular, 
       is_match, is_rank, violator, express_time, 
       experience, title_id, paper, 
-      level, yibanId)
+      level, yibanId, openId, 
+      unionId)
     values (#{turename,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR}, 
       #{bgImg,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{sha,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{birthday,jdbcType=DATE}, 
@@ -113,7 +116,8 @@
       #{stuNum,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, #{isParticular,jdbcType=BIT}, 
       #{isMatch,jdbcType=BIT}, #{isRank,jdbcType=BIT}, #{violator,jdbcType=BIT}, #{expressTime,jdbcType=INTEGER}, 
       #{experience,jdbcType=INTEGER}, #{titleId,jdbcType=INTEGER}, #{paper,jdbcType=INTEGER}, 
-      #{level,jdbcType=INTEGER}, #{yibanid,jdbcType=INTEGER})
+      #{level,jdbcType=INTEGER}, #{yibanid,jdbcType=INTEGER}, #{openid,jdbcType=CHAR}, 
+      #{unionid,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yiban.suoai.pojo.User" useGeneratedKeys="true">
     insert into user
@@ -193,6 +197,12 @@
       <if test="yibanid != null">
         yibanId,
       </if>
+      <if test="openid != null">
+        openId,
+      </if>
+      <if test="unionid != null">
+        unionId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="turename != null">
@@ -269,6 +279,12 @@
       </if>
       <if test="yibanid != null">
         #{yibanid,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=CHAR},
+      </if>
+      <if test="unionid != null">
+        #{unionid,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -350,6 +366,12 @@
       <if test="yibanid != null">
         yibanId = #{yibanid,jdbcType=INTEGER},
       </if>
+      <if test="openid != null">
+        openId = #{openid,jdbcType=CHAR},
+      </if>
+      <if test="unionid != null">
+        unionId = #{unionid,jdbcType=CHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -379,7 +401,9 @@
       title_id = #{titleId,jdbcType=INTEGER},
       paper = #{paper,jdbcType=INTEGER},
       level = #{level,jdbcType=INTEGER},
-      yibanId = #{yibanid,jdbcType=INTEGER}
+      yibanId = #{yibanid,jdbcType=INTEGER},
+      openId = #{openid,jdbcType=CHAR},
+      unionId = #{unionid,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

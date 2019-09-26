@@ -7,9 +7,9 @@ import java.util.Date;
 public class User {
     private Integer id;
 
-    private String turename;
+    private String turename="";
 
-    private String name;
+    private String name="";
 
     private String headImg;
 
@@ -23,7 +23,7 @@ public class User {
 
     private String salt="";
 
-    private Boolean sex;
+    private Boolean sex=true;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")//格式化时间
     private Date birthday;
@@ -57,6 +57,10 @@ public class User {
     private Integer level=1;
 
     private Integer yibanid;
+
+    private String openid;
+
+    private String unionid;
 
     public Integer getId() {
         return id;
@@ -264,5 +268,21 @@ public class User {
 
     public void setYibanid(Integer yibanid) {
         this.yibanid = yibanid;
+    }
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid == null ? null : openid.trim();
+    }
+
+    public String getUnionid() {
+        return unionid;
+    }
+
+    public void setUnionid(String unionid) {
+        this.unionid = unionid == null ? null : unionid.trim();
     }
 }
