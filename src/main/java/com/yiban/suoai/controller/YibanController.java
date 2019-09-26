@@ -11,13 +11,14 @@ import com.yiban.suoai.service.ImageService;
 import com.yiban.suoai.service.RedisService;
 import com.yiban.suoai.service.SchoolService;
 import com.yiban.suoai.service.UserService;
-import com.yiban.suoai.util.FileHelper;
-import com.yiban.suoai.util.MapHelper;
-import com.yiban.suoai.util.UUIDUtil;
+import com.yiban.suoai.util.*;
+import com.yiban.suoai.weixin.UnionidAndOpenId;
 import com.yiban.suoai.yiban.AppContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import net.sf.json.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import  net.sf.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,6 +79,63 @@ public class YibanController {
     private final String YIBAN_USER_ME_INFO	= "user/me";
     private final String YIBAN_USER_OTHER	= "user/other";
     private final String YIBAN_USER_REALME	= "user/real_me";
+
+
+
+
+
+
+    @ApiOperation(value = "微信用户登录", notes = "用户登录")
+    @RequestMapping(value = "forelogin", method = RequestMethod.GET)
+    @ResponseBody
+    public Map login(
+            @RequestParam("JSCODE") @ApiParam(value = "JSCODE") String JSCODE,
+            @RequestParam("encryptedData") @ApiParam(value = "微信加密内容") String encryptedData,
+            @RequestParam("iv") @ApiParam(value = "微信解密信息") String iv, HttpServletResponse resp) throws Exception {
+
+        UnionidAndOpenId unionidAndOpenId = XzAppUtil.getUnionId(JSCODE, encryptedData, iv);
+//        String unionId = unionidAndOpenId.getUnionID();
+        String openId = unionidAndOpenId.getOpenID();
+        com.yiban.suoai.pojo.User user = userService.getByOperId(openId);
+        // User user = userServices.get(openId);//检查openId是否存在数据库中，如果时该用户第一次登陆，则存入该用户
+
+        if (null == user) {
+
+//            user = UserFactory.getUser("", openId, "https://zhouzhi-gz.oss-cn-shenzhen.aliyuncs.com/xinzhi/Data/headImg/default.jpg");
+//            userServices.add(user);
+            user = new com.yiban.suoai.pojo.User();
+            user.setOpenid(openId);
+            userService.add(user);
+            String token = DigestUtils.md5Hex(openId + AppUtil.getDate());// 根据openid和当前时间生成随机token
+            redisService.addTokenToRedis(user.getId(),token);
+            //redisServices.addTokenToRedis(user.getUserId(), token);// 将该随机token存入Redis中，用作登录态的维持
+            Map map = MapHelper.success();
+            map.put("token", token);
+            map.put("userId", user.getId());
+            map.put("isNew", 1);
+            return map;
+        } else {
+            String token = DigestUtils.md5Hex(openId + AppUtil.getTime());
+            redisService.addTokenToRedis(user.getId(),token);
+            //  redisServices.addTokenToRedis(user.getUserId(), token);// 将该随机token存入Redis中
+            Map map = MapHelper.success();
+            map.put("token", token);
+            map.put("userId", user.getId());
+            map.put("isNew", 0);
+            return map;
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
 
     @RequestMapping(value = "/init")
     @ApiOperation(value = "易班登录入口",notes = "易班登录入口")

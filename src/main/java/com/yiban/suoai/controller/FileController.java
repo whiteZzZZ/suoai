@@ -161,6 +161,7 @@ public class FileController {
     @ResponseBody
     public Map<String, Object> initialize(@RequestHeader("token") @ApiParam(value = "权限校验") String token,
                                           @RequestParam(value = "name")  @ApiParam(value = "用户name  ") String name,
+                                          @RequestParam(value = "sex")  @ApiParam(value = "性别 true 男 false 女  ") boolean sex,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         //System.out.println("进入get方法！");
         //获取从前台传过来得图片
@@ -174,6 +175,7 @@ public class FileController {
         User user = userService.get(userId);
         user.setHeadImg(path);
         user.setName(name);
+        user.setSex(sex);
         userService.update(user);
 
         //压缩图片

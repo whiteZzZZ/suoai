@@ -412,46 +412,46 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "用户登录", notes = "用户登录")
-    @RequestMapping(value = "forelogin", method = RequestMethod.GET)
-    @ResponseBody
-    public Map login(
-            @RequestParam("JSCODE") @ApiParam(value = "JSCODE") String JSCODE,
-            @RequestParam("encryptedData") @ApiParam(value = "微信加密内容") String encryptedData,
-            @RequestParam("iv") @ApiParam(value = "微信解密信息") String iv, HttpServletResponse resp) throws Exception {
-
-        UnionidAndOpenId unionidAndOpenId = XzAppUtil.getUnionId(JSCODE, encryptedData, iv);
-//        String unionId = unionidAndOpenId.getUnionID();
-        String openId = unionidAndOpenId.getOpenID();
-        User user = userService.getByOperId(openId);
-       // User user = userServices.get(openId);//检查openId是否存在数据库中，如果时该用户第一次登陆，则存入该用户
-
-        if (null == user) {
-
-//            user = UserFactory.getUser("", openId, "https://zhouzhi-gz.oss-cn-shenzhen.aliyuncs.com/xinzhi/Data/headImg/default.jpg");
-//            userServices.add(user);
-            user = new User();
-            user.setOpenid(openId);
-            String token = DigestUtils.md5Hex(openId + AppUtil.getDate());// 根据openid和当前时间生成随机token
-            redisService.addTokenToRedis(user.getId(),token);
-            //redisServices.addTokenToRedis(user.getUserId(), token);// 将该随机token存入Redis中，用作登录态的维持
-            Map map = MapHelper.success();
-            map.put("token", token);
-            map.put("userId", user.getId());
-            map.put("isNew", 1);
-            return map;
-        } else {
-            String token = DigestUtils.md5Hex(openId + AppUtil.getTime());
-            redisService.addTokenToRedis(user.getId(),token);
-          //  redisServices.addTokenToRedis(user.getUserId(), token);// 将该随机token存入Redis中
-            Map map = MapHelper.success();
-            map.put("token", token);
-            map.put("userId", user.getId());
-            map.put("isNew", 0);
-            return map;
-        }
-
-    }
+//    @ApiOperation(value = "用户登录", notes = "用户登录")
+//    @RequestMapping(value = "forelogin", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Map login(
+//            @RequestParam("JSCODE") @ApiParam(value = "JSCODE") String JSCODE,
+//            @RequestParam("encryptedData") @ApiParam(value = "微信加密内容") String encryptedData,
+//            @RequestParam("iv") @ApiParam(value = "微信解密信息") String iv, HttpServletResponse resp) throws Exception {
+//
+//        UnionidAndOpenId unionidAndOpenId = XzAppUtil.getUnionId(JSCODE, encryptedData, iv);
+////        String unionId = unionidAndOpenId.getUnionID();
+//        String openId = unionidAndOpenId.getOpenID();
+//        User user = userService.getByOperId(openId);
+//       // User user = userServices.get(openId);//检查openId是否存在数据库中，如果时该用户第一次登陆，则存入该用户
+//
+//        if (null == user) {
+//
+////            user = UserFactory.getUser("", openId, "https://zhouzhi-gz.oss-cn-shenzhen.aliyuncs.com/xinzhi/Data/headImg/default.jpg");
+////            userServices.add(user);
+//            user = new User();
+//            user.setOpenid(openId);
+//            String token = DigestUtils.md5Hex(openId + AppUtil.getDate());// 根据openid和当前时间生成随机token
+//            redisService.addTokenToRedis(user.getId(),token);
+//            //redisServices.addTokenToRedis(user.getUserId(), token);// 将该随机token存入Redis中，用作登录态的维持
+//            Map map = MapHelper.success();
+//            map.put("token", token);
+//            map.put("userId", user.getId());
+//            map.put("isNew", 1);
+//            return map;
+//        } else {
+//            String token = DigestUtils.md5Hex(openId + AppUtil.getTime());
+//            redisService.addTokenToRedis(user.getId(),token);
+//          //  redisServices.addTokenToRedis(user.getUserId(), token);// 将该随机token存入Redis中
+//            Map map = MapHelper.success();
+//            map.put("token", token);
+//            map.put("userId", user.getId());
+//            map.put("isNew", 0);
+//            return map;
+//        }
+//
+//    }
 
 
 
