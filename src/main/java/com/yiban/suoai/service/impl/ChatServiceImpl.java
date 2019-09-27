@@ -54,6 +54,9 @@ public class ChatServiceImpl implements ChatService {
         redisUtil.setObject("room:"+cuId,list, timeout);
         List<Chat> tmp= redisUtil.getObjList("room:update:");
         list.addAll(tmp);
+        for(Chat cc : list){
+            cc.setType(1);
+        }
         return list;
     }
 
