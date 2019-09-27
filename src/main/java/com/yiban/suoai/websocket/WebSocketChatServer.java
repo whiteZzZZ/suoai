@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Slf4j
-@ServerEndpoint("/chat/{Token}")
+@ServerEndpoint("/chat/wss/{Token}")
 public class WebSocketChatServer {
 
 
