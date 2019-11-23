@@ -27,5 +27,6 @@ public class ExceptionController {
         map.put("error",e.getErrorCode());
         map.put("ErrorCode",e.getCode());
         return map;
+
     }
 }
