@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.10</version>
+			<version>1.4.18</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
